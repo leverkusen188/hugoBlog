@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My New Hugo Site</title>
-    <link>https://leverkusen188.github.io/hugoBlog/</link>
+    <link>https://leverkusen188.github.io/</link>
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/hugoBlog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Swift Keypath</title>
-      <link>https://leverkusen188.github.io/hugoBlog/ios%E7%9B%B8%E5%85%B3/swift-keypath/</link>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swift-keypath/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/hugoBlog/ios%E7%9B%B8%E5%85%B3/swift-keypath/</guid>
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swift-keypath/</guid>
       <description>译自 The power of key path in Swift
 Swift 最初的设计就专注于编译期尽量保证程序运行安全 以及 静态类型匹配，因此它比较缺乏类似 OC，Javascript 和ruby等运行时语言的动态特性。比如，在OC里，我们可以在运行时动态访问类对象的属性和方法，甚至改变方法的实现。
 但这些动态特性的缺乏正表现出Swift的伟大，它能保证我们写出的程序运行结果更加可预料，且更可能运行不出错。不过有时候我们的代码能拥有一些动态特性也是很有帮助的。
@@ -29,10 +29,10 @@ let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.s
     
     <item>
       <title>一次还原ios release包的卡顿堆栈的记录</title>
-      <link>https://leverkusen188.github.io/hugoBlog/ios%E7%9B%B8%E5%85%B3/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</link>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/hugoBlog/ios%E7%9B%B8%E5%85%B3/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</guid>
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</guid>
       <description>前提： 测试提了一个关于某个操作下会比较卡顿的问题，并上传了applog。
 log初探 app内部工具的InnerToolBlockDetect 里记录了卡顿的情况并打印了对应的线程堆栈信息。 但由于测试用的是release包，因此堆栈里都是相应函数的位移地址，无法看出真正的卡顿代码。
 libsystem_kernel.dylib 0x1f59140f4 mach_msg_trap + 8 libsystem_kernel.dylib 0x1f59135a0 mach_msg + 72 libdispatch.dylib 0x1f5778884 &amp;lt;redacted&amp;gt; + 500 libdispatch.dylib 0x1f5778d14 &amp;lt;redacted&amp;gt; + 52 libxpc.dylib 0x1f59d891c xpc_connection_send_message_with_reply_sync + 204 CoreMedia 0x1f93a9514 FigXPCRemoteClientSendSyncMessageCreatingReply + 36 CoreMedia 0x1f92ca884 &amp;lt;redacted&amp;gt; + 192 CoreFoundation 0x1f5d15d30 &amp;lt;redacted&amp;gt; + 192 MediaToolbox 0x1fa95459c &amp;lt;redacted&amp;gt; + 1448 MediaToolbox 0x1fa953f6c FigAssetRemoteCreateWithURL + 120 AVFoundation 0x1fbdf5bb0 &amp;lt;redacted&amp;gt; + 192 AVFoundation 0x1fbd0a874 &amp;lt;redacted&amp;gt; + 884 AVFoundation 0x1fbd033e4 &amp;lt;redacted&amp;gt; + 100 Fly-rls 0x106382da0 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1355164 Fly-rls 0x106383224 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1356320 Fly-rls 0x1044c5fec _mh_execute_header + 303084 Fly-rls 0x1044c5e1c _mh_execute_header + 302620 Fly-rls 0x10466c0ec _mh_execute_header + 2031852 Fly-rls 0x10466b920 _mh_execute_header + 2029856 Fly-rls 0x1044bd92c _mh_execute_header + 268588 libdispatch.</description>
