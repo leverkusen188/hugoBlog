@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>IOS相关s :: My New Hugo Site</title>
+    <title>IOS 组件化-动态库实战 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1663920568" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/ios%E7%9B%B8%E5%85%B3/">
+  <body class="" data-url="/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/">
     <nav id="sidebar" class="">
 
 
@@ -179,8 +179,8 @@
   
     
     <li data-nav-id="/ios%E7%9B%B8%E5%85%B3/" title="IOS相关s" class="dd-item
+        parent
         
-        active
         
         ">
       <a href="/ios%E7%9B%B8%E5%85%B3/">
@@ -226,7 +226,7 @@
  
   
     
-      <li data-nav-id="/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/" title="IOS 组件化-动态库实战" class="dd-item ">
+      <li data-nav-id="/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/" title="IOS 组件化-动态库实战" class="dd-item active">
         <a href="/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/">
         IOS 组件化-动态库实战
         
@@ -298,7 +298,7 @@
     
     <li data-nav-id="/python/" title="Pythons" class="dd-item
         
-        active
+        
         
         ">
       <a href="/python/">
@@ -429,7 +429,13 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > IOS相关s
+            
+            
+          
+          
+            <a href='/'>My New Hugo Site</a> > <a href='/ios%E7%9B%B8%E5%85%B3/'>IOS相关s</a> > IOS 组件化-动态库实战
+          
+        
           
         
           
@@ -440,7 +446,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents"></nav>
     </div>
 </div>
 
@@ -456,20 +462,521 @@
           
             <h1>
               
-              IOS相关s
+              IOS 组件化-动态库实战
             </h1>
           
 
         
 
 
+<p>起因</p>
+<p>理论功底</p>
+<p>动态库和静态库</p>
+<p>介绍</p>
+<p>静态库和动态库的区别</p>
+<p>举个例子， iOS 项目中使用 Embeded Framework</p>
+<p>静态库和动态库如何构建和加载</p>
+<p>静态库和动态库依赖关系</p>
+<p>Xcode 项目结构</p>
+<p>iOS 依赖管理事实上的标准</p>
+<p>解决问题</p>
+<p>制作动态库</p>
+<p>剖析下动态库 Framework 吧</p>
+<p>回过头来看 Embened Framework</p>
+<p>Why Swift does not Support Staic Libraies</p>
+<p>CocoaPods 使用 Use_framework!</p>
+<p>动态库 Framework 的文件结构</p>
+<p>更愉快的导入文件</p>
+<p>资源问题</p>
+<p>参考</p>
+<p>起因</p>
+<p>去年，公司iOS端，之前由于所有的业务端代码都是混乱管理，造成开发有很多痛点无法单测，团队成员提交代码冲突机率大，CI配合效果差，功能性代码多端无法复用，单仓库代码量大，编译时间长 等等痛点，领导和组内多次沟通开始着手组件化开发，希望能改进这些开发中的痛点，成立组件化团队。</p>
+<p>组件化的方案大同小异，基础性代码封装私有库，业务组件交互交由中间件负责，项目依赖工具用iOS项目事实上的标准CocoaPods</p>
+<p>前期的基础性组件拆分都较为顺利，从依赖树的叶子节点开发是最合适的方案。</p>
+<p>随着组件抽离的越来越多，私有库的依赖体系也越来越复杂，慢慢过渡到了业务组件。业务组件用了Swift的第三方组件，用了Swift库的同学都知道必须加上use_frameworks!，这个标记是说Pod管理的依赖全部编译为动态库，然后呢我们的很多组件又依赖了诸如百度地图，微信分享等静态库，于是我在执行 pod install 报了一个没有碰见过的错误。</p>
+<p>1[!] The &lsquo;Pods-LJA_Example&rsquo;target has transitive dependencies that include static binaries:</p>
+<p>这就尴尬了，于是一阵疯狂的搜索google stackoverflow等，然而并没有什么卵用，而且上面催得急，根本没时间处理这些小问题 业务重构是最主要的，以至于我们的业务组件没有做到独立仓库拆分。</p>
+<p>直到最近终于找到了解决办法:( 主要是自己的功力不够深厚）</p>
+<p>理论功底</p>
+<p>动态库和静态库</p>
+<p>介绍</p>
+<p>首先静态库和动态库都是以二进制提供代码复用的代码库</p>
+<p>静态库 常见的是 .a</p>
+<p>动态库常见的是 .dll(windows)，.dylib(mac)，so(linux)</p>
+<p>framework(in Apple): Framework 是Cocoa/Cocoa Touch程序中使用的一种资源打包方式，可以将代码文件、头文件、资源文件、说明文档等集中在一起，方便开发者使用。也就是说我们的 framework其实是资源打包的方式，和静态库动态库的本质是没有关系的</p>
+<p>静态库和动态库的区别</p>
+<p>静态库: 链接时会被完整的复制到可执行文件中，所以如果两个程序都用了某个静态库，那么每个二进制可执行文件里面其实都含有这份静态库的代码</p>
+<p>动态库: 链接时不复制，在程序启动后用dyld加载，然后再决议符号，所以理论上动态库只用存在一份，好多个程序都可以动态链接到这个动态库上面，达到了节省内存(不是磁盘是内存中只有一份动态库)，还有另外一个好处，由于动态库并不绑定到可执行程序上，所以我们想升级这个动态库就很容易，windows和linux上面一般插件和模块机制都是这样实现的。</p>
+<p>But我们的苹果爸爸在iOS平台上规定不允许存在动态库，并且所有的 IPA 都需要经过苹果爸爸的私钥加密后才能用，基本你用了动态库也会因为签名不对无法加载，(越狱和非 APP store 除外)。于是就把开发者自己开发动态库掐死在幻想中。</p>
+<p>直到有一天，苹果爸爸的iOS升级到了8，iOS出现了APP Extension，swift编程语言也诞生了，由于iOS主APP需要和Extension共享代码，Swift语言的机制也只能有动态库，于是苹果爸爸尴尬了，不过这难不倒我们的苹果爸爸，毕竟我是爸爸，规则是我来定，我想怎样就怎样，于是提出了一个概念Embedded Framework，这种动态库允许APP和APP Extension共享代码，但是这份动态库的生命被限定在一个APP进程内。简单点可以理解为被阉割的动态库。</p>
+<p>举个例子，iOS项目中使用Embeded Framework</p>
+<p>如果你把某个自己开发的动态库(系统的不算，毕竟苹果是爸爸)放在了Linked Frameworks and Libraries里面，程序一启动就会报Reason: Image Not Found，你只能把它放在Embeded Binaries里面才能正常使用，</p>
+<p>看图:</p>
+<p>静态库和动态库如何构建和加载</p>
+<p>简单点，说话的方式简单点~~</p>
+<p>上面的介绍貌似有点抽象啊套用在美团技术分享大会上的话就是:</p>
+<p>静态库: 一堆目标文件(.o/.obj)的打包体(并非二进制文件)</p>
+<p>动态库: 一个没有main函数的可执行文件</p>
+<p>这里我们来复习下C语言的基本功，编译和链接</p>
+<p>编译: 将我们的源代码文件编译为目标文件</p>
+<p>链接: 将我们的各种目标文件加上一些第三方库，和系统库链接为可执行文件。</p>
+<p>由于某个目标文件的符号(可以理解为变量，函数等)可能来自其他目标文件，其实链接这一步最主要的操作就是决议符号的地址。</p>
+<p>若符号来自静态库(本质就是.o 的集合包)或 .o，将其纳入链接产物，并确定符号地址</p>
+<p>若符号来自动态库，打个标记，等启动的时候再说&mdash;交给dyld去加载和链接符号</p>
+<p>于是链接加装载就有了不同的情况</p>
+<p>Load 装载：将库文件载入内存</p>
+<pre><code>Static Loading：启动时
 
-	
+Dynamic Loading：启动后（使用时）
+</code></pre>
+<p>Link 链接：决议符号地址</p>
+<pre><code>Static Linking：构建（链接）时
+
+Dynamic Linking：运行时（启动时或使用时）
+</code></pre>
+<p>然后组合起来就是 2 * 2 = 4 了</p>
+<p>Static Loading + Static Linking</p>
+<p>Static Loading + Dynamic Linking</p>
+<p>Dynamic Loading + Dynamic Linking</p>
+<p><del>Dynamic Loading + Static Linking</del></p>
+<p>第一种是纯静态库相关了</p>
+<p>第二种就是静态加载(启动时)，动态链接，链接时，动态库参与链接，但是这时候只是给符号打了标记告诉我这个符号来自与动态库，程序启动时，iOS或者Mac OS操作系统的dyld自动load + link。</p>
+<p>既然全部都是自动的。那么符号的调用方完全不知道你到底是源码还是静态库，动态库 。</p>
+<p>第三种收到调用dlopen + performSelector通常iOS的APP不适用这里不讨论</p>
+<p>第四种，没见过，个人也不是特别懂</p>
+<p>有需求请参看文后的程序员的自我修养一书</p>
+<p>静态库和动态库依赖关系</p>
+<p>既然有 2 种库，那么依赖关系又是 2 * 2 喽</p>
+<p>libA.a dependency libB.a</p>
+<p>UIKit.dylib dependency Foundation.dylib</p>
+<p>libA.a dependency Foundation.dylib</p>
+<p>MyXX.dylib dependency libA.a</p>
+<p>第一种 静态库互相依赖，这种情况非常常见，制作静态库的时候只需要有被依赖的静态库头文件在就能编译出来。但是这就意味者你要收到告诉使用者你的依赖关系</p>
+<p>幸运的是CocoaPod就是这样做的</p>
+<p>第二种动态库依赖动态库，两个动态库是相互隔离的具有隔离性，但是制作的静态库的时候需要被依赖动态库参与链接，但是具体的符号决议交给dyld来做。</p>
+<p>第三种，静态库依赖动态库，也很常见，静态库制作的时候也需要动态库参与链接，但是符号的决议交给dyld来做。</p>
+<p>第四种，动态库依赖静态库，这种情况就有点特殊了。首先我们设想动态库编译的时候需要静态库参与编译，但是静态库交由dyld来做符号决议，but这和我们前面说的就矛盾了啊。静态库本质是一堆.o 的打包体，首先并不是二进制可执行文件，再者你无法保证主程序把静态库参与链接共同生成二进制可执行文件。这就尴尬了。</p>
+<p>怎么办？</p>
+<p>目前的编译器的解决办法是，首先我无法保证主程序是否包含静态库，再者静态库也无法被dyld加载，那么我直接把你静态库的.o 偷过来，共同组成一个新的二进制。也被称做吸附性</p>
+<p>那么我有多份动态库都依赖同样的静态库，这就尴尬了，每个动态库为了保证自己的正确性会把静态库吸附进来。然后两个库包含了同样的静态库，于是问题就出现了。 看到这里想必前面出现的错误你已经能猜出来了把~_~</p>
+<p>后面再详细解释</p>
+<p>先来个总结</p>
+<p>可执文件（主程序或者动态库）在构建的链接阶段</p>
+<p>遇到静态库，吸附进来</p>
+<p>遇到动态库，打标记，彼此保持独</p>
+<p>Xcode 项目结构</p>
+<p>target：对于一个产物(app,.a ,.framework)</p>
+<p>project：一个项目包含多个 target</p>
+<p>workspace: 一个包含多个 target</p>
+<p>schema: 指定了一个产物是按照何种的依赖关系，编译-链接到最终的一个产物</p>
+<p>iOS 依赖管理事实上的标准</p>
+<p>这么多年，Apple的博客和文档也就告诉了我们什么是静态库什么是动态库，如何制作等。但是并没有给我们提供一系列的依赖管理工具。所以CocoaPods成了事实上的标准。</p>
+<p>通常CocoaPods管理的工程结构如下:</p>
+<p>那么当我们按下CMD + B的时候，整个项目按照先编译被依赖Pod，然后依赖其他Pod的Pod也被构建出来，最终所有的组件被编译为一个lib-Pods-XXXAPP.a被添加进项目进去。资源通过CocoaPods提供的脚本也一并被复制进去。想了解CocoaPods做了什么的读者可以参看后面的链接</p>
+<p>解决问题</p>
+<p>这么多理论功底的建立，相信我们已经能分析出来之前pod install的原因了。就是用了use_framework那么我们的所有Pod都会以动态库(Embeded Framework)的形式去构建，于是那些非开源的库(如百度地图，微信分享)如果被多个Pod依赖(组件化开发中太常见了)于是被吸附到动态库里面，所以CocoaPod直接就不让我们install成功。因为你现在的依赖管理就是错误的。</p>
+<p>在听取美团叶樉老师分享的时候 他们的出发点是因为要绕过苹果爸爸在iOS9以下对__text 段60M的限制使用了动态库方案，我们是因为某些swift库必须要用到(历史遗留原因)动态库。美团的做法是摘除依赖关系，自定义CocoaPods(开源的本来就是用着不爽我就改)。但是我是个小菜鸡啊。我也不会 ruby(以后会学的)，但是叶樉老师给我提了别的idea。前面我们知道 动态库和动态库是隔离性，动态库依赖静态库具有吸附性，那么我们可以自定义一个动态库把百度地图这种静态库吸附进来。对外整体呈现的是动态库特性。其他的组件依赖我们自定义的动态库，由于隔离性的存在，不会出现问题。</p>
+<p>制作动态库</p>
+<p>1 创建动态库项目这里以 wx 举例</p>
+<p>2 按照微信的官方文档。添加依赖库(我是因为pod install巨慢所以我直接拽进来了)</p>
+<p>3 将wx的PublicHeader暴露出来，注意由于我并没有使用到wx相关API所以链接器帮我们链接动态库的时候可能并不会把wx静态库吸附进来。我们手动在build Setting的other link flags加上-all_load标记</p>
+<p>4.在Schema里面跳转编译配置为Release，并且选择所有的CPU架构</p>
+<p>5 然后选择模拟器或者 Generic iOS Device 运行编译就会生成对应版本的 Framework 了。</p>
+<p>6.但是为了保证开发者使用的时候是真机模拟器都能正常使用，我们需要合并不同架构</p>
+<p>这里在Build Phases里添加以下脚本，真机和模拟器都Build一遍之后就会在工程目录下生成Products文件夹，</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+<p>6</p>
+<p>7</p>
+<p>8</p>
+<p>9</p>
+<p>10</p>
+<p>11</p>
+<p>12</p>
+<p>13</p>
+<p>14</p>
+<p>15</p>
+<p>16</p>
+<p>if[ &ldquo;${ACTION}&quot;= &ldquo;build&rdquo;]</p>
+<p>then</p>
+<p>INSTALL_DIR=${SRCROOT}/Products/${PROJECT_NAME}.framework</p>
+<p>DEVICE_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework</p>
+<p>SIMULATOR_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework</p>
+<p>if[ -d &ldquo;${INSTALL_DIR}&rdquo;]</p>
+<p>then</p>
+<p>rm -rf &ldquo;${INSTALL_DIR}&rdquo;</p>
+<p>fi</p>
+<p>mkdir -p &ldquo;${INSTALL_DIR}&rdquo;</p>
+<p>cp -R &ldquo;${DEVICE_DIR}/&rdquo;&quot;${INSTALL_DIR}/&rdquo;</p>
+<p>#ditto &ldquo;${DEVICE_DIR}/Headers&rdquo; &ldquo;${INSTALL_DIR}/Headers&rdquo;</p>
+<p>lipo -create &ldquo;${DEVICE_DIR}/${PROJECT_NAME}&rdquo;&quot;${SIMULATOR_DIR}/${PROJECT_NAME}&quot;-output &ldquo;${INSTALL_DIR}/${PROJECT_NAME}&rdquo;</p>
+<p>open &ldquo;${DEVICE_DIR}&rdquo;</p>
+<p>open &ldquo;${SRCROOT}/Products&rdquo;</p>
+<p>fi</p>
+<p>于是我们有了我们自己的私有动态库LJWXSDK，那么我们来验证我们之前的问题</p>
+<p>首先指定一个LJWXSDK.podspec这里我直接传到了我的Github上面</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+<p>6</p>
+<p>7</p>
+<p>8</p>
+<p>9</p>
+<p>10</p>
+<p>11</p>
+<p>12</p>
+<p>13</p>
+<p>14</p>
+<p>15</p>
+<p>16</p>
+<p>17</p>
+<p>18</p>
+<p>19</p>
+<p>20</p>
+<p>21</p>
+<p>22</p>
+<p>23</p>
+<p>24</p>
+<h1 id="heading"></h1>
+<h1 id="be-sure-to-run-pod-lib-lint-ljpodpodspec-to-ensure-this-is-a">Be sure to run `pod lib lint LJPod.podspec&rsquo; to ensure this is a</h1>
+<h1 id="valid-spec-before-submitting">valid spec before submitting.</h1>
+<h1 id="heading-1"></h1>
+<h1 id="any-lines-starting-with-a--are-optional-but-their-use-is-encouraged">Any lines starting with a # are optional, but their use is encouraged</h1>
+<h1 id="to-learn-more-about-a-podspec-seehttpguidescocoapodsorgsyntaxpodspechtml">To learn more about a Podspec seehttp://guides.cocoapods.org/syntax/podspec.html</h1>
+<h1 id="heading-2"></h1>
+<p>Pod:: Spec.newdo|s|</p>
+<p>s.name             = &lsquo;LJWXSDK&rsquo;</p>
+<p>s.version          = &lsquo;0.1.0&rsquo;</p>
+<p>s.summary          = &lsquo;A short description of LJWXSDK.&rsquo;</p>
+<p>s.description      = &lt; &lsquo;MIT&rsquo;, : file =&gt; &lsquo;LICENSE&rsquo;}</p>
+<p>s.author           = { &lsquo;ValiantCat&rsquo;=&gt; &lsquo;<a href="mailto:519224747@qq.com">519224747@qq.com</a>&rsquo;}</p>
+<p>s.source = { : http  =&gt; &lsquo;<a href="http://onk2m6gtu.bkt.clouddn.com/LJWXSDK.framework.zip'%7D">http://onk2m6gtu.bkt.clouddn.com/LJWXSDK.framework.zip'}</a></p>
+<p>s.ios.deployment_target = &lsquo;8.0&rsquo;</p>
+<p>s.default_subspec = &lsquo;zip&rsquo;</p>
+<p>s.subspec &lsquo;zip&rsquo;do|zip|</p>
+<pre><code>puts '-------------------------------------------------------------------'
+
+puts 'Notice: LJWXSDK is zip now'
+
+puts '-------------------------------------------------------------------'
+
+zip.ios.vendored_frameworks = '*.framework'
+</code></pre>
+<p>end</p>
+<p>end</p>
+<p>注意上面我是把二进制压缩丢进了七牛的 oss 文件存储。毕竟免费还快。</p>
+<p>然后通过 pod lib create 创建了一个 pod 用来验证之前我们的传递性依赖问题，</p>
+<p>文件夹结构如下</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+<p>6</p>
+<p>7</p>
+<p>8</p>
+<p>9</p>
+<p>10</p>
+<p>11</p>
+<p>12</p>
+<p>13</p>
+<p>14</p>
+<p>15</p>
+<p>16</p>
+<p>17</p>
+<p>18</p>
+<p>19</p>
+<p>20</p>
+<p>21</p>
+<p>22</p>
+<p>23</p>
+<p>24</p>
+<p>25</p>
+<p>26</p>
+<p>27</p>
+<p>28</p>
+<p>29</p>
+<p>30</p>
+<p>31</p>
+<p>32</p>
+<p>33</p>
+<p>34</p>
+<p>35</p>
+<p>36</p>
+<p>37</p>
+<p>38</p>
+<p>39</p>
+<p>40</p>
+<p>41</p>
+<p>42</p>
+<p>43</p>
+<p>44</p>
+<p>45</p>
+<p>46</p>
+<p>47</p>
+<p>48</p>
+<p>49</p>
+<p>50</p>
+<p>51</p>
+<p>52</p>
+<p>53</p>
+<p>54</p>
+<p>55</p>
+<p>56</p>
+<p>57</p>
+<p>58</p>
+<p>59</p>
+<p>60</p>
+<p>61</p>
+<p>62</p>
+<p>63</p>
+<p>64</p>
+<p>65</p>
+<p>66</p>
+<p>67</p>
+<p>68</p>
+<p>69</p>
+<p>70</p>
+<p>71</p>
+<p>72</p>
+<p>73</p>
+<p>74</p>
+<p>75</p>
+<p>76</p>
+<p>77</p>
+<p>78</p>
+<p>79</p>
+<p>80</p>
+<p>81</p>
+<p>82</p>
+<p>83</p>
+<p>84</p>
+<p>85</p>
+<p>86</p>
+<p>87</p>
+<p>88</p>
+<p>89</p>
+<p>90</p>
+<p>91</p>
+<p>92</p>
+<p>93</p>
+<p>94</p>
+<p>95</p>
+<p>96</p>
+<p>97</p>
+<p>98</p>
+<p>99</p>
+<p>100</p>
+<p>101</p>
+<p>102</p>
+<p>.</p>
+<p>├── Example</p>
+<p>│   ├── LJA</p>
+<p>│   │   ├── Base.lproj</p>
+<p>│   │   │   ├── LaunchScreen.storyboard</p>
+<p>│   │   │   └── Main.storyboard</p>
+<p>│   │   ├── Images.xcassets</p>
+<p>│   │   │   └── AppIcon.appiconset</p>
+<p>│   │   │       └── Contents.json</p>
+<p>│   │   ├── LJA-Info.plist</p>
+<p>│   │   ├── LJA-Prefix.pch</p>
+<p>│   │   ├── LJAppDelegate.h</p>
+<p>│   │   ├── LJAppDelegate.m</p>
+<p>│   │   ├── LJViewController.h</p>
+<p>│   │   ├── LJViewController.m</p>
+<p>│   │   ├── en.lproj</p>
+<p>│   │   │   └── InfoPlist.strings</p>
+<p>│   │   └── main.m</p>
+<p>│   ├── LJA.xcodeproj</p>
+<p>│   ├── LJA.xcworkspace</p>
+<p>│   ├── Podfile</p>
+<p>│   ├── Podfile.lock</p>
+<p>│   ├── Pods</p>
+<p>│   │   ├── Headers</p>
+<p>│   │   ├── LJWXSDK</p>
+<p>│   │   │   └── LJWXSDK.framework</p>
+<p>│   │   │       ├── Headers</p>
+<p>│   │   │       │   ├── LJWXSDK.h</p>
+<p>│   │   │       │   ├── WXApi.h</p>
+<p>│   │   │       │   ├── WXApiObject.h</p>
+<p>│   │   │       │   └── WechatAuthSDK.h</p>
+<p>│   │   │       ├── Info.plist</p>
+<p>│   │   │       ├── LJWXSDK</p>
+<p>│   │   │       ├── Modules</p>
+<p>│   │   │       │   └── module.modulemap</p>
+<p>│   │   │       ├── _CodeSignature</p>
+<p>│   │   │       │   └── CodeResources</p>
+<p>│   │   │       └── read_me.txt</p>
+<p>│   │   ├── Local\ Podspecs</p>
+<p>│   │   │   ├── LJA.podspec.json</p>
+<p>│   │   │   ├── LJB.podspec.json</p>
+<p>│   │   │   └── LJWXSDK.podspec.json</p>
+<p>│   │   ├── Manifest.lock</p>
+<p>│   │   ├── Pods.xcodeproj</p>
+<p>│   │   │   ├── project.pbxproj</p>
+<p>│   │   │   ├── project.xcworkspace</p>
+<p>│   │   ├── Target\ Support\ Files</p>
+<p>│   │   │   ├── LJA</p>
+<p>│   │   │   │   ├── Info.plist</p>
+<p>│   │   │   │   ├── LJA-dummy.m</p>
+<p>│   │   │   │   ├── LJA-prefix.pch</p>
+<p>│   │   │   │   ├── LJA-umbrella.h</p>
+<p>│   │   │   │   ├── LJA.modulemap</p>
+<p>│   │   │   │   └── LJA.xcconfig</p>
+<p>│   │   │   ├── LJB</p>
+<p>│   │   │   │   ├── Info.plist</p>
+<p>│   │   │   │   ├── LJB-dummy.m</p>
+<p>│   │   │   │   ├── LJB-prefix.pch</p>
+<p>│   │   │   │   ├── LJB-umbrella.h</p>
+<p>│   │   │   │   ├── LJB.modulemap</p>
+<p>│   │   │   │   └── LJB.xcconfig</p>
+<p>│   │   │   ├── Pods-LJA_Example</p>
+<p>│   │   │   │   ├── Info.plist</p>
+<p>│   │   │   │   ├── Pods-LJA_Example-acknowledgements.markdown</p>
+<p>│   │   │   │   ├── Pods-LJA_Example-acknowledgements.plist</p>
+<p>│   │   │   │   ├── Pods-LJA_Example-dummy.m</p>
+<p>│   │   │   │   ├── Pods-LJA_Example-frameworks.sh</p>
+<p>│   │   │   │   ├── Pods-LJA_Example-resources.sh</p>
+<p>│   │   │   │   ├── Pods-LJA_Example-umbrella.h</p>
+<p>│   │   │   │   ├── Pods-LJA_Example.debug.xcconfig</p>
+<p>│   │   │   │   ├── Pods-LJA_Example.modulemap</p>
+<p>│   │   │   │   └── Pods-LJA_Example.release.xcconfig</p>
+<p>│   │   │   └── Pods-LJA_Tests</p>
+<p>│   │   │       ├── Info.plist</p>
+<p>│   │   │       ├── Pods-LJA_Tests-acknowledgements.markdown</p>
+<p>│   │   │       ├── Pods-LJA_Tests-acknowledgements.plist</p>
+<p>│   │   │       ├── Pods-LJA_Tests-dummy.m</p>
+<p>│   │   │       ├── Pods-LJA_Tests-frameworks.sh</p>
+<p>│   │   │       ├── Pods-LJA_Tests-resources.sh</p>
+<p>│   │   │       ├── Pods-LJA_Tests-umbrella.h</p>
+<p>│   │   │       ├── Pods-LJA_Tests.debug.xcconfig</p>
+<p>│   │   │       ├── Pods-LJA_Tests.modulemap</p>
+<p>│   │   │       └── Pods-LJA_Tests.release.xcconfig</p>
+<p>│   │   └── libWeChatSDK</p>
+<p>│   │       ├── README.md</p>
+<p>│   │       ├── WXApi.h</p>
+<p>│   │       ├── WXApiObject.h</p>
+<p>│   │       ├── WechatAuthSDK.h</p>
+<p>│   │       └── libWeChatSDK.a</p>
+<p>├── LICENSE</p>
+<p>├── LJA</p>
+<p>│   ├── Assets</p>
+<p>│   └── Classes</p>
+<p>│       └── LJA.m</p>
+<p>├── LJA.podspec</p>
+<p>├── LJB</p>
+<p>│   ├── Assets</p>
+<p>│   └── Classes</p>
+<p>│       └── LJB.m</p>
+<p>├── LJB.podspec</p>
+<p>├── README.md</p>
+<p>└── _Pods.xcodeproj -&gt; Example/Pods/Pods.xcodeproj</p>
+<p>测试工程我也丢在7牛上面。下载测试即可</p>
+<p>编译运行。完美。我们又可以愉快的和swift第三方库配合使用。</p>
+<p>很多人可能会问 诸如百度地图 微信这种sdk为什么官方不支持动态库版(所说的都是embeded Framework)，猜测是为了兼容更低iOS7版本吧</p>
+<p>很多人会觉得麻烦的要死。首先每个公司多多少少都有历史包袱，麻烦也要做，再者这是一次对基本功的补充，即便你们没有用到，但是为了学习，这篇教程所做的也值得你尝试一次。</p>
+<p>剖析下动态库 Framework 吧</p>
+<p>上述解决了我们一开始遇到的问题。but既然动态库和静态库压根就不一回事，所以里面还是有很多细节值得我们去了解的。</p>
+<p>回过头来看 Embened Framework</p>
+<p>首先我们之前记得如果一个动态库加在LinkedFrameworksand Libraies程序启动就会报ImageNotFound，如果放在EmbededBinaries里面就可以。这是为什么呢。我们拿MacoView来看下两种情况下可执行文件的细节</p>
+<p>其中@rpth 这个路径表示的位置可以查看Xcode中的链接路径问题</p>
+<p>这样我们就知道了其实加在EmbededBinaries里面的东西其实会被复制一份到xx.app里面，所以这个名字起得还是不错的直译就是嵌入的框架</p>
+<p>Why Swift does not Support Staic Libraies</p>
+<p>造成这个的主要原因是Swift的运行时库(不等同于OC的runtime概念)，由于Swift的ABI不稳定，静态库会导致最终的目标程序中包含重复的运行库，相关可以看下最后的参考文章SwiftInFlux#static-libraries。等到我们的SwiftABI稳定之后，我们的静态库支持可能就又会出现了。当然也可能不出Swift伴随诞生的SPM(Swift，Package Manager)，可能有更好的官方的包依赖管理工具。让我们期待吧。</p>
+<p>CocoaPods使用Use_framework!</p>
+<p>既然加了Swift的第三方库之后就需要在Podfile里面加上use_framework! 那么CocoaPods就会帮我们生成动态库，但是奇怪的是，我们并没有在主工程的embeded binaries看到这个动态库，这又是什么鬼。其实是CocoaPods使用脚本帮我们加进去了。脚本位置在主工程的build Phase下的Emded Pods frameworks</p>
+<p>1&quot;${SRCROOT}/Pods/Target Support Files/Pods-LJA_Example/Pods-LJA_Example-frameworks.sh&quot;</p>
+<p>动态库Framework的文件结构</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+<p>6</p>
+<p>7</p>
+<p>8</p>
+<p>9</p>
+<p>10</p>
+<p>11</p>
+<p>12</p>
+<p>.</p>
+<p>├── Headers</p>
+<p>│   ├── LJWXSDK.h</p>
+<p>│   ├── WXApi.h</p>
+<p>│   ├── WXApiObject.h</p>
+<p>│   └── WechatAuthSDK.h</p>
+<p>├── Info.plist</p>
+<p>├── LJWXSDK</p>
+<p>├── Modules</p>
+<p>│   └── module.modulemap</p>
+<p>└── _CodeSignature</p>
+<pre><code>└── CodeResources
+</code></pre>
+<p>Headers 一般是头文件。非private里面的头文件都会在里面</p>
+<p>info.plist 配置信息，不深究</p>
+<p>Modules 这个文件夹里有个module.modulemap文件，后面在讲解</p>
+<p>二进制文件，这就是上面提到的不带main的二进制文件了，.o 的打包体</p>
+<p>_codeSignature签名文件 (苹果爸爸的约束)</p>
+<p>more资源文件。这里暂时没用到，所以没有 ，但是这个也是个大坑</p>
+<p>更愉快的导入文件</p>
+<p>@class，@protocol：不说了就是声明一个类，并不导入。</p>
+<p>#import &lt;&gt;, #import&quot;&quot;：是加强版的#include&lt;&gt;，#include&quot;&quot; 防止重复导入的。</p>
+<p>#import&lt;&gt; : 通过build setting里面中的header Search Path里面去找</p>
+<p>#import&quot;&quot; : 第一步先搜索user Header search Path再搜索 header search Path 。所以对我们的framework来说，CocoaPod帮我们加到了Header search Path目前2种导入方式都是可以支持的。</p>
+<p>上面的导入方式都带了 某个framework的路径&quot;xx/xx.h&quot; ，我们在开发自己主工程的时候会发现我们导入主工程其他类是不需要导入前缀的。 这又是怎么回事。</p>
+<p>看下面的配置</p>
+<p>目前的配置是non-recursive。如果把non去掉意思就是我可以递归的去查找某些framework下面的头文件了。 但是Xcode的效率肯定就会有影响。</p>
+<p>还是不建议修改的好。</p>
+<p>大家都知道iOS7之后多了@import，这又是什么鬼。</p>
+<p>简单理解这个方式叫做Module导入，好处就是使用了@import 之后不需要在project setting手动添加framework，系统会自动加载，而且效率更高。</p>
+<p>最主要的是swift也只能这样用。</p>
+<p>导入的时候系统会查找如果有模块同名的文件就会导入这个文件。如果没有CocoaPods帮我们生成一个module-umbrela.hl文件，然后就是导入的这个文件。</p>
+<p>回过头来看我们的framework的结构 里面有个Modules文件夹，里面有个文件module.modulemap</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+<p>6</p>
+<p>framework module LJWXSDK {</p>
+<p>umbrella header &ldquo;LJWXSDK.h&rdquo;</p>
+<p>export *</p>
+<p>module * { export * }</p>
+<p>}</p>
+<p>我们可以看到其实被暴露的header就是这个文件，之前我在按照#import &ldquo;/&ldquo;的时候有个警告</p>
+<p>而且按照@import 导入的东西发现没有导入可用的头文件就是因为并没有在umbrella header的头文件中加入其他头文件。</p>
+<p>加入之后我们就可以完美的使用@import ，并且#import&rdquo;/&rdquo; 也不会报warning</p>
+<p>更多关于umbrella Header 参看文后参考</p>
+<p>资源问题</p>
+<p>首先我们来看常见的资源文件: 主要分为图片和其他类资源那么加载图片和加载其他资源都是怎么做的？</p>
+<p>1: [UIimage imageNamed:]</p>
+<p>2: [NSbundle bundleForclass[XXX class]]</p>
+<p>其实方式1去本质就是去mainBundle去拿资源，方式2从XXX所在的框架里面去拿。</p>
+<p>前面也说道framework只是资源的打包方式，本质上是有两种的。</p>
+<p>我们这个framework如果本质是静态库，那么无需改变使用方式，资源最终都会打包到Main Bundle里面</p>
+<p>如果我们这个framework本质是动态库，那么我们的资源就发生了变化，资源就会被存放在framework里面。所以我们需要使[NSbundle bundleForclass[XXX class]]。需要注意的是很多人为了简单，下意</p>
+<p>的使用self class传递，但是有可能这个self实例不在资源所属的framework。所以会出现资源加载失败。一定要谨慎使用。</p>
+<p>抄自： <a href="http://www.cocoachina.com/ios/20170427/19136.html">http://www.cocoachina.com/ios/20170427/19136.html</a></p>
+<p>参考</p>
+<p>程序员的自我修养，链接，装载 和库</p>
+<p>iOS 里的动态库和静态库</p>
+<p>Systems Programming: What is the exact difference between Dynamic loading and dynamic linking?</p>
+<p>CocoaPods 都做了什么？</p>
+<p>Dynamic Linking of Imported Functions in Mach-O</p>
+<p>OS 里的导入头文件</p>
+<p>iOS - Umbrella Header 在 framework 中的应用</p>
+<p>SwiftInFlux#static-libraries</p>
+<p>iOS 里的导入头文件</p>
+<p>iOS - Umbrella Header 在 framework 中的应用</p>
+<p>@import vs #import - iOS 7</p>
 
 
-
-
-<footer class=" footline" >
+<footer class="footline">
 	
 </footer>
 
@@ -537,6 +1044,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -552,6 +1060,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -656,10 +1167,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/" title="My New Hugo Site"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/" title="IOS app性能调优相关知识点"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/" title="IOS app性能调优相关知识点" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/ios%E7%9B%B8%E5%85%B3/swift-keypath/" title="Swift Keypath" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -691,3 +1202,4 @@
 
   </body>
 </html>
+

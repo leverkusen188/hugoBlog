@@ -8,6 +8,115 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>IOS app性能调优相关知识点</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/</guid>
+      <description>前言 本文较长（5000字左右），建议阅读时间： 20min+
+一个iOS App的稳定性，主要决定于整体的系统架构设计，同时也不可忽略编程的细节，正所谓“千里之堤，溃于蚁穴”，一旦考虑不周，看似无关紧要的代码片段可能会带来整体软件系统的崩溃。尤其因为苹果限制了热更新机制，App本身的稳定性及容错性就显的更加重要，之前可以通过发布热补丁的方式解决线上代码问题，现在就需要在提交之前对App开发周期内的各个指标进行实时监测，尽量让问题暴漏在开发阶段，然后及时修复，减少线上出问题的几率。针对一个App的开发周期，它的稳定性指标主要有以下几个环节构成，用一个脑图表示如下：
+1 开发过程 开发过程中，主要是通过监控内存使用及泄露，CPU使用率，FPS，启动时间等指标，以及常见的UI的主线程监测，NSAssert断言等，最好能在Debug模式下，实时显示在界面上，针对出现的问题及早解决。
+内存问题 内存问题主要包括两个部分，一个是iOS中常见循环引用导致的内存泄露 ，另外就是大量数据加载及使用导致的内存警告。
+mmap 虽然苹果并没有明确每个App在运行期间可以使用的内存最大值，但是有开发者进行了实验和统计，一般在占用系统内存超过20%的时候会有内存警告，而超过50%的时候，就很容易Crash了，所以内存使用率还是尽量要少，对于数据量比较大的应用，可以采用分步加载数据的方式，或者采用mmap方式。mmap 是使用逻辑内存对磁盘文件进行映射，中间只是进行映射没有任何拷贝操作，避免了写文件的数据拷贝。 操作内存就相当于在操作文件，避免了内核空间和用户空间的频繁切换。之前在开发输入法的时候 ，词库的加载也是使用mmap方式，可以有效降低App的内存占用率，具体使用可以参考链接第一篇文章。
+循环引用 循环引用是iOS开发中经常遇到的问题，尤其对于新手来说是个头疼的问题。循环引用对App有潜在的危害，会使内存消耗过高，性能变差和Crash等，iOS常见的内存主要以下三种情况：
+Delegate 代理协议是一个最典型的场景，需要你使用弱引用来避免循环引用。ARC时代，需要将代理声明为weak是一个即好又安全的做法：
+@property (nonatomic, weak) id &amp;lt;MyCustomDelegate&amp;gt; delegate; 复制代码 NSTimer NSTimer我们开发中会用到很多，比如下面一段代码
+- (void)viewDidLoad { [super viewDidLoad]; self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(doSomeThing) userInfo:nil repeats:YES]; } - (void)doSomeThing { } - (void)dealloc { [self.timer invalidate]; self.timer = nil; } 复制代码 这是典型的循环引用，因为timer会强引用self，而self又持有了timer，所有就造成了循环引用。那有人可能会说，我使用一个weak指针，比如
+__weak typeof(self) weakSelf = self; self.mytimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(doSomeThing) userInfo:nil repeats:YES]; 复制代码 但是其实并没有用，因为不管是weakSelf还是strongSelf，最终在NSTimer内部都会重新生成一个新的指针指向self，这是一个强引用的指针，结果就会导致循环引用。那怎么解决呢？主要有如下三种方式：</description>
+    </item>
+    
+    <item>
+      <title>IOS 子工程 源码和二进制库 编译方式切换方案</title>
+      <link>https://leverkusen188.github.io/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</guid>
+      <description>https://www.jianshu.com/p/a6d0f37cdc27 这个主要是用 环境变量控制 podspec 里，是使用源码还是 .a 。最终 pod install 来让主工程切换子模块的 源码和二进制编译方式。
+https://juejin.im/entry/5b5308c66fb9a04f932ff87e 这个好一点，需要创建私有pod，在podspec里配置 subspec；然后通过修改 主工程podfile，指定私有pod的 subspec 来切换编译方式。
+具体实施：
+为需要提供切换功能的工程配好podspec，作为local pods来管理。 pod lib create &amp;ldquo;podname&amp;rdquo;
+编写 该工程的 build 脚本，用以将该工程的 framework / .a 以及头文件等输出为二进制，以供切换编译用。 #!/bin/sh
+#要build的target名
+TARGET_NAME=&amp;lsquo;BottomStatic&amp;rsquo;
+CONFIGURATION=&amp;lsquo;Debug&amp;rsquo;
+#${PROJECT_NAME}
+if [[ $1 ]]
+then
+TARGET_NAME=$1
+fi
+UNIVERSAL_OUTPUT_FOLDER=&amp;quot;${SRCROOT}/${PROJECT_NAME}_Products/&amp;quot;
+UNIVERSAL_OUTPUT_FOLDER=&amp;quot;${TARGET_NAME}_Products/&amp;quot;
+BUILD_DIR=&amp;ldquo;Build/&amp;rdquo;
+BUILD_ROOT=&amp;ldquo;Output/&amp;rdquo;
+SRCROOT=&amp;quot;.&amp;quot;
+#创建输出目录，并删除之前的framework文件
+mkdir -p &amp;ldquo;${UNIVERSAL_OUTPUT_FOLDER}&amp;rdquo;
+mkdir -p &amp;ldquo;${BUILD_DIR}&amp;rdquo;
+mkdir -p &amp;ldquo;${BUILD_ROOT}&amp;rdquo;
+rm -rf &amp;ldquo;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework&amp;rdquo;
+#分别编译模拟器和真机的Framework
+xcodebuild -target &amp;ldquo;${TARGET_NAME}&amp;rdquo; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=&amp;quot;${BUILD_DIR}&amp;quot; BUILD_ROOT=&amp;quot;${BUILD_ROOT}&amp;quot; clean build</description>
+    </item>
+    
+    <item>
+      <title>IOS 组件化-动态库实战</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/</guid>
+      <description>起因
+理论功底
+动态库和静态库
+介绍
+静态库和动态库的区别
+举个例子， iOS 项目中使用 Embeded Framework
+静态库和动态库如何构建和加载
+静态库和动态库依赖关系
+Xcode 项目结构
+iOS 依赖管理事实上的标准
+解决问题
+制作动态库
+剖析下动态库 Framework 吧
+回过头来看 Embened Framework
+Why Swift does not Support Staic Libraies
+CocoaPods 使用 Use_framework!
+动态库 Framework 的文件结构
+更愉快的导入文件
+资源问题
+参考
+起因
+去年，公司iOS端，之前由于所有的业务端代码都是混乱管理，造成开发有很多痛点无法单测，团队成员提交代码冲突机率大，CI配合效果差，功能性代码多端无法复用，单仓库代码量大，编译时间长 等等痛点，领导和组内多次沟通开始着手组件化开发，希望能改进这些开发中的痛点，成立组件化团队。
+组件化的方案大同小异，基础性代码封装私有库，业务组件交互交由中间件负责，项目依赖工具用iOS项目事实上的标准CocoaPods
+前期的基础性组件拆分都较为顺利，从依赖树的叶子节点开发是最合适的方案。
+随着组件抽离的越来越多，私有库的依赖体系也越来越复杂，慢慢过渡到了业务组件。业务组件用了Swift的第三方组件，用了Swift库的同学都知道必须加上use_frameworks!，这个标记是说Pod管理的依赖全部编译为动态库，然后呢我们的很多组件又依赖了诸如百度地图，微信分享等静态库，于是我在执行 pod install 报了一个没有碰见过的错误。
+1[!] The &amp;lsquo;Pods-LJA_Example&amp;rsquo;target has transitive dependencies that include static binaries:
+这就尴尬了，于是一阵疯狂的搜索google stackoverflow等，然而并没有什么卵用，而且上面催得急，根本没时间处理这些小问题 业务重构是最主要的，以至于我们的业务组件没有做到独立仓库拆分。
+直到最近终于找到了解决办法:( 主要是自己的功力不够深厚）
+理论功底
+动态库和静态库
+介绍
+首先静态库和动态库都是以二进制提供代码复用的代码库
+静态库 常见的是 .</description>
+    </item>
+    
+    <item>
+      <title>python基础环境搭建</title>
+      <link>https://leverkusen188.github.io/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</guid>
+      <description>虚拟环境： 主要是创建一个虚拟的 python 环境，相关的第三方package会独立放在指定的目录下。 但python相关的bin文件，都是从正式环境 景象过来的。 参考：https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
+安装虚拟环境： On macOS and Linux:
+python3 -m pip install --user virtualenv On Windows:
+py -m pip install --user virtualenv 创建虚拟环境： On macOS and Linux:
+python3 -m venv env_name On Windows:
+py -m venv env_name 进入/退出 虚拟环境： On macOS and Linux:
+source env/bin/activate On Windows:
+.\env\Scripts\activate 退出 deactivate 关于python package安装包 参考： https://python-packaging.readthedocs.io/en/latest/minimal.html
+package文件结构和组成 用pip install安装的包，在根目录下需要有个 setup.py 文件，里面配置了 这个package的相关信息（类似cocoapods的 podspec 文件） from setuptools import setup setup(name=&amp;#39;requests1&amp;#39;, version=&amp;#39;0.</description>
+    </item>
+    
+    <item>
       <title>Swift Keypath</title>
       <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swift-keypath/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
@@ -36,6 +145,36 @@ let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.s
       <description>前提： 测试提了一个关于某个操作下会比较卡顿的问题，并上传了applog。
 log初探 app内部工具的InnerToolBlockDetect 里记录了卡顿的情况并打印了对应的线程堆栈信息。 但由于测试用的是release包，因此堆栈里都是相应函数的位移地址，无法看出真正的卡顿代码。
 libsystem_kernel.dylib 0x1f59140f4 mach_msg_trap + 8 libsystem_kernel.dylib 0x1f59135a0 mach_msg + 72 libdispatch.dylib 0x1f5778884 &amp;lt;redacted&amp;gt; + 500 libdispatch.dylib 0x1f5778d14 &amp;lt;redacted&amp;gt; + 52 libxpc.dylib 0x1f59d891c xpc_connection_send_message_with_reply_sync + 204 CoreMedia 0x1f93a9514 FigXPCRemoteClientSendSyncMessageCreatingReply + 36 CoreMedia 0x1f92ca884 &amp;lt;redacted&amp;gt; + 192 CoreFoundation 0x1f5d15d30 &amp;lt;redacted&amp;gt; + 192 MediaToolbox 0x1fa95459c &amp;lt;redacted&amp;gt; + 1448 MediaToolbox 0x1fa953f6c FigAssetRemoteCreateWithURL + 120 AVFoundation 0x1fbdf5bb0 &amp;lt;redacted&amp;gt; + 192 AVFoundation 0x1fbd0a874 &amp;lt;redacted&amp;gt; + 884 AVFoundation 0x1fbd033e4 &amp;lt;redacted&amp;gt; + 100 Fly-rls 0x106382da0 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1355164 Fly-rls 0x106383224 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1356320 Fly-rls 0x1044c5fec _mh_execute_header + 303084 Fly-rls 0x1044c5e1c _mh_execute_header + 302620 Fly-rls 0x10466c0ec _mh_execute_header + 2031852 Fly-rls 0x10466b920 _mh_execute_header + 2029856 Fly-rls 0x1044bd92c _mh_execute_header + 268588 libdispatch.</description>
+    </item>
+    
+    <item>
+      <title>基于Python &#43;Selenium的爬虫详解</title>
+      <link>https://leverkusen188.github.io/python/python_selenium%E7%88%AC%E8%99%AB/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/python/python_selenium%E7%88%AC%E8%99%AB/</guid>
+      <description>背景 Selenium Selenium 是一个用于web应用程序自动化测试的工具，直接运行在浏览器当中，支持chrome、firefox等主流浏览器。可以通过代码控制与页面上元素进行交互（点击、输入等），也可以获取指定元素的内容。
+2.优劣
+劣势：
+相比于抓包→构造请求→解析返回值的爬虫，由于Selenium需要生成一个浏览器环境，所有操作（与元素交互、获取元素内容等）均需要等待页面加载完毕后才可以继续进行，所以速度相比构造请求的慢很多。
+对于为了反爬做了特殊处理的展示内容，如字体加密（参考猫眼）、图片替换数字（参考自如）等，可能取不到想要的数据。
+使用图片替换数字的自如：
+优势：
+1、不需要做复杂的抓包、构造请求、解析数据等，开发难度相对要低一些。
+2、其访问参数跟使用浏览器的正常用户一模一样，访问行为也相对更像正常用户，不容易被反爬虫策略命中。
+3、生成的浏览器环境可以自动运行 JS 文件，所以不用担心如何逆向混淆过的JS文件生成用作人机校验的参数，如马蜂窝酒店评论的人机校验参数_sn，网易云音乐评论的人机校验参数params、encSecKey。可以自行抓包查看。
+4、如果需要抓取同一个前端页面上面来自不同后端接口的信息，如OTA酒店详情页的酒店基础信息、价格、评论等，使用Selenium可以在一次请求中同时完成对三个接口的调用，相对方便。
+实现 1.环境
+python3.6 + Macos
+2.依赖包
+Selenium
+安装的时候是大写的 S ，import的时候是 小写 s。
+pip install Selenium 3.浏览器驱动（webdriver）
+加载浏览器环境需要下载对应的浏览器驱动，此处选择 Chrome。
+下载地址：http://npm.taobao.org/mirrors/chromedriver/ ，
+选择合适的版本下载解压后放在随便一个位置即可。
+4.hello world
+from selenium import webdriver &amp;#39;&amp;#39;&amp;#39;这里填刚刚下载的驱动的路径&amp;#39;&amp;#39;&amp;#39; path = &amp;#39;/Applications/Google Chrome.app/Contents/chromedriver&amp;#39; driver = webdriver.Chrome(executable_path=path) url = &amp;#39;http://hotel.qunar.com/city/beijing_city/&amp;#39; driver.get(url) &amp;#39;&amp;#39;&amp;#39;运行上述代码，会打开一个浏览器，并且加载去哪儿的酒店列表页&amp;#39;&amp;#39;&amp;#39; 这时候可以通过webdriver自带的一些的一些方法获取元素内容或者与元素进行交互。 #返回ID = js_block_beijing_city_7810的元素信息 hotel_info = driver.find_element_by_id(&amp;#39;js_block_beijing_city_7810&amp;#39;) print(hotel_info.text) #返回 展示在列表页的酒店信息 #同理，可以find_element_by_[class_name|name] 等，均可完成查询。 也可以通过方法 find_elements查找符合某条件的一组元素，以列表的形式返回。 #当需要查询的唯一标识带有空格时，可以使用find_elements_by_css_selector，否则会报错。 hotel_list = driver.</description>
     </item>
     
   </channel>

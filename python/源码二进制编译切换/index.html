@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>IOS相关s :: My New Hugo Site</title>
+    <title>IOS 子工程 源码和二进制库 编译方式切换方案 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1663920568" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/ios%E7%9B%B8%E5%85%B3/">
+  <body class="" data-url="/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/">
     <nav id="sidebar" class="">
 
 
@@ -180,7 +180,7 @@
     
     <li data-nav-id="/ios%E7%9B%B8%E5%85%B3/" title="IOS相关s" class="dd-item
         
-        active
+        
         
         ">
       <a href="/ios%E7%9B%B8%E5%85%B3/">
@@ -297,8 +297,8 @@
   
     
     <li data-nav-id="/python/" title="Pythons" class="dd-item
+        parent
         
-        active
         
         ">
       <a href="/python/">
@@ -323,7 +323,7 @@
  
   
     
-      <li data-nav-id="/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/" title="IOS 子工程 源码和二进制库 编译方式切换方案" class="dd-item ">
+      <li data-nav-id="/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/" title="IOS 子工程 源码和二进制库 编译方式切换方案" class="dd-item active">
         <a href="/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/">
         IOS 子工程 源码和二进制库 编译方式切换方案
         
@@ -429,7 +429,13 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > IOS相关s
+            
+            
+          
+          
+            <a href='/'>My New Hugo Site</a> > <a href='/python/'>Pythons</a> > IOS 子工程 源码和二进制库 编译方式切换方案
+          
+        
           
         
           
@@ -440,7 +446,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents"></nav>
     </div>
 </div>
 
@@ -456,20 +462,94 @@
           
             <h1>
               
-              IOS相关s
+              IOS 子工程 源码和二进制库 编译方式切换方案
             </h1>
           
 
         
 
 
+<p><a href="https://www.jianshu.com/p/a6d0f37cdc27">https://www.jianshu.com/p/a6d0f37cdc27</a>  这个主要是用 环境变量控制 podspec 里，是使用源码还是 .a 。最终 pod install 来让主工程切换子模块的 源码和二进制编译方式。</p>
+<p><a href="https://juejin.im/entry/5b5308c66fb9a04f932ff87e">https://juejin.im/entry/5b5308c66fb9a04f932ff87e</a>   这个好一点，需要创建私有pod，在podspec里配置 subspec；然后通过修改 主工程podfile，指定私有pod的 subspec  来切换编译方式。</p>
+<p>具体实施：</p>
+<ol>
+<li>为需要提供切换功能的工程配好podspec，作为local pods来管理。</li>
+</ol>
+<p>pod lib create &ldquo;podname&rdquo;</p>
+<ol start="2">
+<li>编写 该工程的 build 脚本，用以将该工程的 framework / .a 以及头文件等输出为二进制，以供切换编译用。</li>
+</ol>
+<p>#!/bin/sh</p>
+<p>#要build的target名</p>
+<p>TARGET_NAME=&lsquo;BottomStatic&rsquo;</p>
+<p>CONFIGURATION=&lsquo;Debug&rsquo;</p>
+<p>#${PROJECT_NAME}</p>
+<p>if [[ $1 ]]</p>
+<p>then</p>
+<p>TARGET_NAME=$1</p>
+<p>fi</p>
+<p>UNIVERSAL_OUTPUT_FOLDER=&quot;${SRCROOT}/${PROJECT_NAME}_Products/&quot;</p>
+<p>UNIVERSAL_OUTPUT_FOLDER=&quot;${TARGET_NAME}_Products/&quot;</p>
+<p>BUILD_DIR=&ldquo;Build/&rdquo;</p>
+<p>BUILD_ROOT=&ldquo;Output/&rdquo;</p>
+<p>SRCROOT=&quot;.&quot;</p>
+<p>#创建输出目录，并删除之前的framework文件</p>
+<p>mkdir -p &ldquo;${UNIVERSAL_OUTPUT_FOLDER}&rdquo;</p>
+<p>mkdir -p &ldquo;${BUILD_DIR}&rdquo;</p>
+<p>mkdir -p &ldquo;${BUILD_ROOT}&rdquo;</p>
+<p>rm -rf &ldquo;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework&rdquo;</p>
+<p>#分别编译模拟器和真机的Framework</p>
+<p>xcodebuild -target &ldquo;${TARGET_NAME}&rdquo; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; clean build</p>
+<p>xcodebuild -target &ldquo;${TARGET_NAME}&rdquo; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphonesimulator BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; clean build</p>
+<p>#拷贝framework到univer目录</p>
+<p>cp -R &ldquo;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${TARGET_NAME}.framework&rdquo; &ldquo;${UNIVERSAL_OUTPUT_FOLDER}&rdquo;</p>
+<p>#合并framework，输出最终的framework到build目录</p>
+<p>lipo -create -output &ldquo;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework/${TARGET_NAME}&rdquo; &ldquo;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${TARGET_NAME}.framework/${TARGET_NAME}&rdquo; &ldquo;${BUILD_DIR}/${CONFIGURATION}-iphoneos/${TARGET_NAME}.framework/${TARGET_NAME}&rdquo;</p>
+<p>#删除编译之后生成的无关的配置文件</p>
+<p>dir_path=&quot;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework/&quot;</p>
+<p>for file in ls $dir_path</p>
+<p>do</p>
+<p>if [[ ${file} =~ &ldquo;.xcconfig&rdquo; ]]</p>
+<p>then</p>
+<p>rm -f &ldquo;${dir_path}/${file}&rdquo;</p>
+<p>fi</p>
+<p>done</p>
+<p>#判断build文件夹是否存在，存在则删除</p>
+<p>if [ -d &ldquo;${SRCROOT}/build&rdquo; ]</p>
+<p>then</p>
+<p>rm -rf &ldquo;${SRCROOT}/build&rdquo;</p>
+<p>fi</p>
+<p>rm -rf &ldquo;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator&rdquo; &ldquo;${BUILD_DIR}/${CONFIGURATION}-iphoneos&rdquo;</p>
+<p>#打开合并后的文件夹</p>
+<p>open &ldquo;${UNIVERSAL_OUTPUT_FOLDER}&rdquo;</p>
+<p>直接执行 . build.sh  target_name  即可。</p>
+<ol start="3">
+<li>执行脚本，编译出framework后，修改 podspec文件。</li>
+</ol>
+<p>#用环境变量控制编译方式</p>
+<p>if ENV[&lsquo;BINARY&rsquo;]</p>
+<pre><code>s.ios.vendored_framework = 'DJIMidWare_Products/*.framework'
+</code></pre>
+<p>else</p>
+<pre><code>s.source_files = 'DJIMidWare/DJIMidWare/**/*', 'DJIMidWare/DJIMidWare/*',
+</code></pre>
+<p>end</p>
+<ol start="4">
+<li>最后使用环境变量模式来 pod update一下这个local  pods 即可。</li>
+</ol>
+<p>BINARY=1 pod update BottomStatic &ndash;no-repo-update</p>
+<p>有几点要注意一下：</p>
+<ol>
+<li>
+<p>针对要切换编译模式的工程， 整个项目里其他依赖该工程的 工程，也需要配置pods来link它，而不能通过project link的模式。</p>
+</li>
+<li>
+<p>源码编译方式时，主工程跟该工程同时开发都是没问题的。如果只是修改了源码文件，直接build主工程即可体现修改；但如果新增了文件，需要 pod update一下才行</p>
+</li>
+</ol>
 
-	
 
-
-
-
-<footer class=" footline" >
+<footer class="footline">
 	
 </footer>
 
@@ -504,20 +584,6 @@
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
                         
                         
                     
@@ -528,9 +594,6 @@
                     
                     
 
-                    
-            
-        
                     
                         
             
@@ -580,22 +643,6 @@
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
                         
             
             
@@ -612,10 +659,47 @@
             
         
                     
+            
+        
+                    
                         
             
             
                 
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -656,10 +740,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/" title="My New Hugo Site"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/python/" title="Pythons"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/" title="IOS app性能调优相关知识点" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="python基础环境搭建" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -691,3 +775,4 @@
 
   </body>
 </html>
+

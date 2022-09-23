@@ -8,6 +8,65 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>IOS app性能调优相关知识点</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/</guid>
+      <description>前言 本文较长（5000字左右），建议阅读时间： 20min+
+一个iOS App的稳定性，主要决定于整体的系统架构设计，同时也不可忽略编程的细节，正所谓“千里之堤，溃于蚁穴”，一旦考虑不周，看似无关紧要的代码片段可能会带来整体软件系统的崩溃。尤其因为苹果限制了热更新机制，App本身的稳定性及容错性就显的更加重要，之前可以通过发布热补丁的方式解决线上代码问题，现在就需要在提交之前对App开发周期内的各个指标进行实时监测，尽量让问题暴漏在开发阶段，然后及时修复，减少线上出问题的几率。针对一个App的开发周期，它的稳定性指标主要有以下几个环节构成，用一个脑图表示如下：
+1 开发过程 开发过程中，主要是通过监控内存使用及泄露，CPU使用率，FPS，启动时间等指标，以及常见的UI的主线程监测，NSAssert断言等，最好能在Debug模式下，实时显示在界面上，针对出现的问题及早解决。
+内存问题 内存问题主要包括两个部分，一个是iOS中常见循环引用导致的内存泄露 ，另外就是大量数据加载及使用导致的内存警告。
+mmap 虽然苹果并没有明确每个App在运行期间可以使用的内存最大值，但是有开发者进行了实验和统计，一般在占用系统内存超过20%的时候会有内存警告，而超过50%的时候，就很容易Crash了，所以内存使用率还是尽量要少，对于数据量比较大的应用，可以采用分步加载数据的方式，或者采用mmap方式。mmap 是使用逻辑内存对磁盘文件进行映射，中间只是进行映射没有任何拷贝操作，避免了写文件的数据拷贝。 操作内存就相当于在操作文件，避免了内核空间和用户空间的频繁切换。之前在开发输入法的时候 ，词库的加载也是使用mmap方式，可以有效降低App的内存占用率，具体使用可以参考链接第一篇文章。
+循环引用 循环引用是iOS开发中经常遇到的问题，尤其对于新手来说是个头疼的问题。循环引用对App有潜在的危害，会使内存消耗过高，性能变差和Crash等，iOS常见的内存主要以下三种情况：
+Delegate 代理协议是一个最典型的场景，需要你使用弱引用来避免循环引用。ARC时代，需要将代理声明为weak是一个即好又安全的做法：
+@property (nonatomic, weak) id &amp;lt;MyCustomDelegate&amp;gt; delegate; 复制代码 NSTimer NSTimer我们开发中会用到很多，比如下面一段代码
+- (void)viewDidLoad { [super viewDidLoad]; self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(doSomeThing) userInfo:nil repeats:YES]; } - (void)doSomeThing { } - (void)dealloc { [self.timer invalidate]; self.timer = nil; } 复制代码 这是典型的循环引用，因为timer会强引用self，而self又持有了timer，所有就造成了循环引用。那有人可能会说，我使用一个weak指针，比如
+__weak typeof(self) weakSelf = self; self.mytimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(doSomeThing) userInfo:nil repeats:YES]; 复制代码 但是其实并没有用，因为不管是weakSelf还是strongSelf，最终在NSTimer内部都会重新生成一个新的指针指向self，这是一个强引用的指针，结果就会导致循环引用。那怎么解决呢？主要有如下三种方式：</description>
+    </item>
+    
+    <item>
+      <title>IOS 组件化-动态库实战</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/</guid>
+      <description>起因
+理论功底
+动态库和静态库
+介绍
+静态库和动态库的区别
+举个例子， iOS 项目中使用 Embeded Framework
+静态库和动态库如何构建和加载
+静态库和动态库依赖关系
+Xcode 项目结构
+iOS 依赖管理事实上的标准
+解决问题
+制作动态库
+剖析下动态库 Framework 吧
+回过头来看 Embened Framework
+Why Swift does not Support Staic Libraies
+CocoaPods 使用 Use_framework!
+动态库 Framework 的文件结构
+更愉快的导入文件
+资源问题
+参考
+起因
+去年，公司iOS端，之前由于所有的业务端代码都是混乱管理，造成开发有很多痛点无法单测，团队成员提交代码冲突机率大，CI配合效果差，功能性代码多端无法复用，单仓库代码量大，编译时间长 等等痛点，领导和组内多次沟通开始着手组件化开发，希望能改进这些开发中的痛点，成立组件化团队。
+组件化的方案大同小异，基础性代码封装私有库，业务组件交互交由中间件负责，项目依赖工具用iOS项目事实上的标准CocoaPods
+前期的基础性组件拆分都较为顺利，从依赖树的叶子节点开发是最合适的方案。
+随着组件抽离的越来越多，私有库的依赖体系也越来越复杂，慢慢过渡到了业务组件。业务组件用了Swift的第三方组件，用了Swift库的同学都知道必须加上use_frameworks!，这个标记是说Pod管理的依赖全部编译为动态库，然后呢我们的很多组件又依赖了诸如百度地图，微信分享等静态库，于是我在执行 pod install 报了一个没有碰见过的错误。
+1[!] The &amp;lsquo;Pods-LJA_Example&amp;rsquo;target has transitive dependencies that include static binaries:
+这就尴尬了，于是一阵疯狂的搜索google stackoverflow等，然而并没有什么卵用，而且上面催得急，根本没时间处理这些小问题 业务重构是最主要的，以至于我们的业务组件没有做到独立仓库拆分。
+直到最近终于找到了解决办法:( 主要是自己的功力不够深厚）
+理论功底
+动态库和静态库
+介绍
+首先静态库和动态库都是以二进制提供代码复用的代码库
+静态库 常见的是 .</description>
+    </item>
+    
+    <item>
       <title>Swift Keypath</title>
       <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swift-keypath/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>

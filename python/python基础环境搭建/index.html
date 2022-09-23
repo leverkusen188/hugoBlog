@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>IOS相关s :: My New Hugo Site</title>
+    <title>python基础环境搭建 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1663920568" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/ios%E7%9B%B8%E5%85%B3/">
+  <body class="" data-url="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
     <nav id="sidebar" class="">
 
 
@@ -180,7 +180,7 @@
     
     <li data-nav-id="/ios%E7%9B%B8%E5%85%B3/" title="IOS相关s" class="dd-item
         
-        active
+        
         
         ">
       <a href="/ios%E7%9B%B8%E5%85%B3/">
@@ -297,8 +297,8 @@
   
     
     <li data-nav-id="/python/" title="Pythons" class="dd-item
+        parent
         
-        active
         
         ">
       <a href="/python/">
@@ -344,7 +344,7 @@
  
   
     
-      <li data-nav-id="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="python基础环境搭建" class="dd-item ">
+      <li data-nav-id="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="python基础环境搭建" class="dd-item active">
         <a href="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
         python基础环境搭建
         
@@ -429,7 +429,13 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > IOS相关s
+            
+            
+          
+          
+            <a href='/'>My New Hugo Site</a> > <a href='/python/'>Pythons</a> > python基础环境搭建
+          
+        
           
         
           
@@ -440,7 +446,22 @@
                 
                     <div class="progress">
     <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装虚拟环境">安装虚拟环境：</a></li>
+    <li><a href="#创建虚拟环境">创建虚拟环境：</a></li>
+    <li><a href="#进入退出-虚拟环境">进入/退出 虚拟环境：</a>
+      <ul>
+        <li><a href="#退出">退出</a></li>
+      </ul>
+    </li>
+  </ul>
 
+  <ul>
+    <li><a href="#package文件结构和组成">package文件结构和组成</a></li>
+    <li><a href="#package安装方法">package安装方法</a></li>
+  </ul>
+</nav>
     </div>
 </div>
 
@@ -456,20 +477,69 @@
           
             <h1>
               
-              IOS相关s
+              python基础环境搭建
             </h1>
           
 
         
 
 
+<h1 id="虚拟环境">虚拟环境：</h1>
+<p>主要是创建一个虚拟的 python 环境，相关的第三方package会独立放在指定的目录下。
+但python相关的bin文件，都是从正式环境 景象过来的。
+参考：<a href="https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/">https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/</a></p>
+<h2 id="安装虚拟环境">安装虚拟环境：</h2>
+<p>On macOS and Linux:</p>
+<pre tabindex="0"><code>python3 -m pip install --user virtualenv
+</code></pre><p>On Windows:</p>
+<pre tabindex="0"><code>py -m pip install --user virtualenv
+</code></pre><h2 id="创建虚拟环境">创建虚拟环境：</h2>
+<p>On macOS and Linux:</p>
+<pre tabindex="0"><code>python3 -m venv env_name
+</code></pre><p>On Windows:</p>
+<pre tabindex="0"><code>py -m venv env_name
+</code></pre><h2 id="进入退出-虚拟环境">进入/退出 虚拟环境：</h2>
+<p>On macOS and Linux:</p>
+<pre tabindex="0"><code>source env/bin/activate
+</code></pre><p>On Windows:</p>
+<pre tabindex="0"><code>.\env\Scripts\activate
+</code></pre><h3 id="退出">退出</h3>
+<pre tabindex="0"><code>deactivate
+</code></pre><h1 id="关于python-package安装包">关于python package安装包</h1>
+<p>参考： <a href="https://python-packaging.readthedocs.io/en/latest/minimal.html">https://python-packaging.readthedocs.io/en/latest/minimal.html</a></p>
+<h2 id="package文件结构和组成">package文件结构和组成</h2>
+<ul>
+<li>用pip install安装的包，在根目录下需要有个 setup.py 文件，里面配置了 这个package的相关信息（类似cocoapods的 podspec 文件）</li>
+</ul>
+<pre tabindex="0"><code>from setuptools import setup
 
-	
+setup(name=&#39;requests1&#39;,
+      version=&#39;0.1&#39;,
+      description=&#39;The funniest joke in the world&#39;,
+      url=&#39;http://github.com/storborg/funniest&#39;,
+      author=&#39;Flying Circus&#39;,
+      author_email=&#39;flyingcircus@example.com&#39;,
+      license=&#39;MIT&#39;,
+      packages=[&#39;requests2&#39;, &#39;requests1&#39;, &#39;requests1/sub_request&#39;],
+      zip_safe=False)
+</code></pre><ul>
+<li>每个目录下，需要有一个 <strong>init</strong>.py 文件，里面定义了这个目录模块的相关声明，以及 其他模块的import关系。
+以上面setup.py 的requests1 模块为例。
+<strong>init</strong>.py:</li>
+</ul>
+<pre tabindex="0"><code>import os
+from .test_module import print_string
+from .sub_request.sub_test_module import sub_print_string
+</code></pre><p>test_module.py</p>
+<pre tabindex="0"><code>import os
+def print_string(str):
+    print(&#39;test_module printstring={0}&#39;.format(str))
+</code></pre><h2 id="package安装方法">package安装方法</h2>
+<p>cd 到 setup.py 同级目录下，执行</p>
+<pre tabindex="0"><code>pip3 install .
+</code></pre>
 
-
-
-
-<footer class=" footline" >
+<footer class="footline">
 	
 </footer>
 
@@ -504,20 +574,6 @@
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
                         
                         
                     
@@ -528,9 +584,6 @@
                     
                     
 
-                    
-            
-        
                     
                         
             
@@ -580,22 +633,6 @@
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
                         
             
             
@@ -612,10 +649,30 @@
             
         
                     
+            
+        
+                    
                         
             
             
                 
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -632,6 +689,26 @@
             
             
                 
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -656,10 +733,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/" title="My New Hugo Site"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/" title="IOS 子工程 源码和二进制库 编译方式切换方案"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/" title="IOS app性能调优相关知识点" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/python/python_selenium%E7%88%AC%E8%99%AB/" title="基于Python &#43;Selenium的爬虫详解" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -691,3 +768,4 @@
 
   </body>
 </html>
+
