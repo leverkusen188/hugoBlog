@@ -1,0 +1,34 @@
+---
+title: "SwiftUI UI刷新细节"
+date: 2022-09-22T18:11:53+08:00
+---
+
+
+
+
+# SwiftUI 的View 每次刷新都会重新创建里面的View
+```
+//每次text改变引起的刷新，都会重新创建一个Text 
+@State var text : String
+var body : some View {
+	Text(text)
+}
+```
+# Body 中的ForEach 重用
+
+Body中的ForEach 每次刷新并不会重建。
+因此下面的例子里，即使多次刷新View，但ForEach对象还是最初那个，循环的次数也不会随着 increasingValue 增加而改变。
+```
+var increasingValue : Int = 1
+func testLoopCount() -> Int {
+        increasingValue += 1
+        return increasingValue
+}
+var body : some View {
+	let loop = testLoopCount()
+        //每次都只循环两次，因为第一次时 loop 是2
+	ForEach(0..<loop) {_ in
+              Text(“Text”)
+        }
+}
+```

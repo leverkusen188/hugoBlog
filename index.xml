@@ -27,35 +27,15 @@ __weak typeof(self) weakSelf = self; self.mytimer = [NSTimer scheduledTimerWithT
     
     <item>
       <title>IOS 子工程 源码和二进制库 编译方式切换方案</title>
-      <link>https://leverkusen188.github.io/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</link>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/python/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</guid>
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</guid>
       <description>https://www.jianshu.com/p/a6d0f37cdc27 这个主要是用 环境变量控制 podspec 里，是使用源码还是 .a 。最终 pod install 来让主工程切换子模块的 源码和二进制编译方式。
 https://juejin.im/entry/5b5308c66fb9a04f932ff87e 这个好一点，需要创建私有pod，在podspec里配置 subspec；然后通过修改 主工程podfile，指定私有pod的 subspec 来切换编译方式。
 具体实施：
 为需要提供切换功能的工程配好podspec，作为local pods来管理。 pod lib create &amp;ldquo;podname&amp;rdquo;
-编写 该工程的 build 脚本，用以将该工程的 framework / .a 以及头文件等输出为二进制，以供切换编译用。 #!/bin/sh
-#要build的target名
-TARGET_NAME=&amp;lsquo;BottomStatic&amp;rsquo;
-CONFIGURATION=&amp;lsquo;Debug&amp;rsquo;
-#${PROJECT_NAME}
-if [[ $1 ]]
-then
-TARGET_NAME=$1
-fi
-UNIVERSAL_OUTPUT_FOLDER=&amp;quot;${SRCROOT}/${PROJECT_NAME}_Products/&amp;quot;
-UNIVERSAL_OUTPUT_FOLDER=&amp;quot;${TARGET_NAME}_Products/&amp;quot;
-BUILD_DIR=&amp;ldquo;Build/&amp;rdquo;
-BUILD_ROOT=&amp;ldquo;Output/&amp;rdquo;
-SRCROOT=&amp;quot;.&amp;quot;
-#创建输出目录，并删除之前的framework文件
-mkdir -p &amp;ldquo;${UNIVERSAL_OUTPUT_FOLDER}&amp;rdquo;
-mkdir -p &amp;ldquo;${BUILD_DIR}&amp;rdquo;
-mkdir -p &amp;ldquo;${BUILD_ROOT}&amp;rdquo;
-rm -rf &amp;ldquo;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework&amp;rdquo;
-#分别编译模拟器和真机的Framework
-xcodebuild -target &amp;ldquo;${TARGET_NAME}&amp;rdquo; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=&amp;quot;${BUILD_DIR}&amp;quot; BUILD_ROOT=&amp;quot;${BUILD_ROOT}&amp;quot; clean build</description>
+编写 该工程的 build 脚本，用以将该工程的 framework / .a 以及头文件等输出为二进制，以供切换编译用。 #!/bin/sh #要build的target名 TARGET_NAME=&amp;#39;BottomStatic&amp;#39; CONFIGURATION=&amp;#39;Debug&amp;#39; #${PROJECT_NAME} if [[ $1 ]] then TARGET_NAME=$1 fi UNIVERSAL_OUTPUT_FOLDER=&amp;#34;${SRCROOT}/${PROJECT_NAME}_Products/&amp;#34; UNIVERSAL_OUTPUT_FOLDER=&amp;#34;${TARGET_NAME}_Products/&amp;#34; BUILD_DIR=&amp;#34;Build/&amp;#34; BUILD_ROOT=&amp;#34;Output/&amp;#34; SRCROOT=&amp;#34;.&amp;#34; #创建输出目录，并删除之前的framework文件 mkdir -p &amp;#34;${UNIVERSAL_OUTPUT_FOLDER}&amp;#34; mkdir -p &amp;#34;${BUILD_DIR}&amp;#34; mkdir -p &amp;#34;${BUILD_ROOT}&amp;#34; rm -rf &amp;#34;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework&amp;#34; #分别编译模拟器和真机的Framework xcodebuild -target &amp;#34;${TARGET_NAME}&amp;#34; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=&amp;#34;${BUILD_DIR}&amp;#34; BUILD_ROOT=&amp;#34;${BUILD_ROOT}&amp;#34; clean build xcodebuild -target &amp;#34;${TARGET_NAME}&amp;#34; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphonesimulator BUILD_DIR=&amp;#34;${BUILD_DIR}&amp;#34; BUILD_ROOT=&amp;#34;${BUILD_ROOT}&amp;#34; clean build #拷贝framework到univer目录 cp -R &amp;#34;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${TARGET_NAME}.</description>
     </item>
     
     <item>
