@@ -117,6 +117,28 @@ let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.s
     </item>
     
     <item>
+      <title>SwiftUI UI刷新细节</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_ui_refresh/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_ui_refresh/</guid>
+      <description>SwiftUI 的View 每次刷新都会重新创建里面的View //每次text改变引起的刷新，都会重新创建一个Text @State var text : String var body : some View { Text(text) } Body 中的ForEach 重用 Body中的ForEach 每次刷新并不会重建。 因此下面的例子里，即使多次刷新View，但ForEach对象还是最初那个，循环的次数也不会随着 increasingValue 增加而改变。
+var increasingValue : Int = 1 func testLoopCount() -&amp;gt; Int { increasingValue += 1 return increasingValue } var body : some View { let loop = testLoopCount() //每次都只循环两次，因为第一次时 loop 是2 ForEach(0..&amp;lt;loop) {_ in Text(“Text”) } } </description>
+    </item>
+    
+    <item>
+      <title>SwiftUI 常用属性包装器</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_property_wapper/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_property_wapper/</guid>
+      <description>@State 可监听的基本类型 可监听的的数据属性，可以触发对应view的刷新。 用于基本数据类型，比如 Bool, Int, String
+样例代码：
+//声明 可监听的属性 @State private var showScore = true Button(“ShowOrHide”) { //修改该属性，会触发执行 使用该属性的代码 showScore = !showScore } if showScore { ScorePlate(model: model).padding(.top, 20) } @Binding 双向绑定两个属性 将一个 @State 属性绑定到一个 @Binding 属性上。 当双方发生改变时，都会改变另一个。
+struct CategoryHome: View { @State var showingProfile = false var body: some View { List { //将 self.showingProfile 设为 true 来弹出 ProfileHost Button(&amp;#34;Change&amp;#34;) { self.showingProfile = true } } .sheet(isPresented: $showingProfile) { //将 showingProfile 绑定到 ProfileHost的 shouldHide 上，然后 ProfileHost就可以控制shouldHide来做dismiss操作了。 ProfileHost(shouldHide: $showingProfile) } } } struct ProfileHost: View { @Binding var shouldHide : Bool var body: some View { Button(&amp;#34;Close&amp;#34;) { // 绑定的showingProfile 也会改为false，将当前view 给dismiss掉 self.</description>
+    </item>
+    
+    <item>
       <title>一次还原ios release包的卡顿堆栈的记录</title>
       <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
