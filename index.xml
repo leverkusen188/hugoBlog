@@ -97,6 +97,59 @@ package文件结构和组成 用pip install安装的包，在根目录下需要�
     </item>
     
     <item>
+      <title>RxFeedback 学习</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxfeedback/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxfeedback/</guid>
+      <description>核心功能：自定义Event的触发事件集合，以及订阅该事件触发后会修改的一个状态集对象的Observable。同时自定义 在事件触发后，对状态集对象进行数据变更。
+样例代码：
+//在下面代码中，状态集对象就是Int typealias State = Int //自定义事件是 增加和减少 enum Event { case increment case decrement } Observable.system( initialState: 0,	//声明状态集对象的初始化值 //reduce里，是接收到 event事件后，对状态集对象进行自定义处理的代码。然后将新的状态集对象返回。 STEP 2 reduce: { (state, event) -&amp;gt; State in switch event { case .increment: return state + 1 case .decrement: return state - 1 } }, scheduler: MainScheduler.instance, feedback: //bind 传入owner对象，作为 第二个closure的首个参数返回。 //第二个closure参数作用是 自定义Event的触发时机，以及 对状态集对象Observable的订阅操作 //state就是一个 状态集对象的Observable，即 ObservableSchedulerContext&amp;lt;State&amp;gt; bind(self) { me, state -&amp;gt; Bindings&amp;lt;Event&amp;gt; in //对状态集对象Observable的订阅集合 let subscriptions = [ state.</description>
+    </item>
+    
+    <item>
+      <title>RxSwift 的Subject</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_subject/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_subject/</guid>
+      <description>ReplaySubject ReplaySubject 在创建时候需要设置一个 bufferSize，表示它对于它发送过的 event 的缓存个数。 比如一个 ReplaySubject 的 bufferSize 设置为 2，它发出了 3 个 .next 的 event，那么它会将后两个（最近的两个）event 给缓存起来。此时如果有一个 subscriber 订阅了这个 ReplaySubject，那么这个 subscriber 就会立即收到前面缓存的两个.next 的 event。 如果一个 subscriber 订阅已经结束的 ReplaySubject，除了会收到缓存的 .next 的 event外，还会收到那个终结的 .error 或者 .complete 的event。 样例代码：
+let subject = ReplaySubject&amp;lt;String&amp;gt;.create(bufferSize: 2) subject.onNext(“1”) subject.onNext(“2”) subject.onNext(“3”) //第一次订阅，会收到 2 和 3 事件 subject.subscribe(onNext: { (event) in print(event) }, onError: { (error) in print(error) }, onCompleted: { print(&amp;#34;这是一个 完成&amp;#34;) }) { print(&amp;#34;销毁了&amp;#34;) }.disposed(by: bag) subject.</description>
+    </item>
+    
+    <item>
+      <title>RxSwift 笔记</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_note/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_note/</guid>
+      <description>响应机制 响应机制核心是 Observable 和 ObserverType. 前者用来发送事件，使用者可以订阅（subscribe）后，监听 onNext ，onError等事件。 样例代码：
+let switch = UISwitch! = UISwitch.init(frame: CGRect(x: 0, y: 50, width: 100, height: 40)) Let swiOnEvent = switch.rx.isOn swiOnEvent.subscribe(onNext: { booValue in print(“isOn=\(booValue)&amp;#34;) }, onError: { i in }) Observable 转换 Observable 的 map 可以在监听到onNext 事件后，将当前Observable的 element 换成自定义的其他类型，并返回一个对应泛型的Observable。 样例代码：
+let switch = UISwitch! = UISwitch.init(frame: CGRect(x: 0, y: 50, width: 100, height: 40)) Let swiOnEvent = switch.rx.isOn swiOnEvent.map{ isOn in //isOn 是swiOnEvent的泛型类型，也就是 Bool return 12 //换成Int了 }.</description>
+    </item>
+    
+    <item>
+      <title>RxSwift 高阶函数用法</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_advanced_function/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_advanced_function/</guid>
+      <description>distinctUntilChanged(). 是ObservableType的扩展方法，当 ObservableType 的Element 必须是遵循Equatable 协议的类型。 该函数返回一个ObservableType，只有Element的值发生变化时，才会抛出onNext事件。 例如 Observable.of(1,2,1,3,5,4).distinctUntilChanged() , 会抛出 1,2,1,3,5,4 而 Observable.of(1,1,3,5,4).distinctUntilChanged() , 会抛出 1,3,5,4
+element(at:) 只通知 指定index的Element 的onNext事件
+ignoreElements() 忽略onNext事件，只抛出 onError 和 completed事件
+take(count) 只抛出序列中指定count数的事件，满足count 数后，直接抛出 completed
+takeLast(count) 只抛出序列中最后的指定count数的事件。满足count 数后，直接抛出 completed
+PS: 注意take系列，如果是未指定个数的事件序列，则takeLast是不生效的。
+skip(count)： 跳过指定个数的事件。
+delaySubscription() 在指定的时间内，无法获取到序列事件，到时间后，就能获取到事件了。
+delay() 将所有信号事件 delay 指定时间后再发送。订阅者获取到的事件都是延迟后的。
+PS：但对于指定个数序列事件的ObservableType，两者行为是一致的，都会延迟 指定时间后，订阅者才收到消息
+debounce() 指定信号之间间隔未达到指定时差时，就会忽略前面的事件，只抛出最后一个事件。
+groupBy() 可以将指定的Observable 分割成多个 字定义key的Observable。 样例代码（根据自定义的 keySelector，将 1-6的序列化的Observable 分组成 两个GroupedObservable，它们的key 就是自定义的 “奇数”和“偶数”）：
+Observable.of(1,2,3,4,5,6).groupBy(keySelector: { (ele) -&amp;gt; String in return ele % 2 == 1 ?</description>
+    </item>
+    
+    <item>
       <title>Swift Keypath</title>
       <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swift-keypath/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
@@ -117,6 +170,19 @@ let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.s
     </item>
     
     <item>
+      <title>Swift 常用UI界面设置</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_pandding/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_pandding/</guid>
+      <description>背景色设置 一个指定颜色的空视图。 color.red.ignoresSafeArea() 给一个或多个视图指定背景颜色 Color.green.overlay { //用 overlay作为背景的 多个重叠的视图 Text(&amp;#34;hello&amp;#34;).bold().foregroundColor(.white) }.frame(width: 50, height: 50) 控件位置设置 HStack 和 VStack 初始化时都有spacing参数来设定 它们里面的控件的间距。
+控件的offset 属性可以设置该控件相比原布局位置的位移。
+但注意其他控件并不会因为它的位置变化而自动布局（也就是 如果下面的控件不设offset时，可能会跟它重叠，比如下面这样：） padding 填充设置
+func padding( _ edges: Edge.Set = .all, _ length: CGFloat? = nil ) -&amp;gt; some View 往指定的Edge 填充指定(Length) 大小的空间。edges 可以是多个。 样例代码：
+//往控件的底部和右边尾部 填充20像素宽度空间 Text(&amp;#34;Text padded by 20 points on the bottom and trailing edges.&amp;#34;) .padding([.bottom, .trailing], 20) .border(.gray) </description>
+    </item>
+    
+    <item>
       <title>SwiftUI UI刷新细节</title>
       <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_ui_refresh/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
@@ -124,6 +190,29 @@ let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.s
       <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_ui_refresh/</guid>
       <description>SwiftUI 的View 每次刷新都会重新创建里面的View //每次text改变引起的刷新，都会重新创建一个Text @State var text : String var body : some View { Text(text) } Body 中的ForEach 重用 Body中的ForEach 每次刷新并不会重建。 因此下面的例子里，即使多次刷新View，但ForEach对象还是最初那个，循环的次数也不会随着 increasingValue 增加而改变。
 var increasingValue : Int = 1 func testLoopCount() -&amp;gt; Int { increasingValue += 1 return increasingValue } var body : some View { let loop = testLoopCount() //每次都只循环两次，因为第一次时 loop 是2 ForEach(0..&amp;lt;loop) {_ in Text(“Text”) } } </description>
+    </item>
+    
+    <item>
+      <title>SwiftUI 与 UIKit 混用</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftu_uikit_merge/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftu_uikit_merge/</guid>
+      <description>UIKit 到 SwiftUI 用实现了 UIViewRepresentable 协议的 “final class” 或是 “struct”，都可以直接作为 SwiftUI里的 View 来使用。样例代码如下： UIKit 里： final class ButtonForSwiftUI : UIViewRepresentable { var btn : UIButton = UIButton(type: .system) //当SwiftUI第一次初始化 ButtonForSwiftUI时 会调用 func makeUIView(context: Context) -&amp;gt; UIButton { btn.setTitle(&amp;#34;Button1&amp;#34;, for: .normal) btn.setTitleColor(.green, for: .normal) btn.backgroundColor = .black btn.addTarget(self, action: #selector(onClick), for: .touchUpInside) return btn } //当SwiftUI 初始化或刷新view时，如果用到了ButtonForSwiftUI，就会调用 func updateUIView(_ uiView: UIButton, context: Context) { //从 context.coordinator 来访问创建的 DoWithAction 实例 } //创建一个专门处理数据的实例 func makeCoordinator() -&amp;gt; DoWithAction { DoWithAction(self) } @objc private func onClick() { print(&amp;#34;\(self)&amp;#34;) } //声明 数据处理类 class DoWithAction { var control : ButtonForSwiftUI init(_ c : ButtonForSwiftUI) { control = c } } } SwiftUI里：</description>
+    </item>
+    
+    <item>
+      <title>SwiftUI 基础交互控件</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_common_controller/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_common_controller/</guid>
+      <description>导航页面跳转 导航页面（NavigationView）的点击（NavigationLink）后跳转至另一个页面。
+样例代码：
+//NavigationView 的点击事件与 NavigationLink 的跳转绑定 NavigationView { //NavigationLink 的跳转目标，也是一个View. 这里是 LandmarkDetail //创建 NavigationLink 的第二个参数，closure 返回的View 就是可点击的区域 NavigationLink(destination: LandmarkDetail(landmark: landmarkData[0])) { Text(&amp;#34;hello22&amp;#34;).background(Color.red) } //在 NavigationView 里可以创建多个 NavigationLink，跳转到不同的页面 NavigationLink(destination: LandmarkDetail(landmark: landmarkData[1])) { Text(&amp;#34;hello22&amp;#34;).background(Color.red) } } PS：页面跳转区域是该NavigationView 的区域，界面里可以有多个NavigationView，分别进行跳转。 参考截图： 弹出窗口(Present) 同 presentViewController 用一个 Binding 来控制弹出时机。
+@State var showingProfile = false //当 showingProfile 为true时，触发present .sheet(isPresented: $showingProfile) { //返回 present出来的view ProfileHost() .environmentObject(self.userData) } //将 showingProfile 设为false，能dismiss对应的present view
+开关控件Toggle（UISwitch） 可以绑定一个声明为 @State 的Bool属性。
+//绑定声明为 @State的对象的一个bool属性，该bool属性需要设置为 @Pubished Toggle(isOn: $profile.</description>
     </item>
     
     <item>
@@ -147,6 +236,15 @@ struct CategoryHome: View { @State var showingProfile = false var body: some Vie
       <description>前提： 测试提了一个关于某个操作下会比较卡顿的问题，并上传了applog。
 log初探 app内部工具的InnerToolBlockDetect 里记录了卡顿的情况并打印了对应的线程堆栈信息。 但由于测试用的是release包，因此堆栈里都是相应函数的位移地址，无法看出真正的卡顿代码。
 libsystem_kernel.dylib 0x1f59140f4 mach_msg_trap + 8 libsystem_kernel.dylib 0x1f59135a0 mach_msg + 72 libdispatch.dylib 0x1f5778884 &amp;lt;redacted&amp;gt; + 500 libdispatch.dylib 0x1f5778d14 &amp;lt;redacted&amp;gt; + 52 libxpc.dylib 0x1f59d891c xpc_connection_send_message_with_reply_sync + 204 CoreMedia 0x1f93a9514 FigXPCRemoteClientSendSyncMessageCreatingReply + 36 CoreMedia 0x1f92ca884 &amp;lt;redacted&amp;gt; + 192 CoreFoundation 0x1f5d15d30 &amp;lt;redacted&amp;gt; + 192 MediaToolbox 0x1fa95459c &amp;lt;redacted&amp;gt; + 1448 MediaToolbox 0x1fa953f6c FigAssetRemoteCreateWithURL + 120 AVFoundation 0x1fbdf5bb0 &amp;lt;redacted&amp;gt; + 192 AVFoundation 0x1fbd0a874 &amp;lt;redacted&amp;gt; + 884 AVFoundation 0x1fbd033e4 &amp;lt;redacted&amp;gt; + 100 Fly-rls 0x106382da0 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1355164 Fly-rls 0x106383224 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1356320 Fly-rls 0x1044c5fec _mh_execute_header + 303084 Fly-rls 0x1044c5e1c _mh_execute_header + 302620 Fly-rls 0x10466c0ec _mh_execute_header + 2031852 Fly-rls 0x10466b920 _mh_execute_header + 2029856 Fly-rls 0x1044bd92c _mh_execute_header + 268588 libdispatch.</description>
+    </item>
+    
+    <item>
+      <title>国家省份城市demo 笔记心得</title>
+      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/citydemo/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/citydemo/</guid>
+      <description>将view的rx的ControlEvent 于 model的某个Subject（Observable 和 Observer的合体）绑定起来。而model的这个subject作为网络请求的发起者，包装一个Observable 给UI去订阅，并获取查询返回的数据用以更新UI model提供Observable 来给UI 更新，尽量保证 该Observable的Element 与View的Observer 或是 setter属性一致，这样就可以直接通过binding 来更新，而不用多余的代码。 禁止出现嵌套订阅代码，难以阅读以及 容易出现retain circle Demo下载地址</description>
     </item>
     
     <item>

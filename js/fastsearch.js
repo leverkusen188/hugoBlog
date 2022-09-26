@@ -7,12 +7,12 @@ var first = list.firstChild; // first child of search list
 var last = list.lastChild; // last child of search list
 var maininput = document.getElementById('searchInput'); // input box for search
 var resultsAvailable = false; // Did we get any search results?
-
+console.log("start dddddd")
 // ==========================================
 // The main keyboard event listener running the show
 //
 document.addEventListener('keydown', function(event) {
-
+  console.log("dddddd")
   // CMD-/ to show / hide Search
   if (event.altKey && event.which === 191) {
       // Load json search index if first time invoking search
