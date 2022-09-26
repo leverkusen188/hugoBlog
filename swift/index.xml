@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Swifts on My New Hugo Site</title>
+    <link>https://leverkusen188.github.io/swift/</link>
+    <description>Recent content in Swifts on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/swift/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Swift dynamicMemberLookup</title>
+      <link>https://leverkusen188.github.io/swift/swift_dynamicmemberlookup/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_dynamicmemberlookup/</guid>
+      <description>类或是struct声明为 @dynamicMemberLookup 后，并实现 subscript(dynamicMember:), 就可以用带 点的语法来访问对应的数据了。
+实现dynamicMemberLookup 的类： @dynamicMemberLookup class TestData&amp;lt;Value&amp;gt; { var value : Value var name : String init(_ v : Value, name : String) { self.value = v self.name = name } //subscript(dynamicMember:) 只能用 String 或 KeyPath 作为参数 subscript(dynamicMember pro : String) -&amp;gt; Bool { return true } subscript&amp;lt;T&amp;gt;(dynamicMember key : KeyPath&amp;lt;Value, T&amp;gt;) -&amp;gt; T { value[keyPath: key] } } 使用方法 //使用带点语法访问数据时有优先级 let data = TestData(&amp;#34;b&amp;#34;, name: &amp;#34;haha”) //Value 泛型推导为 “b”的类型，也就是String //优先级1: 访问已有的属性，比如 TestData 的name属性。 let name = data.</description>
+    </item>
+    
+    <item>
+      <title>Swift Keypath</title>
+      <link>https://leverkusen188.github.io/swift/swift-keypath/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift-keypath/</guid>
+      <description>译自 The power of key path in Swift
+Swift 最初的设计就专注于编译期尽量保证程序运行安全 以及 静态类型匹配，因此它比较缺乏类似 OC，Javascript 和ruby等运行时语言的动态特性。比如，在OC里，我们可以在运行时动态访问类对象的属性和方法，甚至改变方法的实现。
+但这些动态特性的缺乏正表现出Swift的伟大，它能保证我们写出的程序运行结果更加可预料，且更可能运行不出错。不过有时候我们的代码能拥有一些动态特性也是很有帮助的。
+谢天谢地，随着版本更新，Swift 开始拥有更多的动态特性，但却依然保持着静态安全类型特性。其中一种新特性就是KeyPath。本周，我们一起来看看KeyPath在Swift中是如何运作的，以及我们能用它来实现哪些强大的功能。
+基础 KeyPath 本质上让我们可以用一个值来引用任意对象的特定属性。像这样，它可以被到处传递引用，在表达式中使用，甚至可以在不用知道它是哪个类的属性时，对它进行set 和get 操作。
+KeyPath一般有三种类型：
+KeyPath：提供只读的属性访问 WritableKeyPath: 通过特定语法，提供某个对象的可变更属性的读写权限。（该对象必须是可修改的） ReferenceWritableKeyPath: 只能对可引用的类型使用，比如类的对象实例。同上，提供该对象的某个可修改的属性的读写权限。 还有一些其他的keyPath类型，用来减少代码重复性，同时移除类型限制。不过我们暂时只关注主要的这几个类型。
+让我们来看看如何使用KeyPath，以及为什么它这么有趣又功能强大。
+功能速记 比如说我们要开发一个 让用户可以从各种Web上阅读文章的App，可以设计一个Article 数据模型来表示一篇文章，像这样：
+struct Article { let id: UUID let source: URL let title: String let body: String } 当我们使用这种数据模型的数组时，经常需要从类里摘取单一属性出来重新生成一个新的数据数组。比如下面的例子，我们将所有id 和source数据拿出来生成新的数据数组。
+let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.source } 当我们只需要使用到一个属性数据时，上面的代码是ok的。但其实我们不需要使用到闭包的所有功能，这时候使用keypath 就是比较合适的选择了。
+我们可以重载Sequence 的map 方法，让它使用一个keypath来替代之前的闭包作为参数。在这个例子里，我们只对只读属性数据感兴趣，因此使用KeyPath 类型即可。使用传入的KeyPath 来生成数据返回，就像下面这样：</description>
+    </item>
+    
+    <item>
+      <title>Swift 数组和字典</title>
+      <link>https://leverkusen188.github.io/swift/swift_array_dictionary/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_array_dictionary/</guid>
+      <description>数组和字典的遍历(enumerated) 数组和字典的遍历有两种方式。
+方式1: let arr = [1,2,3] for v in arr.enumerated() { v.offset //就是下标序号 v.element //就是当前元素 } let dict = [1: “first”, 2: “second”] for v in dict.enumerated() { v.offset //就是序号 v.element //类型是 [Int: String].Element, 有key 和value属性； } 方式2: for (index, value) in arr.enumerated() { //index 是下标，value是元素 } for (index, value) in arr.enumerated() { //index 是下标，value是 [Int: String].Element } 用数组里的对象的属性贵族归组 快速创建字典 样例代码：
+struct Data { var i : Int var text : String } //dic 会用 Data的 i 属性来作为key生成。 let dic = Dictionary(grouping: [ Data999(i: 1, text: &amp;#34;haha&amp;#34;), Data999(i: 1, text: &amp;#34;baa&amp;#34;), Data999(i: 4, text: &amp;#34;abnn&amp;#34;), Data999(i: 4, text: &amp;#34;erwr&amp;#34;), Data999(i: 6, text: &amp;#34;babr&amp;#34;), ], by: { $0.</description>
+    </item>
+    
+  </channel>
+</rss>

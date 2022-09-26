@@ -10,23 +10,23 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>基于Python &#43;Selenium的爬虫详解 :: My New Hugo Site</title>
+    <title>Stub 和 Mock :: My New Hugo Site</title>
 
     
-    <link href="/css/nucleus.css?1664186977" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1664186977" rel="stylesheet">
-    <link href="/css/hybrid.css?1664186977" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1664186977" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1664186977" rel="stylesheet">
-    <link href="/css/auto-complete.css?1664186977" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1664186977" rel="stylesheet">
-    <link href="/css/theme.css?1664186977" rel="stylesheet">
-    <link href="/css/tabs.css?1664186977" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1664186977" rel="stylesheet">
+    <link href="/css/nucleus.css?1664186978" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1664186978" rel="stylesheet">
+    <link href="/css/hybrid.css?1664186978" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1664186978" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1664186978" rel="stylesheet">
+    <link href="/css/auto-complete.css?1664186978" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1664186978" rel="stylesheet">
+    <link href="/css/theme.css?1664186978" rel="stylesheet">
+    <link href="/css/tabs.css?1664186978" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1664186978" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1664186977"></script>
+    <script src="/js/jquery-3.3.1.min.js?1664186978"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/python/python_selenium%E7%88%AC%E8%99%AB/">
+  <body class="" data-url="/xctest/stub_mock/">
     <nav id="sidebar" class="">
 
 
@@ -136,19 +136,19 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1664186977"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1664186977"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1664186978"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1664186978"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/leverkusen188.github.io\/";
     
 </script>
 
-<script type="text/javascript" src="/js/search.js?1664186977"></script>
+<script type="text/javascript" src="/js/search.js?1664186978"></script>
 
 
-<script src="/js/fuse.min.js?1664186977"></script> 
-<script src="/js/fastsearch.js?1664186977"></script>
+<script src="/js/fuse.min.js?1664186978"></script> 
+<script src="/js/fastsearch.js?1664186978"></script>
 
 
     
@@ -295,7 +295,7 @@
   
     
     <li data-nav-id="/python/" title="Pythons" class="dd-item
-        parent
+        
         
         
         ">
@@ -342,7 +342,7 @@
  
   
     
-      <li data-nav-id="/python/python_selenium%E7%88%AC%E8%99%AB/" title="基于Python &#43;Selenium的爬虫详解" class="dd-item active">
+      <li data-nav-id="/python/python_selenium%E7%88%AC%E8%99%AB/" title="基于Python &#43;Selenium的爬虫详解" class="dd-item ">
         <a href="/python/python_selenium%E7%88%AC%E8%99%AB/">
         基于Python &#43;Selenium的爬虫详解
         
@@ -746,7 +746,7 @@
   
     
     <li data-nav-id="/xctest/" title="XCTests" class="dd-item
-        
+        parent
         
         
         ">
@@ -772,7 +772,7 @@
  
   
     
-      <li data-nav-id="/xctest/stub_mock/" title="Stub 和 Mock" class="dd-item ">
+      <li data-nav-id="/xctest/stub_mock/" title="Stub 和 Mock" class="dd-item active">
         <a href="/xctest/stub_mock/">
         Stub 和 Mock
         
@@ -882,7 +882,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/python/'>Pythons</a> > 基于Python +Selenium的爬虫详解
+            <a href='/'>My New Hugo Site</a> > <a href='/xctest/'>XCTests</a> > Stub 和 Mock
           
         
           
@@ -895,7 +895,12 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#stub">Stub</a></li>
+    <li><a href="#mock">mock</a></li>
+  </ul>
+</nav>
     </div>
 </div>
 
@@ -911,175 +916,55 @@
           
             <h1>
               
-              基于Python &#43;Selenium的爬虫详解
+              Stub 和 Mock
             </h1>
           
 
         
 
 
-<h1 id="背景">背景</h1>
-<ol>
-<li>Selenium</li>
-</ol>
-<p>Selenium 是一个用于web应用程序自动化测试的工具，直接运行在浏览器当中，支持chrome、firefox等主流浏览器。可以通过代码控制与页面上元素进行交互（点击、输入等），也可以获取指定元素的内容。</p>
-<p>2.优劣</p>
-<p>劣势：</p>
-<p>相比于抓包→构造请求→解析返回值的爬虫，由于Selenium需要生成一个浏览器环境，所有操作（与元素交互、获取元素内容等）均需要等待页面加载完毕后才可以继续进行，所以速度相比构造请求的慢很多。</p>
-<p>对于为了反爬做了特殊处理的展示内容，如字体加密（参考猫眼）、图片替换数字（参考自如）等，可能取不到想要的数据。</p>
-<p>使用图片替换数字的自如：</p>
-<p><img src="/image/3865814-ae6f894a2c656142.png" alt="image.png"></p>
-<p>优势：</p>
-<p>1、不需要做复杂的抓包、构造请求、解析数据等，开发难度相对要低一些。</p>
-<p>2、其访问参数跟使用浏览器的正常用户一模一样，访问行为也相对更像正常用户，不容易被反爬虫策略命中。</p>
-<p>3、生成的浏览器环境可以自动运行 JS 文件，所以不用担心如何逆向混淆过的JS文件生成用作人机校验的参数，如马蜂窝酒店评论的人机校验参数_sn，网易云音乐评论的人机校验参数params、encSecKey。可以自行抓包查看。</p>
-<p>4、如果需要抓取同一个前端页面上面来自不同后端接口的信息，如OTA酒店详情页的酒店基础信息、价格、评论等，使用Selenium可以在一次请求中同时完成对三个接口的调用，相对方便。</p>
-<h1 id="实现">实现</h1>
-<p>1.环境</p>
-<p>python3.6 + Macos</p>
-<p>2.依赖包</p>
-<p>Selenium</p>
-<p>安装的时候是大写的 S ，import的时候是 小写 s。</p>
-<pre tabindex="0"><code>pip install Selenium
-</code></pre><p>3.浏览器驱动（webdriver）</p>
-<p>加载浏览器环境需要下载对应的浏览器驱动，此处选择 Chrome。</p>
-<p>下载地址：http://npm.taobao.org/mirrors/chromedriver/ ，</p>
-<p>选择合适的版本下载解压后放在随便一个位置即可。</p>
-<p>4.hello world</p>
-<pre tabindex="0"><code>from selenium import webdriver
+<h2 id="stub">Stub</h2>
+<p>用在修改 测试代码里出现无法预期其行为（比如返回数据）的相关函数时，将该函数的返回值用插桩方式修改为自定义的数据（修改方式可自定义，比如 在输入参数为多少时，才返回对应的字定义数据），以满足整块代码的单测需要。</p>
+<p>下面是例子说明 (stub 实现基于 Kiwi 框架 <a href="https://github.com/kiwi-bdd/Kiwi">https://github.com/kiwi-bdd/Kiwi</a>)：</p>
+<p>功能是接收温度和湿度参数，通过weatherForecaster 的方法计算出对应的结果，并存入数据库。</p>
+<p>假设 resultWithTemprature 方法是无法被测试的，那么整块代码里，可以测试的是 写入数据库的代码（write函数）</p>
+<pre tabindex="0"><code>@class WeatherRecorder
 
-&#39;&#39;&#39;这里填刚刚下载的驱动的路径&#39;&#39;&#39;
-path = &#39;/Applications/Google Chrome.app/Contents/chromedriver&#39;
+-(void) writeResultToDatabaseWithTemprature:(NSInteger)temprature 
 
-driver = webdriver.Chrome(executable_path=path)
+ humidity:(NSInteger)humidity
 
-url = &#39;http://hotel.qunar.com/city/beijing_city/&#39;
-driver.get(url)
+{
 
-&#39;&#39;&#39;运行上述代码，会打开一个浏览器，并且加载去哪儿的酒店列表页&#39;&#39;&#39;
-</code></pre><p>这时候可以通过webdriver自带的一些的一些方法获取元素内容或者与元素进行交互。
-<img src="/image/3865814-e73069ac97a1413c.png" alt="image.png"></p>
-<pre tabindex="0"><code>#返回ID = js_block_beijing_city_7810的元素信息
-hotel_info = driver.find_element_by_id(&#39;js_block_beijing_city_7810&#39;)
-print(hotel_info.text)
-#返回 展示在列表页的酒店信息
-#同理，可以find_element_by_[class_name|name] 等，均可完成查询。
-</code></pre><p>也可以通过方法 find_elements查找符合某条件的一组元素，以列表的形式返回。
-<img src="/image/3865814-9f4be5b6f1e7e925.png" alt="image.png"></p>
-<pre tabindex="0"><code>#当需要查询的唯一标识带有空格时，可以使用find_elements_by_css_selector，否则会报错。
-hotel_list = driver.find_elements_by_css_selector(&#34;[class=&#39;b_result_box js_list_block  b_result_commentbox&#39;]&#34;)
-print(hotel_list)
-#返回酒店列表的全部信息。
-</code></pre><p>5.关闭图片加载</p>
-<p>在不需要抓取图片的情况下，可以设置不加载图片，节约时间，这样属于调整本地设置，在传参上并不会有异常。</p>
-<pre tabindex="0"><code>from selenium import webdriver
+id result = [self.weatherForecaster resultWithTemprature:temprature humidity:humidity];
 
-chrome_opt = webdriver.ChromeOptions()
-prefs={&#34;profile.managed_default_content_settings.images&#34;:2}
-chrome_opt.add_experimental_option(&#34;prefs&#34;,prefs)
+[self write:result];
 
-path = &#39;&#39; #驱动路径
-browser_noPic = webdriver.Chrome(executable_path=path,chrome_options=chrome_opt)
-</code></pre><h1 id="使用webdriver与元素进行交互">使用webdriver与元素进行交互</h1>
-<p>1.模拟鼠标点击
-<img src="/image/3865814-b6c45dc58db85745.png" alt="image.png"></p>
-<pre tabindex="0"><code>hotel_info = driver.find_element_by_id(&#34;js_plugin_tag_beijing_city_7810&#34;)
-hotel.info.click()
-#进入酒店详情页
-</code></pre><p>2.模拟键盘输入</p>
-<pre tabindex="0"><code>hotel_search = driver.find_element_by_id(&#34;jxQ&#34;)
-hotel_search.send_keys(&#34;如&#34;)
-hotel_search.send_keys(&#34;如家&#34;)
-#由于搜索框输入的第一个字会被选中，所以需要第二次才能完整输入，当然也可以模拟按键盘的 →(右键)取消选中后再次输入。
-</code></pre><p>3.模拟下拉</p>
-<p>webdriver中对鼠标的操作的方法封装在ActionChains类中 ，使用前要先导入ActionChains类：</p>
-<pre tabindex="0"><code>from selenium.webdriver.common.action_chains import  ActionChains
+}
+</code></pre><blockquote>
+<p>为了不影响单测用例，可以改写 <strong>resultWithTemprature 的行为，返回自定义的 result，来测试数据库写入代码。</strong></p>
+</blockquote>
+<pre tabindex="0"><code>[weatherForecaster stub:@selector(resultWithTemprature:humidity:) 
+ andReturn:someResult 
+ withArguments:theValue(23),theValue(50)];
+</code></pre><h2 id="mock">mock</h2>
+<p>其实就是一个对象，它是对现有类的行为一种模拟（或是对现有接口实现的模拟），它是一种更全面更智能的 Stub。</p>
+<p>以上面代码为例，在OC里，实际上就是将 weatherForecaster 换为自定义的mock类，从而使 resultWithTemprature 函数的行为是我们测试需要的。</p>
+<p><strong>样例代码：</strong></p>
+<ul>
+<li>创建 weatherForecaster 的 mock实例</li>
+</ul>
+<pre tabindex="0"><code>id weatherForecasterMock **=** [WeatherForecaster **mock**];
 
-&#34;&#34;&#34;在页面顶部、底部个找了一个元素，并模拟鼠标从顶到底的滑动&#34;&#34;&#34;
-start = driver.find_element_by_class_name(&#39;e_above_header&#39;)
-target = driver.find_element_by_class_name(&#39;qn_footer&#39;)
-ActionChains(driver).drag_and_drop(start,target).perform()
-</code></pre><p>此外，webdiver还提供丰富的交互功能，比如鼠标悬停、双击、按住左键等等，此处不展开介绍。</p>
-<h1 id="一个完整的模拟浏览器爬虫">一个完整的模拟浏览器爬虫</h1>
-<pre tabindex="0"><code>from selenium import webdriver
-from selenium.webdriver.common.action_chains import  ActionChains
-import time
+[[weatherForecasterMock **should**] **receive**:**@selector**(**resultWithTemprature**:humidity**:**) 
 
-&#39;&#39;&#39;这里填刚刚下载的驱动的路径&#39;&#39;&#39;
-path = &#39;/Users/./Desktop/chromedriver&#39;
-driver = webdriver.Chrome(executable_path=path)
+ andReturn**:**someResult 
 
-url = &#39;http://hotel.qunar.com/city/beijing_city/&#39;
-driver.get(url) 
-
-
-time.sleep(6) #等待页面加载完再进行后续操作
-
-&#34;&#34;&#34;在页面顶部、底部个找了一个元素，并模拟鼠标从顶到底的滑动&#34;&#34;&#34;
-start = driver.find_element_by_class_name(&#39;e_above_header&#39;)
-target = driver.find_element_by_class_name(&#39;qn_footer&#39;)
-ActionChains(driver).drag_and_drop(start,target).perform()
-
-time.sleep(5) #等待页面加载完再进行后续操作
-
-hotel_link_list = driver.find_elements_by_css_selector(&#34;[class=&#39;item_price js_hasprice&#39;]&#34;)
-print(&#34;在此页面共有酒店&#34;,len(hotel_link_list),&#34;家&#34;)
-windows = driver.window_handles
-
-#此处可以爬整个页面任何想要想要的元素
-list_hotel_info=[]
-def hotel_info_clawer():
-    list_hotel_info.append([driver.find_element_by_class_name(&#34;info&#34;).text,
-                            driver.find_element_by_class_name(&#34;js-room-table&#34;).text,
-                            driver.find_element_by_class_name(&#34;dt-module&#34;).text])
-
-
-for i in range(len(hotel_link_list)):
-    hotel_link_list[i].click()
-    driver.switch_to.window(windows[-1]) #切换到刚打开的酒店详情页
-    hotel_info_clawer()
-    driver.close() #关闭已经爬完的酒店详情页    
-    print(&#34;已经抓取酒店&#34;,i,&#34;家&#34;)
-
-
-
-#后面可以补充翻页继续抓取的部分
-</code></pre><h1 id="使用截图ocr抓取关键数据">使用截图+OCR抓取关键数据</h1>
-<p>对于做了特殊处理的信息，如上述的猫眼电影的票房信息、自如的价格等，不适用于直接获取制定元素的信息进行抓取，可以使用截图+OCR的方式抓取此类数据。</p>
-<p>以自如的房租为例：
-<img src="/image/3865814-96f8f2c48b4f4e4e.png" alt="image.png"></p>
-<pre tabindex="0"><code>from selenium import webdriver
-
-&#39;&#39;&#39;这里填刚刚下载的驱动的路径&#39;&#39;&#39;
-path = &#39;/Applications/Google Chrome.app/Contents/chromedriver&#39;
-driver = webdriver.Chrome(executable_path=path)
-
-url = &#39;http://www.ziroom.com/z/vr/61715463.html&#39;
-driver.get(url)
-
-price = diver.find_element_by_class_name(&#39;room_price&#39;)
-
-print(price.text)#由于自如的价格用图片做了替换，这样并不能获取到实际价格，需要获取图片再做ocr处理
-
-&#34;对指定元素部分截图再保存&#34;
-price.screenshot(&#39;/Users/./Desktop/price.png&#39;)
-</code></pre><p>安装ocr工具：</p>
-<p>Tesseract是一个开源的OCR引擎，能识别100多种语言（中，英，韩，日，德，法…等等），但是Tesseract对手写的识别能力较差，仅适用于打印字体。</p>
-<pre tabindex="0"><code>//仅安装tesseract，不安装训练工具和其他语音包，需要识别中文的话得额外下载
-//下载地址：https://github.com/tesseract-ocr/tessdata
-brew install tesseract
-</code></pre><p>使用Tesseract：</p>
-<pre tabindex="0"><code>tesseract ~/price.png result
-//识别图片并将结果存在result里面
-</code></pre><p>在python下使用Tesseract：</p>
-<p>首先安装依赖包：pip install pytesseract</p>
-<pre tabindex="0"><code>import pytesseract
-from PIL import Image
-
-# open image
-image = Image.open(&#39;price.png&#39;)
-code = pytesseract.image_to_string(image)
-print(code)
+ withArguments**:**theValue(23),theValue(50)];
+</code></pre><ul>
+<li>然后将WeatherRecorder的 weatherForecaster 属性替换为该mock实例</li>
+</ul>
+<pre tabindex="0"><code>[weatherRecorder stub:@selector(weatherForecaster) andReturn:weatherForecasterMock];
 </code></pre>
 
 <footer class="footline">
@@ -1200,7 +1085,6 @@ print(code)
             
                 
                     
-                    
                 
                 
 
@@ -1213,9 +1097,6 @@ print(code)
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1232,7 +1113,6 @@ print(code)
             
             
                 
-                    
                     
                 
                 
@@ -1252,9 +1132,6 @@ print(code)
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1512,6 +1389,7 @@ print(code)
             
                 
                     
+                    
                 
                 
 
@@ -1524,6 +1402,7 @@ print(code)
             
             
                 
+                    
                     
                 
                 
@@ -1540,6 +1419,9 @@ print(code)
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1580,10 +1462,10 @@ print(code)
 	 
 	 
 		
-			<a class="nav nav-prev" href="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="python基础环境搭建"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/xctest/" title="XCTests"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/rxswift/" title="RxSwifts" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/xctest/xctest_mork/" title="XCTest Mork" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1593,19 +1475,19 @@ print(code)
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1664186977"></script>
-    <script src="/js/perfect-scrollbar.min.js?1664186977"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1664186977"></script>
-    <script src="/js/jquery.sticky.js?1664186977"></script>
-    <script src="/js/featherlight.min.js?1664186977"></script>
-    <script src="/js/highlight.pack.js?1664186977"></script>
+    <script src="/js/clipboard.min.js?1664186978"></script>
+    <script src="/js/perfect-scrollbar.min.js?1664186978"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1664186978"></script>
+    <script src="/js/jquery.sticky.js?1664186978"></script>
+    <script src="/js/featherlight.min.js?1664186978"></script>
+    <script src="/js/highlight.pack.js?1664186978"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1664186977"></script>
-    <script src="/js/learn.js?1664186977"></script>
-    <script src="/js/hugo-learn.js?1664186977"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1664186978"></script>
+    <script src="/js/learn.js?1664186978"></script>
+    <script src="/js/hugo-learn.js?1664186978"></script>
     
         
-            <script src="/mermaid/mermaid.js?1664186977"></script>
+            <script src="/mermaid/mermaid.js?1664186978"></script>
         
         <script>
             mermaid.initialize({ startOnLoad: true });

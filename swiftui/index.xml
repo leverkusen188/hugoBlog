@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SwiftUIs on My New Hugo Site</title>
+    <link>https://leverkusen188.github.io/swiftui/</link>
+    <description>Recent content in SwiftUIs on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/swiftui/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Swift 常用UI界面设置</title>
+      <link>https://leverkusen188.github.io/swiftui/swiftui_pandding/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swiftui/swiftui_pandding/</guid>
+      <description>背景色设置 一个指定颜色的空视图。 color.red.ignoresSafeArea() 给一个或多个视图指定背景颜色 Color.green.overlay { //用 overlay作为背景的 多个重叠的视图 Text(&amp;#34;hello&amp;#34;).bold().foregroundColor(.white) }.frame(width: 50, height: 50) 控件位置设置 HStack 和 VStack 初始化时都有spacing参数来设定 它们里面的控件的间距。
+控件的offset 属性可以设置该控件相比原布局位置的位移。
+但注意其他控件并不会因为它的位置变化而自动布局（也就是 如果下面的控件不设offset时，可能会跟它重叠，比如下面这样：） padding 填充设置
+func padding( _ edges: Edge.Set = .all, _ length: CGFloat? = nil ) -&amp;gt; some View 往指定的Edge 填充指定(Length) 大小的空间。edges 可以是多个。 样例代码：
+//往控件的底部和右边尾部 填充20像素宽度空间 Text(&amp;#34;Text padded by 20 points on the bottom and trailing edges.&amp;#34;) .padding([.bottom, .trailing], 20) .border(.gray) </description>
+    </item>
+    
+    <item>
+      <title>SwiftUI UI刷新细节</title>
+      <link>https://leverkusen188.github.io/swiftui/swiftui_ui_refresh/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swiftui/swiftui_ui_refresh/</guid>
+      <description>SwiftUI 的View 每次刷新都会重新创建里面的View //每次text改变引起的刷新，都会重新创建一个Text @State var text : String var body : some View { Text(text) } Body 中的ForEach 重用 Body中的ForEach 每次刷新并不会重建。 因此下面的例子里，即使多次刷新View，但ForEach对象还是最初那个，循环的次数也不会随着 increasingValue 增加而改变。
+var increasingValue : Int = 1 func testLoopCount() -&amp;gt; Int { increasingValue += 1 return increasingValue } var body : some View { let loop = testLoopCount() //每次都只循环两次，因为第一次时 loop 是2 ForEach(0..&amp;lt;loop) {_ in Text(“Text”) } } </description>
+    </item>
+    
+    <item>
+      <title>SwiftUI 与 UIKit 混用</title>
+      <link>https://leverkusen188.github.io/swiftui/swiftu_uikit_merge/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swiftui/swiftu_uikit_merge/</guid>
+      <description>UIKit 到 SwiftUI 用实现了 UIViewRepresentable 协议的 “final class” 或是 “struct”，都可以直接作为 SwiftUI里的 View 来使用。样例代码如下： UIKit 里： final class ButtonForSwiftUI : UIViewRepresentable { var btn : UIButton = UIButton(type: .system) //当SwiftUI第一次初始化 ButtonForSwiftUI时 会调用 func makeUIView(context: Context) -&amp;gt; UIButton { btn.setTitle(&amp;#34;Button1&amp;#34;, for: .normal) btn.setTitleColor(.green, for: .normal) btn.backgroundColor = .black btn.addTarget(self, action: #selector(onClick), for: .touchUpInside) return btn } //当SwiftUI 初始化或刷新view时，如果用到了ButtonForSwiftUI，就会调用 func updateUIView(_ uiView: UIButton, context: Context) { //从 context.coordinator 来访问创建的 DoWithAction 实例 } //创建一个专门处理数据的实例 func makeCoordinator() -&amp;gt; DoWithAction { DoWithAction(self) } @objc private func onClick() { print(&amp;#34;\(self)&amp;#34;) } //声明 数据处理类 class DoWithAction { var control : ButtonForSwiftUI init(_ c : ButtonForSwiftUI) { control = c } } } SwiftUI里：</description>
+    </item>
+    
+    <item>
+      <title>SwiftUI 基础交互控件</title>
+      <link>https://leverkusen188.github.io/swiftui/swiftui_common_controller/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swiftui/swiftui_common_controller/</guid>
+      <description>导航页面跳转 导航页面（NavigationView）的点击（NavigationLink）后跳转至另一个页面。
+样例代码：
+//NavigationView 的点击事件与 NavigationLink 的跳转绑定 NavigationView { //NavigationLink 的跳转目标，也是一个View. 这里是 LandmarkDetail //创建 NavigationLink 的第二个参数，closure 返回的View 就是可点击的区域 NavigationLink(destination: LandmarkDetail(landmark: landmarkData[0])) { Text(&amp;#34;hello22&amp;#34;).background(Color.red) } //在 NavigationView 里可以创建多个 NavigationLink，跳转到不同的页面 NavigationLink(destination: LandmarkDetail(landmark: landmarkData[1])) { Text(&amp;#34;hello22&amp;#34;).background(Color.red) } } PS：页面跳转区域是该NavigationView 的区域，界面里可以有多个NavigationView，分别进行跳转。 参考截图： 弹出窗口(Present) 同 presentViewController 用一个 Binding 来控制弹出时机。
+@State var showingProfile = false //当 showingProfile 为true时，触发present .sheet(isPresented: $showingProfile) { //返回 present出来的view ProfileHost() .environmentObject(self.userData) } //将 showingProfile 设为false，能dismiss对应的present view
+开关控件Toggle（UISwitch） 可以绑定一个声明为 @State 的Bool属性。
+//绑定声明为 @State的对象的一个bool属性，该bool属性需要设置为 @Pubished Toggle(isOn: $profile.</description>
+    </item>
+    
+    <item>
+      <title>SwiftUI 常用属性包装器</title>
+      <link>https://leverkusen188.github.io/swiftui/swiftui_property_wapper/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swiftui/swiftui_property_wapper/</guid>
+      <description>@State 可监听的基本类型 可监听的的数据属性，可以触发对应view的刷新。 用于基本数据类型，比如 Bool, Int, String
+样例代码：
+//声明 可监听的属性 @State private var showScore = true Button(“ShowOrHide”) { //修改该属性，会触发执行 使用该属性的代码 showScore = !showScore } if showScore { ScorePlate(model: model).padding(.top, 20) } @Binding 双向绑定两个属性 将一个 @State 属性绑定到一个 @Binding 属性上。 当双方发生改变时，都会改变另一个。
+struct CategoryHome: View { @State var showingProfile = false var body: some View { List { //将 self.showingProfile 设为 true 来弹出 ProfileHost Button(&amp;#34;Change&amp;#34;) { self.showingProfile = true } } .sheet(isPresented: $showingProfile) { //将 showingProfile 绑定到 ProfileHost的 shouldHide 上，然后 ProfileHost就可以控制shouldHide来做dismiss操作了。 ProfileHost(shouldHide: $showingProfile) } } } struct ProfileHost: View { @Binding var shouldHide : Bool var body: some View { Button(&amp;#34;Close&amp;#34;) { // 绑定的showingProfile 也会改为false，将当前view 给dismiss掉 self.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>基于Python &#43;Selenium的爬虫详解 :: My New Hugo Site</title>
+    <title>RxSwift 的Subject :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1664186977" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/python/python_selenium%E7%88%AC%E8%99%AB/">
+  <body class="" data-url="/rxswift/rxswift_subject/">
     <nav id="sidebar" class="">
 
 
@@ -295,7 +295,7 @@
   
     
     <li data-nav-id="/python/" title="Pythons" class="dd-item
-        parent
+        
         
         
         ">
@@ -342,7 +342,7 @@
  
   
     
-      <li data-nav-id="/python/python_selenium%E7%88%AC%E8%99%AB/" title="基于Python &#43;Selenium的爬虫详解" class="dd-item active">
+      <li data-nav-id="/python/python_selenium%E7%88%AC%E8%99%AB/" title="基于Python &#43;Selenium的爬虫详解" class="dd-item ">
         <a href="/python/python_selenium%E7%88%AC%E8%99%AB/">
         基于Python &#43;Selenium的爬虫详解
         
@@ -371,7 +371,7 @@
   
     
     <li data-nav-id="/rxswift/" title="RxSwifts" class="dd-item
-        
+        parent
         
         
         ">
@@ -418,7 +418,7 @@
  
   
     
-      <li data-nav-id="/rxswift/rxswift_subject/" title="RxSwift 的Subject" class="dd-item ">
+      <li data-nav-id="/rxswift/rxswift_subject/" title="RxSwift 的Subject" class="dd-item active">
         <a href="/rxswift/rxswift_subject/">
         RxSwift 的Subject
         
@@ -882,7 +882,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/python/'>Pythons</a> > 基于Python +Selenium的爬虫详解
+            <a href='/'>My New Hugo Site</a> > <a href='/rxswift/'>RxSwifts</a> > RxSwift 的Subject
           
         
           
@@ -895,7 +895,17 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#replaysubject">ReplaySubject</a></li>
+    <li><a href="#behaviorsubject">BehaviorSubject</a></li>
+    <li><a href="#publishsubject">PublishSubject</a>
+      <ul>
+        <li><a href="#补充知识点-relay-和-subject">补充知识点： Relay 和 Subject</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
     </div>
 </div>
 
@@ -911,176 +921,79 @@
           
             <h1>
               
-              基于Python &#43;Selenium的爬虫详解
+              RxSwift 的Subject
             </h1>
           
 
         
 
 
-<h1 id="背景">背景</h1>
-<ol>
-<li>Selenium</li>
-</ol>
-<p>Selenium 是一个用于web应用程序自动化测试的工具，直接运行在浏览器当中，支持chrome、firefox等主流浏览器。可以通过代码控制与页面上元素进行交互（点击、输入等），也可以获取指定元素的内容。</p>
-<p>2.优劣</p>
-<p>劣势：</p>
-<p>相比于抓包→构造请求→解析返回值的爬虫，由于Selenium需要生成一个浏览器环境，所有操作（与元素交互、获取元素内容等）均需要等待页面加载完毕后才可以继续进行，所以速度相比构造请求的慢很多。</p>
-<p>对于为了反爬做了特殊处理的展示内容，如字体加密（参考猫眼）、图片替换数字（参考自如）等，可能取不到想要的数据。</p>
-<p>使用图片替换数字的自如：</p>
-<p><img src="/image/3865814-ae6f894a2c656142.png" alt="image.png"></p>
-<p>优势：</p>
-<p>1、不需要做复杂的抓包、构造请求、解析数据等，开发难度相对要低一些。</p>
-<p>2、其访问参数跟使用浏览器的正常用户一模一样，访问行为也相对更像正常用户，不容易被反爬虫策略命中。</p>
-<p>3、生成的浏览器环境可以自动运行 JS 文件，所以不用担心如何逆向混淆过的JS文件生成用作人机校验的参数，如马蜂窝酒店评论的人机校验参数_sn，网易云音乐评论的人机校验参数params、encSecKey。可以自行抓包查看。</p>
-<p>4、如果需要抓取同一个前端页面上面来自不同后端接口的信息，如OTA酒店详情页的酒店基础信息、价格、评论等，使用Selenium可以在一次请求中同时完成对三个接口的调用，相对方便。</p>
-<h1 id="实现">实现</h1>
-<p>1.环境</p>
-<p>python3.6 + Macos</p>
-<p>2.依赖包</p>
-<p>Selenium</p>
-<p>安装的时候是大写的 S ，import的时候是 小写 s。</p>
-<pre tabindex="0"><code>pip install Selenium
-</code></pre><p>3.浏览器驱动（webdriver）</p>
-<p>加载浏览器环境需要下载对应的浏览器驱动，此处选择 Chrome。</p>
-<p>下载地址：http://npm.taobao.org/mirrors/chromedriver/ ，</p>
-<p>选择合适的版本下载解压后放在随便一个位置即可。</p>
-<p>4.hello world</p>
-<pre tabindex="0"><code>from selenium import webdriver
+<h2 id="replaysubject">ReplaySubject</h2>
+<p>ReplaySubject 在创建时候需要设置一个 bufferSize，表示它对于它发送过的 event 的缓存个数。
+比如一个 ReplaySubject 的 bufferSize 设置为 2，它发出了 3 个 .next 的 event，那么它会将后两个（最近的两个）event 给缓存起来。此时如果有一个 subscriber 订阅了这个 ReplaySubject，那么这个 subscriber 就会立即收到前面缓存的两个.next 的 event。
+如果一个 subscriber 订阅已经结束的 ReplaySubject，除了会收到缓存的 .next 的 event外，还会收到那个终结的 .error 或者 .complete 的event。
+样例代码：</p>
+<pre tabindex="0"><code>let subject = ReplaySubject&lt;String&gt;.create(bufferSize: 2)
+subject.onNext(“1”)
+subject.onNext(“2”)
+subject.onNext(“3”)
+//第一次订阅，会收到 2 和 3 事件
+        subject.subscribe(onNext: { (event) in
+            print(event)
+        }, onError: { (error) in
+            print(error)
+        }, onCompleted: {
+            print(&#34;这是一个 完成&#34;)
+        }) {
+            print(&#34;销毁了&#34;)
+        }.disposed(by: bag)
+subject.onCompleted()   //设置ReplaySubject为完成状态
+//第二次订阅，会立刻收到 2 和3事件，以及 completed事件
+subject.subscribe(onNext: { (event) in
+            print(event)
+        }, onError: { (error) in
+            print(error)
+        }, onCompleted: {
+            print(&#34;完成之后的订阅完成&#34;)
+        }) {
+            print(&#34;完成之后销毁了&#34;)
+        }.disposed(by: bag)
+</code></pre><h2 id="behaviorsubject">BehaviorSubject</h2>
+<p>BehaviorSubject 需要通过一个默认初始值来创建
+当一个订阅者来订阅它的时候，这个订阅者会立即收到 BehaviorSubjects 上一个发出的event。之后就跟正常的情况一样，它也会接收到 BehaviorSubject 之后发出的新的 event
+这个地方正好区别了PublishSubject 订阅之前发出信号无法监听。
+注意，如果BehaviorSubject complete了，那么再次订阅，是无法获取到上一次的next 事件的，而且再用此 Subject发送事件，也无效了，只会立刻获取到complete事件（说明 BehaviorSubject 是无buffer的）</p>
+<pre tabindex="0"><code>let subject1 = BehaviorSubject(value: “1”)
+        subject1.subscribe(onNext: { (event) in
+            print(event)
+        } , onCompleted: {
+            print(&#34;completed 1&#34;)
+        }) {
+            print(&#34;销毁了1&#34;)
+        }.disposed(by: bag)
+        
+        subject1.onNext(“2”)
+        subject1.onCompleted()	//标定该subject结束了
 
-&#39;&#39;&#39;这里填刚刚下载的驱动的路径&#39;&#39;&#39;
-path = &#39;/Applications/Google Chrome.app/Contents/chromedriver&#39;
+        subject1.onNext(“3”) //因为已经结束，因此此事件发送无效
+//再次订阅，也只能获取到 complete事件了
+        subject1.subscribe(onNext: { (event) in
+            print(event)
+        } , onCompleted: {
+            print(&#34;completed 2&#34;)
+        }) {
+            print(&#34;销毁了2&#34;)
+        }.disposed(by: bag)
+</code></pre><blockquote>
+<p>打印结果为 1, 2, “completed 1”, &ldquo;completed 2&rdquo;</p>
+</blockquote>
+<h2 id="publishsubject">PublishSubject</h2>
+<p>基本同 BehaviorSubject，只是订阅前的消息是无法获取到的。</p>
+<h3 id="补充知识点-relay-和-subject">补充知识点： Relay 和 Subject</h3>
+<p>Relay 对应Subject也有三种，Publish, Behavior, Replay
+Relay 只是对subject的包装，它并不遵循 ObserverType 协议，因此无法被 complete.
+可以通过 accept 方法来抛出 onNext事件。</p>
 
-driver = webdriver.Chrome(executable_path=path)
-
-url = &#39;http://hotel.qunar.com/city/beijing_city/&#39;
-driver.get(url)
-
-&#39;&#39;&#39;运行上述代码，会打开一个浏览器，并且加载去哪儿的酒店列表页&#39;&#39;&#39;
-</code></pre><p>这时候可以通过webdriver自带的一些的一些方法获取元素内容或者与元素进行交互。
-<img src="/image/3865814-e73069ac97a1413c.png" alt="image.png"></p>
-<pre tabindex="0"><code>#返回ID = js_block_beijing_city_7810的元素信息
-hotel_info = driver.find_element_by_id(&#39;js_block_beijing_city_7810&#39;)
-print(hotel_info.text)
-#返回 展示在列表页的酒店信息
-#同理，可以find_element_by_[class_name|name] 等，均可完成查询。
-</code></pre><p>也可以通过方法 find_elements查找符合某条件的一组元素，以列表的形式返回。
-<img src="/image/3865814-9f4be5b6f1e7e925.png" alt="image.png"></p>
-<pre tabindex="0"><code>#当需要查询的唯一标识带有空格时，可以使用find_elements_by_css_selector，否则会报错。
-hotel_list = driver.find_elements_by_css_selector(&#34;[class=&#39;b_result_box js_list_block  b_result_commentbox&#39;]&#34;)
-print(hotel_list)
-#返回酒店列表的全部信息。
-</code></pre><p>5.关闭图片加载</p>
-<p>在不需要抓取图片的情况下，可以设置不加载图片，节约时间，这样属于调整本地设置，在传参上并不会有异常。</p>
-<pre tabindex="0"><code>from selenium import webdriver
-
-chrome_opt = webdriver.ChromeOptions()
-prefs={&#34;profile.managed_default_content_settings.images&#34;:2}
-chrome_opt.add_experimental_option(&#34;prefs&#34;,prefs)
-
-path = &#39;&#39; #驱动路径
-browser_noPic = webdriver.Chrome(executable_path=path,chrome_options=chrome_opt)
-</code></pre><h1 id="使用webdriver与元素进行交互">使用webdriver与元素进行交互</h1>
-<p>1.模拟鼠标点击
-<img src="/image/3865814-b6c45dc58db85745.png" alt="image.png"></p>
-<pre tabindex="0"><code>hotel_info = driver.find_element_by_id(&#34;js_plugin_tag_beijing_city_7810&#34;)
-hotel.info.click()
-#进入酒店详情页
-</code></pre><p>2.模拟键盘输入</p>
-<pre tabindex="0"><code>hotel_search = driver.find_element_by_id(&#34;jxQ&#34;)
-hotel_search.send_keys(&#34;如&#34;)
-hotel_search.send_keys(&#34;如家&#34;)
-#由于搜索框输入的第一个字会被选中，所以需要第二次才能完整输入，当然也可以模拟按键盘的 →(右键)取消选中后再次输入。
-</code></pre><p>3.模拟下拉</p>
-<p>webdriver中对鼠标的操作的方法封装在ActionChains类中 ，使用前要先导入ActionChains类：</p>
-<pre tabindex="0"><code>from selenium.webdriver.common.action_chains import  ActionChains
-
-&#34;&#34;&#34;在页面顶部、底部个找了一个元素，并模拟鼠标从顶到底的滑动&#34;&#34;&#34;
-start = driver.find_element_by_class_name(&#39;e_above_header&#39;)
-target = driver.find_element_by_class_name(&#39;qn_footer&#39;)
-ActionChains(driver).drag_and_drop(start,target).perform()
-</code></pre><p>此外，webdiver还提供丰富的交互功能，比如鼠标悬停、双击、按住左键等等，此处不展开介绍。</p>
-<h1 id="一个完整的模拟浏览器爬虫">一个完整的模拟浏览器爬虫</h1>
-<pre tabindex="0"><code>from selenium import webdriver
-from selenium.webdriver.common.action_chains import  ActionChains
-import time
-
-&#39;&#39;&#39;这里填刚刚下载的驱动的路径&#39;&#39;&#39;
-path = &#39;/Users/./Desktop/chromedriver&#39;
-driver = webdriver.Chrome(executable_path=path)
-
-url = &#39;http://hotel.qunar.com/city/beijing_city/&#39;
-driver.get(url) 
-
-
-time.sleep(6) #等待页面加载完再进行后续操作
-
-&#34;&#34;&#34;在页面顶部、底部个找了一个元素，并模拟鼠标从顶到底的滑动&#34;&#34;&#34;
-start = driver.find_element_by_class_name(&#39;e_above_header&#39;)
-target = driver.find_element_by_class_name(&#39;qn_footer&#39;)
-ActionChains(driver).drag_and_drop(start,target).perform()
-
-time.sleep(5) #等待页面加载完再进行后续操作
-
-hotel_link_list = driver.find_elements_by_css_selector(&#34;[class=&#39;item_price js_hasprice&#39;]&#34;)
-print(&#34;在此页面共有酒店&#34;,len(hotel_link_list),&#34;家&#34;)
-windows = driver.window_handles
-
-#此处可以爬整个页面任何想要想要的元素
-list_hotel_info=[]
-def hotel_info_clawer():
-    list_hotel_info.append([driver.find_element_by_class_name(&#34;info&#34;).text,
-                            driver.find_element_by_class_name(&#34;js-room-table&#34;).text,
-                            driver.find_element_by_class_name(&#34;dt-module&#34;).text])
-
-
-for i in range(len(hotel_link_list)):
-    hotel_link_list[i].click()
-    driver.switch_to.window(windows[-1]) #切换到刚打开的酒店详情页
-    hotel_info_clawer()
-    driver.close() #关闭已经爬完的酒店详情页    
-    print(&#34;已经抓取酒店&#34;,i,&#34;家&#34;)
-
-
-
-#后面可以补充翻页继续抓取的部分
-</code></pre><h1 id="使用截图ocr抓取关键数据">使用截图+OCR抓取关键数据</h1>
-<p>对于做了特殊处理的信息，如上述的猫眼电影的票房信息、自如的价格等，不适用于直接获取制定元素的信息进行抓取，可以使用截图+OCR的方式抓取此类数据。</p>
-<p>以自如的房租为例：
-<img src="/image/3865814-96f8f2c48b4f4e4e.png" alt="image.png"></p>
-<pre tabindex="0"><code>from selenium import webdriver
-
-&#39;&#39;&#39;这里填刚刚下载的驱动的路径&#39;&#39;&#39;
-path = &#39;/Applications/Google Chrome.app/Contents/chromedriver&#39;
-driver = webdriver.Chrome(executable_path=path)
-
-url = &#39;http://www.ziroom.com/z/vr/61715463.html&#39;
-driver.get(url)
-
-price = diver.find_element_by_class_name(&#39;room_price&#39;)
-
-print(price.text)#由于自如的价格用图片做了替换，这样并不能获取到实际价格，需要获取图片再做ocr处理
-
-&#34;对指定元素部分截图再保存&#34;
-price.screenshot(&#39;/Users/./Desktop/price.png&#39;)
-</code></pre><p>安装ocr工具：</p>
-<p>Tesseract是一个开源的OCR引擎，能识别100多种语言（中，英，韩，日，德，法…等等），但是Tesseract对手写的识别能力较差，仅适用于打印字体。</p>
-<pre tabindex="0"><code>//仅安装tesseract，不安装训练工具和其他语音包，需要识别中文的话得额外下载
-//下载地址：https://github.com/tesseract-ocr/tessdata
-brew install tesseract
-</code></pre><p>使用Tesseract：</p>
-<pre tabindex="0"><code>tesseract ~/price.png result
-//识别图片并将结果存在result里面
-</code></pre><p>在python下使用Tesseract：</p>
-<p>首先安装依赖包：pip install pytesseract</p>
-<pre tabindex="0"><code>import pytesseract
-from PIL import Image
-
-# open image
-image = Image.open(&#39;price.png&#39;)
-code = pytesseract.image_to_string(image)
-print(code)
-</code></pre>
 
 <footer class="footline">
 	
@@ -1200,6 +1113,54 @@ print(code)
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                     
                 
                 
@@ -1245,9 +1206,6 @@ print(code)
             
         
                     
-            
-        
-                    
                         
             
             
@@ -1255,51 +1213,6 @@ print(code)
                     
                         
                         
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -1580,10 +1493,10 @@ print(code)
 	 
 	 
 		
-			<a class="nav nav-prev" href="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="python基础环境搭建"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/rxswift/rxfeedback/" title="RxFeedback 学习"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/rxswift/" title="RxSwifts" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/rxswift/rxswift_note/" title="RxSwift 笔记" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

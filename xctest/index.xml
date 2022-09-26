@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>XCTests on My New Hugo Site</title>
+    <link>https://leverkusen188.github.io/xctest/</link>
+    <description>Recent content in XCTests on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/xctest/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Stub 和 Mock</title>
+      <link>https://leverkusen188.github.io/xctest/stub_mock/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/xctest/stub_mock/</guid>
+      <description>Stub 用在修改 测试代码里出现无法预期其行为（比如返回数据）的相关函数时，将该函数的返回值用插桩方式修改为自定义的数据（修改方式可自定义，比如 在输入参数为多少时，才返回对应的字定义数据），以满足整块代码的单测需要。
+下面是例子说明 (stub 实现基于 Kiwi 框架 https://github.com/kiwi-bdd/Kiwi)：
+功能是接收温度和湿度参数，通过weatherForecaster 的方法计算出对应的结果，并存入数据库。
+假设 resultWithTemprature 方法是无法被测试的，那么整块代码里，可以测试的是 写入数据库的代码（write函数）
+@class WeatherRecorder -(void) writeResultToDatabaseWithTemprature:(NSInteger)temprature humidity:(NSInteger)humidity { id result = [self.weatherForecaster resultWithTemprature:temprature humidity:humidity]; [self write:result]; } 为了不影响单测用例，可以改写 resultWithTemprature 的行为，返回自定义的 result，来测试数据库写入代码。
+[weatherForecaster stub:@selector(resultWithTemprature:humidity:) andReturn:someResult withArguments:theValue(23),theValue(50)]; mock 其实就是一个对象，它是对现有类的行为一种模拟（或是对现有接口实现的模拟），它是一种更全面更智能的 Stub。
+以上面代码为例，在OC里，实际上就是将 weatherForecaster 换为自定义的mock类，从而使 resultWithTemprature 函数的行为是我们测试需要的。
+样例代码：
+创建 weatherForecaster 的 mock实例 id weatherForecasterMock **=** [WeatherForecaster **mock**]; [[weatherForecasterMock **should**] **receive**:**@selector**(**resultWithTemprature**:humidity**:**) andReturn**:**someResult withArguments**:**theValue(23),theValue(50)]; 然后将WeatherRecorder的 weatherForecaster 属性替换为该mock实例 [weatherRecorder stub:@selector(weatherForecaster) andReturn:weatherForecasterMock]; </description>
+    </item>
+    
+    <item>
+      <title>XCTest Mork</title>
+      <link>https://leverkusen188.github.io/xctest/xctest_mork/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/xctest/xctest_mork/</guid>
+      <description>以网络请求场景为例 样例代码：
+class NetworkManager { func loadData(from url: URL, completionHandler: @escaping (NetworkResult) -&amp;gt; Void) { let task = URLSession.shared.dataTask(with: url) { data, _, error in // Create either a .success or .failure case of a result enum let result = data.map(NetworkResult.success) ?? .failure(error) completionHandler(result) } task.resume() } } 可以由两种方法来mock数据。
+创建 使用到的类的mock子类，并重写调用路径上的相关方法，来返回mock数据 // We create a partial mock by subclassing the original class class URLSessionDataTaskMock: URLSessionDataTask { private let closure: () -&amp;gt; Void init(closure: @escaping () -&amp;gt; Void) { self.</description>
+    </item>
+    
+    <item>
+      <title>XCTest 基础知识 &amp; Waiter</title>
+      <link>https://leverkusen188.github.io/xctest/xctest_waiter/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/xctest/xctest_waiter/</guid>
+      <description>基本知识 异步接口测试，可以用 XCTestExpectation。 测试性能，可用 measureBlock 接口。 关于XCTWaiter用法 简单来说就是通过delegate的方式把处理XCTExpectation的方法解耦，可以在delegate回调中处理超时，中断等异步测试用例的异常，根据实际需求，决定是否让case 通过，或是抛出一个错误。
+样例代码：
+class WeiboModelTest : XCTestCase { var model : WeiboModel? let bag = DisposeBag() let chinaCode = &amp;#34;001&amp;#34; var waiter : XCTWaiter? override func setUpWithError() throws { self.model = WeiboModel() self.waiter = XCTWaiter(delegate: self) } func testWaiter() { let expectaton1:XCTestExpectation = expectation(description: &amp;#34;Fail1&amp;#34;) DispatchQueue.global().async { Thread.sleep(forTimeInterval: 1) expectaton1.fulfill() } expectaton1.isInverted = true waiter?.wait(for: [expectaton1], timeout: 2) } func testWaiterSuccess() { let expectaton1:XCTestExpectation = expectation(description: &amp;#34;Pass&amp;#34;) DispatchQueue.</description>
+    </item>
+    
+  </channel>
+</rss>

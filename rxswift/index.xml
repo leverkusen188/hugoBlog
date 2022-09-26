@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RxSwifts on My New Hugo Site</title>
+    <link>https://leverkusen188.github.io/rxswift/</link>
+    <description>Recent content in RxSwifts on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/rxswift/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RxFeedback 学习</title>
+      <link>https://leverkusen188.github.io/rxswift/rxfeedback/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/rxswift/rxfeedback/</guid>
+      <description>核心功能：自定义Event的触发事件集合，以及订阅该事件触发后会修改的一个状态集对象的Observable。同时自定义 在事件触发后，对状态集对象进行数据变更。
+样例代码：
+//在下面代码中，状态集对象就是Int typealias State = Int //自定义事件是 增加和减少 enum Event { case increment case decrement } Observable.system( initialState: 0,	//声明状态集对象的初始化值 //reduce里，是接收到 event事件后，对状态集对象进行自定义处理的代码。然后将新的状态集对象返回。 STEP 2 reduce: { (state, event) -&amp;gt; State in switch event { case .increment: return state + 1 case .decrement: return state - 1 } }, scheduler: MainScheduler.instance, feedback: //bind 传入owner对象，作为 第二个closure的首个参数返回。 //第二个closure参数作用是 自定义Event的触发时机，以及 对状态集对象Observable的订阅操作 //state就是一个 状态集对象的Observable，即 ObservableSchedulerContext&amp;lt;State&amp;gt; bind(self) { me, state -&amp;gt; Bindings&amp;lt;Event&amp;gt; in //对状态集对象Observable的订阅集合 let subscriptions = [ state.</description>
+    </item>
+    
+    <item>
+      <title>RxSwift 的Subject</title>
+      <link>https://leverkusen188.github.io/rxswift/rxswift_subject/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/rxswift/rxswift_subject/</guid>
+      <description>ReplaySubject ReplaySubject 在创建时候需要设置一个 bufferSize，表示它对于它发送过的 event 的缓存个数。 比如一个 ReplaySubject 的 bufferSize 设置为 2，它发出了 3 个 .next 的 event，那么它会将后两个（最近的两个）event 给缓存起来。此时如果有一个 subscriber 订阅了这个 ReplaySubject，那么这个 subscriber 就会立即收到前面缓存的两个.next 的 event。 如果一个 subscriber 订阅已经结束的 ReplaySubject，除了会收到缓存的 .next 的 event外，还会收到那个终结的 .error 或者 .complete 的event。 样例代码：
+let subject = ReplaySubject&amp;lt;String&amp;gt;.create(bufferSize: 2) subject.onNext(“1”) subject.onNext(“2”) subject.onNext(“3”) //第一次订阅，会收到 2 和 3 事件 subject.subscribe(onNext: { (event) in print(event) }, onError: { (error) in print(error) }, onCompleted: { print(&amp;#34;这是一个 完成&amp;#34;) }) { print(&amp;#34;销毁了&amp;#34;) }.disposed(by: bag) subject.</description>
+    </item>
+    
+    <item>
+      <title>RxSwift 笔记</title>
+      <link>https://leverkusen188.github.io/rxswift/rxswift_note/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/rxswift/rxswift_note/</guid>
+      <description>响应机制 响应机制核心是 Observable 和 ObserverType. 前者用来发送事件，使用者可以订阅（subscribe）后，监听 onNext ，onError等事件。 样例代码：
+let switch = UISwitch! = UISwitch.init(frame: CGRect(x: 0, y: 50, width: 100, height: 40)) Let swiOnEvent = switch.rx.isOn swiOnEvent.subscribe(onNext: { booValue in print(“isOn=\(booValue)&amp;#34;) }, onError: { i in }) Observable 转换 Observable 的 map 可以在监听到onNext 事件后，将当前Observable的 element 换成自定义的其他类型，并返回一个对应泛型的Observable。 样例代码：
+let switch = UISwitch! = UISwitch.init(frame: CGRect(x: 0, y: 50, width: 100, height: 40)) Let swiOnEvent = switch.rx.isOn swiOnEvent.map{ isOn in //isOn 是swiOnEvent的泛型类型，也就是 Bool return 12 //换成Int了 }.</description>
+    </item>
+    
+    <item>
+      <title>RxSwift 高阶函数用法</title>
+      <link>https://leverkusen188.github.io/rxswift/rxswift_advanced_function/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/rxswift/rxswift_advanced_function/</guid>
+      <description>distinctUntilChanged(). 是ObservableType的扩展方法，当 ObservableType 的Element 必须是遵循Equatable 协议的类型。 该函数返回一个ObservableType，只有Element的值发生变化时，才会抛出onNext事件。 例如 Observable.of(1,2,1,3,5,4).distinctUntilChanged() , 会抛出 1,2,1,3,5,4 而 Observable.of(1,1,3,5,4).distinctUntilChanged() , 会抛出 1,3,5,4
+element(at:) 只通知 指定index的Element 的onNext事件
+ignoreElements() 忽略onNext事件，只抛出 onError 和 completed事件
+take(count) 只抛出序列中指定count数的事件，满足count 数后，直接抛出 completed
+takeLast(count) 只抛出序列中最后的指定count数的事件。满足count 数后，直接抛出 completed
+PS: 注意take系列，如果是未指定个数的事件序列，则takeLast是不生效的。
+skip(count)： 跳过指定个数的事件。
+delaySubscription() 在指定的时间内，无法获取到序列事件，到时间后，就能获取到事件了。
+delay() 将所有信号事件 delay 指定时间后再发送。订阅者获取到的事件都是延迟后的。
+PS：但对于指定个数序列事件的ObservableType，两者行为是一致的，都会延迟 指定时间后，订阅者才收到消息
+debounce() 指定信号之间间隔未达到指定时差时，就会忽略前面的事件，只抛出最后一个事件。
+groupBy() 可以将指定的Observable 分割成多个 字定义key的Observable。 样例代码（根据自定义的 keySelector，将 1-6的序列化的Observable 分组成 两个GroupedObservable，它们的key 就是自定义的 “奇数”和“偶数”）：
+Observable.of(1,2,3,4,5,6).groupBy(keySelector: { (ele) -&amp;gt; String in return ele % 2 == 1 ?</description>
+    </item>
+    
+    <item>
+      <title>国家省份城市demo 笔记心得</title>
+      <link>https://leverkusen188.github.io/rxswift/citydemo/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/rxswift/citydemo/</guid>
+      <description>将view的rx的ControlEvent 于 model的某个Subject（Observable 和 Observer的合体）绑定起来。而model的这个subject作为网络请求的发起者，包装一个Observable 给UI去订阅，并获取查询返回的数据用以更新UI model提供Observable 来给UI 更新，尽量保证 该Observable的Element 与View的Observer 或是 setter属性一致，这样就可以直接通过binding 来更新，而不用多余的代码。 禁止出现嵌套订阅代码，难以阅读以及 容易出现retain circle Demo下载地址</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -98,10 +98,10 @@ package文件结构和组成 用pip install安装的包，在根目录下需要�
     
     <item>
       <title>RxFeedback 学习</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxfeedback/</link>
+      <link>https://leverkusen188.github.io/rxswift/rxfeedback/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxfeedback/</guid>
+      <guid>https://leverkusen188.github.io/rxswift/rxfeedback/</guid>
       <description>核心功能：自定义Event的触发事件集合，以及订阅该事件触发后会修改的一个状态集对象的Observable。同时自定义 在事件触发后，对状态集对象进行数据变更。
 样例代码：
 //在下面代码中，状态集对象就是Int typealias State = Int //自定义事件是 增加和减少 enum Event { case increment case decrement } Observable.system( initialState: 0,	//声明状态集对象的初始化值 //reduce里，是接收到 event事件后，对状态集对象进行自定义处理的代码。然后将新的状态集对象返回。 STEP 2 reduce: { (state, event) -&amp;gt; State in switch event { case .increment: return state + 1 case .decrement: return state - 1 } }, scheduler: MainScheduler.instance, feedback: //bind 传入owner对象，作为 第二个closure的首个参数返回。 //第二个closure参数作用是 自定义Event的触发时机，以及 对状态集对象Observable的订阅操作 //state就是一个 状态集对象的Observable，即 ObservableSchedulerContext&amp;lt;State&amp;gt; bind(self) { me, state -&amp;gt; Bindings&amp;lt;Event&amp;gt; in //对状态集对象Observable的订阅集合 let subscriptions = [ state.</description>
@@ -109,20 +109,20 @@ package文件结构和组成 用pip install安装的包，在根目录下需要�
     
     <item>
       <title>RxSwift 的Subject</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_subject/</link>
+      <link>https://leverkusen188.github.io/rxswift/rxswift_subject/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_subject/</guid>
+      <guid>https://leverkusen188.github.io/rxswift/rxswift_subject/</guid>
       <description>ReplaySubject ReplaySubject 在创建时候需要设置一个 bufferSize，表示它对于它发送过的 event 的缓存个数。 比如一个 ReplaySubject 的 bufferSize 设置为 2，它发出了 3 个 .next 的 event，那么它会将后两个（最近的两个）event 给缓存起来。此时如果有一个 subscriber 订阅了这个 ReplaySubject，那么这个 subscriber 就会立即收到前面缓存的两个.next 的 event。 如果一个 subscriber 订阅已经结束的 ReplaySubject，除了会收到缓存的 .next 的 event外，还会收到那个终结的 .error 或者 .complete 的event。 样例代码：
 let subject = ReplaySubject&amp;lt;String&amp;gt;.create(bufferSize: 2) subject.onNext(“1”) subject.onNext(“2”) subject.onNext(“3”) //第一次订阅，会收到 2 和 3 事件 subject.subscribe(onNext: { (event) in print(event) }, onError: { (error) in print(error) }, onCompleted: { print(&amp;#34;这是一个 完成&amp;#34;) }) { print(&amp;#34;销毁了&amp;#34;) }.disposed(by: bag) subject.</description>
     </item>
     
     <item>
       <title>RxSwift 笔记</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_note/</link>
+      <link>https://leverkusen188.github.io/rxswift/rxswift_note/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_note/</guid>
+      <guid>https://leverkusen188.github.io/rxswift/rxswift_note/</guid>
       <description>响应机制 响应机制核心是 Observable 和 ObserverType. 前者用来发送事件，使用者可以订阅（subscribe）后，监听 onNext ，onError等事件。 样例代码：
 let switch = UISwitch! = UISwitch.init(frame: CGRect(x: 0, y: 50, width: 100, height: 40)) Let swiOnEvent = switch.rx.isOn swiOnEvent.subscribe(onNext: { booValue in print(“isOn=\(booValue)&amp;#34;) }, onError: { i in }) Observable 转换 Observable 的 map 可以在监听到onNext 事件后，将当前Observable的 element 换成自定义的其他类型，并返回一个对应泛型的Observable。 样例代码：
 let switch = UISwitch! = UISwitch.init(frame: CGRect(x: 0, y: 50, width: 100, height: 40)) Let swiOnEvent = switch.rx.isOn swiOnEvent.map{ isOn in //isOn 是swiOnEvent的泛型类型，也就是 Bool return 12 //换成Int了 }.</description>
@@ -130,10 +130,10 @@ let switch = UISwitch! = UISwitch.init(frame: CGRect(x: 0, y: 50, width: 100, he
     
     <item>
       <title>RxSwift 高阶函数用法</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_advanced_function/</link>
+      <link>https://leverkusen188.github.io/rxswift/rxswift_advanced_function/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/rxswift_advanced_function/</guid>
+      <guid>https://leverkusen188.github.io/rxswift/rxswift_advanced_function/</guid>
       <description>distinctUntilChanged(). 是ObservableType的扩展方法，当 ObservableType 的Element 必须是遵循Equatable 协议的类型。 该函数返回一个ObservableType，只有Element的值发生变化时，才会抛出onNext事件。 例如 Observable.of(1,2,1,3,5,4).distinctUntilChanged() , 会抛出 1,2,1,3,5,4 而 Observable.of(1,1,3,5,4).distinctUntilChanged() , 会抛出 1,3,5,4
 element(at:) 只通知 指定index的Element 的onNext事件
 ignoreElements() 忽略onNext事件，只抛出 onError 和 completed事件
@@ -150,11 +150,38 @@ Observable.of(1,2,3,4,5,6).groupBy(keySelector: { (ele) -&amp;gt; String in retu
     </item>
     
     <item>
-      <title>Swift Keypath</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swift-keypath/</link>
+      <title>Stub 和 Mock</title>
+      <link>https://leverkusen188.github.io/xctest/stub_mock/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swift-keypath/</guid>
+      <guid>https://leverkusen188.github.io/xctest/stub_mock/</guid>
+      <description>Stub 用在修改 测试代码里出现无法预期其行为（比如返回数据）的相关函数时，将该函数的返回值用插桩方式修改为自定义的数据（修改方式可自定义，比如 在输入参数为多少时，才返回对应的字定义数据），以满足整块代码的单测需要。
+下面是例子说明 (stub 实现基于 Kiwi 框架 https://github.com/kiwi-bdd/Kiwi)：
+功能是接收温度和湿度参数，通过weatherForecaster 的方法计算出对应的结果，并存入数据库。
+假设 resultWithTemprature 方法是无法被测试的，那么整块代码里，可以测试的是 写入数据库的代码（write函数）
+@class WeatherRecorder -(void) writeResultToDatabaseWithTemprature:(NSInteger)temprature humidity:(NSInteger)humidity { id result = [self.weatherForecaster resultWithTemprature:temprature humidity:humidity]; [self write:result]; } 为了不影响单测用例，可以改写 resultWithTemprature 的行为，返回自定义的 result，来测试数据库写入代码。
+[weatherForecaster stub:@selector(resultWithTemprature:humidity:) andReturn:someResult withArguments:theValue(23),theValue(50)]; mock 其实就是一个对象，它是对现有类的行为一种模拟（或是对现有接口实现的模拟），它是一种更全面更智能的 Stub。
+以上面代码为例，在OC里，实际上就是将 weatherForecaster 换为自定义的mock类，从而使 resultWithTemprature 函数的行为是我们测试需要的。
+样例代码：
+创建 weatherForecaster 的 mock实例 id weatherForecasterMock **=** [WeatherForecaster **mock**]; [[weatherForecasterMock **should**] **receive**:**@selector**(**resultWithTemprature**:humidity**:**) andReturn**:**someResult withArguments**:**theValue(23),theValue(50)]; 然后将WeatherRecorder的 weatherForecaster 属性替换为该mock实例 [weatherRecorder stub:@selector(weatherForecaster) andReturn:weatherForecasterMock]; </description>
+    </item>
+    
+    <item>
+      <title>Swift dynamicMemberLookup</title>
+      <link>https://leverkusen188.github.io/swift/swift_dynamicmemberlookup/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_dynamicmemberlookup/</guid>
+      <description>类或是struct声明为 @dynamicMemberLookup 后，并实现 subscript(dynamicMember:), 就可以用带 点的语法来访问对应的数据了。
+实现dynamicMemberLookup 的类： @dynamicMemberLookup class TestData&amp;lt;Value&amp;gt; { var value : Value var name : String init(_ v : Value, name : String) { self.value = v self.name = name } //subscript(dynamicMember:) 只能用 String 或 KeyPath 作为参数 subscript(dynamicMember pro : String) -&amp;gt; Bool { return true } subscript&amp;lt;T&amp;gt;(dynamicMember key : KeyPath&amp;lt;Value, T&amp;gt;) -&amp;gt; T { value[keyPath: key] } } 使用方法 //使用带点语法访问数据时有优先级 let data = TestData(&amp;#34;b&amp;#34;, name: &amp;#34;haha”) //Value 泛型推导为 “b”的类型，也就是String //优先级1: 访问已有的属性，比如 TestData 的name属性。 let name = data.</description>
+    </item>
+    
+    <item>
+      <title>Swift Keypath</title>
+      <link>https://leverkusen188.github.io/swift/swift-keypath/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift-keypath/</guid>
       <description>译自 The power of key path in Swift
 Swift 最初的设计就专注于编译期尽量保证程序运行安全 以及 静态类型匹配，因此它比较缺乏类似 OC，Javascript 和ruby等运行时语言的动态特性。比如，在OC里，我们可以在运行时动态访问类对象的属性和方法，甚至改变方法的实现。
 但这些动态特性的缺乏正表现出Swift的伟大，它能保证我们写出的程序运行结果更加可预料，且更可能运行不出错。不过有时候我们的代码能拥有一些动态特性也是很有帮助的。
@@ -171,10 +198,10 @@ let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.s
     
     <item>
       <title>Swift 常用UI界面设置</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_pandding/</link>
+      <link>https://leverkusen188.github.io/swiftui/swiftui_pandding/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_pandding/</guid>
+      <guid>https://leverkusen188.github.io/swiftui/swiftui_pandding/</guid>
       <description>背景色设置 一个指定颜色的空视图。 color.red.ignoresSafeArea() 给一个或多个视图指定背景颜色 Color.green.overlay { //用 overlay作为背景的 多个重叠的视图 Text(&amp;#34;hello&amp;#34;).bold().foregroundColor(.white) }.frame(width: 50, height: 50) 控件位置设置 HStack 和 VStack 初始化时都有spacing参数来设定 它们里面的控件的间距。
 控件的offset 属性可以设置该控件相比原布局位置的位移。
 但注意其他控件并不会因为它的位置变化而自动布局（也就是 如果下面的控件不设offset时，可能会跟它重叠，比如下面这样：） padding 填充设置
@@ -183,30 +210,41 @@ func padding( _ edges: Edge.Set = .all, _ length: CGFloat? = nil ) -&amp;gt; som
     </item>
     
     <item>
-      <title>SwiftUI UI刷新细节</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_ui_refresh/</link>
+      <title>Swift 数组和字典</title>
+      <link>https://leverkusen188.github.io/swift/swift_array_dictionary/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_ui_refresh/</guid>
+      <guid>https://leverkusen188.github.io/swift/swift_array_dictionary/</guid>
+      <description>数组和字典的遍历(enumerated) 数组和字典的遍历有两种方式。
+方式1: let arr = [1,2,3] for v in arr.enumerated() { v.offset //就是下标序号 v.element //就是当前元素 } let dict = [1: “first”, 2: “second”] for v in dict.enumerated() { v.offset //就是序号 v.element //类型是 [Int: String].Element, 有key 和value属性； } 方式2: for (index, value) in arr.enumerated() { //index 是下标，value是元素 } for (index, value) in arr.enumerated() { //index 是下标，value是 [Int: String].Element } 用数组里的对象的属性贵族归组 快速创建字典 样例代码：
+struct Data { var i : Int var text : String } //dic 会用 Data的 i 属性来作为key生成。 let dic = Dictionary(grouping: [ Data999(i: 1, text: &amp;#34;haha&amp;#34;), Data999(i: 1, text: &amp;#34;baa&amp;#34;), Data999(i: 4, text: &amp;#34;abnn&amp;#34;), Data999(i: 4, text: &amp;#34;erwr&amp;#34;), Data999(i: 6, text: &amp;#34;babr&amp;#34;), ], by: { $0.</description>
+    </item>
+    
+    <item>
+      <title>SwiftUI UI刷新细节</title>
+      <link>https://leverkusen188.github.io/swiftui/swiftui_ui_refresh/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swiftui/swiftui_ui_refresh/</guid>
       <description>SwiftUI 的View 每次刷新都会重新创建里面的View //每次text改变引起的刷新，都会重新创建一个Text @State var text : String var body : some View { Text(text) } Body 中的ForEach 重用 Body中的ForEach 每次刷新并不会重建。 因此下面的例子里，即使多次刷新View，但ForEach对象还是最初那个，循环的次数也不会随着 increasingValue 增加而改变。
 var increasingValue : Int = 1 func testLoopCount() -&amp;gt; Int { increasingValue += 1 return increasingValue } var body : some View { let loop = testLoopCount() //每次都只循环两次，因为第一次时 loop 是2 ForEach(0..&amp;lt;loop) {_ in Text(“Text”) } } </description>
     </item>
     
     <item>
       <title>SwiftUI 与 UIKit 混用</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftu_uikit_merge/</link>
+      <link>https://leverkusen188.github.io/swiftui/swiftu_uikit_merge/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftu_uikit_merge/</guid>
+      <guid>https://leverkusen188.github.io/swiftui/swiftu_uikit_merge/</guid>
       <description>UIKit 到 SwiftUI 用实现了 UIViewRepresentable 协议的 “final class” 或是 “struct”，都可以直接作为 SwiftUI里的 View 来使用。样例代码如下： UIKit 里： final class ButtonForSwiftUI : UIViewRepresentable { var btn : UIButton = UIButton(type: .system) //当SwiftUI第一次初始化 ButtonForSwiftUI时 会调用 func makeUIView(context: Context) -&amp;gt; UIButton { btn.setTitle(&amp;#34;Button1&amp;#34;, for: .normal) btn.setTitleColor(.green, for: .normal) btn.backgroundColor = .black btn.addTarget(self, action: #selector(onClick), for: .touchUpInside) return btn } //当SwiftUI 初始化或刷新view时，如果用到了ButtonForSwiftUI，就会调用 func updateUIView(_ uiView: UIButton, context: Context) { //从 context.coordinator 来访问创建的 DoWithAction 实例 } //创建一个专门处理数据的实例 func makeCoordinator() -&amp;gt; DoWithAction { DoWithAction(self) } @objc private func onClick() { print(&amp;#34;\(self)&amp;#34;) } //声明 数据处理类 class DoWithAction { var control : ButtonForSwiftUI init(_ c : ButtonForSwiftUI) { control = c } } } SwiftUI里：</description>
     </item>
     
     <item>
       <title>SwiftUI 基础交互控件</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_common_controller/</link>
+      <link>https://leverkusen188.github.io/swiftui/swiftui_common_controller/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_common_controller/</guid>
+      <guid>https://leverkusen188.github.io/swiftui/swiftui_common_controller/</guid>
       <description>导航页面跳转 导航页面（NavigationView）的点击（NavigationLink）后跳转至另一个页面。
 样例代码：
 //NavigationView 的点击事件与 NavigationLink 的跳转绑定 NavigationView { //NavigationLink 的跳转目标，也是一个View. 这里是 LandmarkDetail //创建 NavigationLink 的第二个参数，closure 返回的View 就是可点击的区域 NavigationLink(destination: LandmarkDetail(landmark: landmarkData[0])) { Text(&amp;#34;hello22&amp;#34;).background(Color.red) } //在 NavigationView 里可以创建多个 NavigationLink，跳转到不同的页面 NavigationLink(destination: LandmarkDetail(landmark: landmarkData[1])) { Text(&amp;#34;hello22&amp;#34;).background(Color.red) } } PS：页面跳转区域是该NavigationView 的区域，界面里可以有多个NavigationView，分别进行跳转。 参考截图： 弹出窗口(Present) 同 presentViewController 用一个 Binding 来控制弹出时机。
@@ -217,14 +255,36 @@ var increasingValue : Int = 1 func testLoopCount() -&amp;gt; Int { increasingVal
     
     <item>
       <title>SwiftUI 常用属性包装器</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_property_wapper/</link>
+      <link>https://leverkusen188.github.io/swiftui/swiftui_property_wapper/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/swiftui/swiftui_property_wapper/</guid>
+      <guid>https://leverkusen188.github.io/swiftui/swiftui_property_wapper/</guid>
       <description>@State 可监听的基本类型 可监听的的数据属性，可以触发对应view的刷新。 用于基本数据类型，比如 Bool, Int, String
 样例代码：
 //声明 可监听的属性 @State private var showScore = true Button(“ShowOrHide”) { //修改该属性，会触发执行 使用该属性的代码 showScore = !showScore } if showScore { ScorePlate(model: model).padding(.top, 20) } @Binding 双向绑定两个属性 将一个 @State 属性绑定到一个 @Binding 属性上。 当双方发生改变时，都会改变另一个。
 struct CategoryHome: View { @State var showingProfile = false var body: some View { List { //将 self.showingProfile 设为 true 来弹出 ProfileHost Button(&amp;#34;Change&amp;#34;) { self.showingProfile = true } } .sheet(isPresented: $showingProfile) { //将 showingProfile 绑定到 ProfileHost的 shouldHide 上，然后 ProfileHost就可以控制shouldHide来做dismiss操作了。 ProfileHost(shouldHide: $showingProfile) } } } struct ProfileHost: View { @Binding var shouldHide : Bool var body: some View { Button(&amp;#34;Close&amp;#34;) { // 绑定的showingProfile 也会改为false，将当前view 给dismiss掉 self.</description>
+    </item>
+    
+    <item>
+      <title>XCTest Mork</title>
+      <link>https://leverkusen188.github.io/xctest/xctest_mork/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/xctest/xctest_mork/</guid>
+      <description>以网络请求场景为例 样例代码：
+class NetworkManager { func loadData(from url: URL, completionHandler: @escaping (NetworkResult) -&amp;gt; Void) { let task = URLSession.shared.dataTask(with: url) { data, _, error in // Create either a .success or .failure case of a result enum let result = data.map(NetworkResult.success) ?? .failure(error) completionHandler(result) } task.resume() } } 可以由两种方法来mock数据。
+创建 使用到的类的mock子类，并重写调用路径上的相关方法，来返回mock数据 // We create a partial mock by subclassing the original class class URLSessionDataTaskMock: URLSessionDataTask { private let closure: () -&amp;gt; Void init(closure: @escaping () -&amp;gt; Void) { self.</description>
+    </item>
+    
+    <item>
+      <title>XCTest 基础知识 &amp; Waiter</title>
+      <link>https://leverkusen188.github.io/xctest/xctest_waiter/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/xctest/xctest_waiter/</guid>
+      <description>基本知识 异步接口测试，可以用 XCTestExpectation。 测试性能，可用 measureBlock 接口。 关于XCTWaiter用法 简单来说就是通过delegate的方式把处理XCTExpectation的方法解耦，可以在delegate回调中处理超时，中断等异步测试用例的异常，根据实际需求，决定是否让case 通过，或是抛出一个错误。
+样例代码：
+class WeiboModelTest : XCTestCase { var model : WeiboModel? let bag = DisposeBag() let chinaCode = &amp;#34;001&amp;#34; var waiter : XCTWaiter? override func setUpWithError() throws { self.model = WeiboModel() self.waiter = XCTWaiter(delegate: self) } func testWaiter() { let expectaton1:XCTestExpectation = expectation(description: &amp;#34;Fail1&amp;#34;) DispatchQueue.global().async { Thread.sleep(forTimeInterval: 1) expectaton1.fulfill() } expectaton1.isInverted = true waiter?.wait(for: [expectaton1], timeout: 2) } func testWaiterSuccess() { let expectaton1:XCTestExpectation = expectation(description: &amp;#34;Pass&amp;#34;) DispatchQueue.</description>
     </item>
     
     <item>
@@ -240,10 +300,10 @@ libsystem_kernel.dylib 0x1f59140f4 mach_msg_trap + 8 libsystem_kernel.dylib 0x1f
     
     <item>
       <title>国家省份城市demo 笔记心得</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/citydemo/</link>
+      <link>https://leverkusen188.github.io/rxswift/citydemo/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/rxswift/citydemo/</guid>
+      <guid>https://leverkusen188.github.io/rxswift/citydemo/</guid>
       <description>将view的rx的ControlEvent 于 model的某个Subject（Observable 和 Observer的合体）绑定起来。而model的这个subject作为网络请求的发起者，包装一个Observable 给UI去订阅，并获取查询返回的数据用以更新UI model提供Observable 来给UI 更新，尽量保证 该Observable的Element 与View的Observer 或是 setter属性一致，这样就可以直接通过binding 来更新，而不用多余的代码。 禁止出现嵌套订阅代码，难以阅读以及 容易出现retain circle Demo下载地址</description>
     </item>
     
