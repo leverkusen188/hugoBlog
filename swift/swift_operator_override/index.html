@@ -10,23 +10,23 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Swift Keypath :: My New Hugo Site</title>
+    <title>Swift 运算符重载 :: My New Hugo Site</title>
 
     
-    <link href="/css/nucleus.css?1664282996" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1664282996" rel="stylesheet">
-    <link href="/css/hybrid.css?1664282996" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1664282996" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1664282996" rel="stylesheet">
-    <link href="/css/auto-complete.css?1664282996" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1664282996" rel="stylesheet">
-    <link href="/css/theme.css?1664282996" rel="stylesheet">
-    <link href="/css/tabs.css?1664282996" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1664282996" rel="stylesheet">
+    <link href="/css/nucleus.css?1664282997" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1664282997" rel="stylesheet">
+    <link href="/css/hybrid.css?1664282997" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1664282997" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1664282997" rel="stylesheet">
+    <link href="/css/auto-complete.css?1664282997" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1664282997" rel="stylesheet">
+    <link href="/css/theme.css?1664282997" rel="stylesheet">
+    <link href="/css/tabs.css?1664282997" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1664282997" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1664282996"></script>
+    <script src="/js/jquery-3.3.1.min.js?1664282997"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/swift/swift-keypath/">
+  <body class="" data-url="/swift/swift_operator_override/">
     <nav id="sidebar" class="">
 
 
@@ -136,19 +136,19 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1664282996"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1664282996"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1664282997"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1664282997"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/leverkusen188.github.io\/";
     
 </script>
 
-<script type="text/javascript" src="/js/search.js?1664282996"></script>
+<script type="text/javascript" src="/js/search.js?1664282997"></script>
 
 
-<script src="/js/fuse.min.js?1664282996"></script> 
-<script src="/js/fastsearch.js?1664282996"></script>
+<script src="/js/fuse.min.js?1664282997"></script> 
+<script src="/js/fastsearch.js?1664282997"></script>
 
 
     
@@ -578,7 +578,7 @@
  
   
     
-      <li data-nav-id="/swift/swift-keypath/" title="Swift Keypath" class="dd-item active">
+      <li data-nav-id="/swift/swift-keypath/" title="Swift Keypath" class="dd-item ">
         <a href="/swift/swift-keypath/">
         Swift Keypath
         
@@ -725,7 +725,7 @@
  
   
     
-      <li data-nav-id="/swift/swift_operator_override/" title="Swift 运算符重载" class="dd-item ">
+      <li data-nav-id="/swift/swift_operator_override/" title="Swift 运算符重载" class="dd-item active">
         <a href="/swift/swift_operator_override/">
         Swift 运算符重载
         
@@ -1047,7 +1047,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/swift/'>Swifts</a> > Swift Keypath
+            <a href='/'>My New Hugo Site</a> > <a href='/swift/'>Swifts</a> > Swift 运算符重载
           
         
           
@@ -1060,7 +1060,13 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#加减乘除重载">加减乘除重载</a></li>
+    <li><a href="#equatablecomparable">Equatable，Comparable</a></li>
+    <li><a href="#自定义运算符custom-operator">自定义运算符（Custom Operator）</a></li>
+  </ul>
+</nav>
     </div>
 </div>
 
@@ -1076,142 +1082,77 @@
           
             <h1>
               
-              Swift Keypath
+              Swift 运算符重载
             </h1>
           
 
         
 
 
-<p>译自 <a href="https://www.swiftbysundell.com/articles/the-power-of-key-paths-in-swift/">The power of key path in Swift</a></p>
-<p>Swift 最初的设计就专注于编译期尽量保证程序运行安全 以及 静态类型匹配，因此它比较缺乏类似 OC，Javascript 和ruby等运行时语言的动态特性。比如，在OC里，我们可以在运行时动态访问类对象的属性和方法，甚至改变方法的实现。</p>
-<p>但这些动态特性的缺乏正表现出Swift的伟大，它能保证我们写出的程序运行结果更加可预料，且更可能运行不出错。不过有时候我们的代码能拥有一些动态特性也是很有帮助的。</p>
-<p>谢天谢地，随着版本更新，Swift 开始拥有更多的动态特性，但却依然保持着静态安全类型特性。其中一种新特性就是KeyPath。本周，我们一起来看看KeyPath在Swift中是如何运作的，以及我们能用它来实现哪些强大的功能。</p>
-<h1 id="基础">基础</h1>
-<p>KeyPath 本质上让我们可以用一个值来引用任意对象的特定属性。像这样，它可以被到处传递引用，在表达式中使用，甚至可以在不用知道它是哪个类的属性时，对它进行set 和get 操作。</p>
-<p>KeyPath一般有三种类型：</p>
-<ul>
-<li>KeyPath：提供只读的属性访问</li>
-<li>WritableKeyPath: 通过特定语法，提供某个对象的可变更属性的读写权限。（该对象必须是可修改的）</li>
-<li>ReferenceWritableKeyPath: 只能对可引用的类型使用，比如类的对象实例。同上，提供该对象的某个可修改的属性的读写权限。</li>
-</ul>
-<blockquote>
-<p>还有一些其他的keyPath类型，用来减少代码重复性，同时移除类型限制。不过我们暂时只关注主要的这几个类型。</p>
-</blockquote>
-<p>让我们来看看如何使用KeyPath，以及为什么它这么有趣又功能强大。</p>
-<h1 id="功能速记">功能速记</h1>
-<p>比如说我们要开发一个 让用户可以从各种Web上阅读文章的App，可以设计一个Article 数据模型来表示一篇文章，像这样：</p>
-<pre tabindex="0"><code>struct Article {
-    let id: UUID
-    let source: URL
-    let title: String
-    let body: String
-}
-</code></pre><p>当我们使用这种数据模型的数组时，经常需要从类里摘取单一属性出来重新生成一个新的数据数组。比如下面的例子，我们将所有id 和source数据拿出来生成新的数据数组。</p>
-<pre tabindex="0"><code>let articleIDs = articles.map { $0.id }
-let articleSources = articles.map { $0.source }
-</code></pre><p>当我们只需要使用到一个属性数据时，上面的代码是ok的。但其实我们不需要使用到闭包的所有功能，这时候使用keypath 就是比较合适的选择了。</p>
-<p>我们可以重载Sequence 的map 方法，让它使用一个keypath来替代之前的闭包作为参数。在这个例子里，我们只对只读属性数据感兴趣，因此使用KeyPath 类型即可。使用传入的KeyPath 来生成数据返回，就像下面这样：</p>
-<pre tabindex="0"><code>extension Sequence {
-    func map&lt;T&gt;(_ keyPath: KeyPath&lt;Element, T&gt;) -&gt; [T] {
-        return map { $0[keyPath: keyPath] }
-    }
-}
-</code></pre><blockquote>
-<p>注意：Swift 5.2 以上的Sequence map函数已经支持用KeyPath作为参数了。<a href="https://www.swiftbysundell.com/tips/passing-key-paths-as-functions">automatically converted into functions</a>.</p>
-</blockquote>
-<p>使用上面的扩展方法，我们可以很方便地将对象的单一任意属性从数组里截取出来，上面的例子代码可以修改为：</p>
-<pre tabindex="0"><code>let articleIDs = articles.map(\.id)
-let articleSources = articles.map(\.source)
-</code></pre><p>这很cool，但keypath真正的强大之处我们可以用更复杂一点的表达式体现出来，比如将数组进行排序。</p>
-<p>标准库已经可以将任意带有Sortable 元素的序列进行排序了，但是对于所有类型，我们都必须实现自己的排序闭包。然而，使用keypath，我们就可以很简单地使用数组元素的Comparable类型keypath来进行排序了。像上面做的那样，我们给Sequence新增一个扩展方法，将传入的keypath 转换成排序闭包返回。</p>
-<pre tabindex="0"><code>extension Sequence {
-    func sorted&lt;T: Comparable&gt;(by keyPath: KeyPath&lt;Element, T&gt;) -&gt; [Element] {
-        return sorted { a, b in
-            return a[keyPath: keyPath] &lt; b[keyPath: keyPath]
-        }
-    }
-}
-</code></pre><p>使用上面的方法，我们可以用指定的keypath来更快速和方便地对一个序列进行排序了。如果我们要开发一个 使用可排序数据列表的app，比如一个带播放列表的音乐app，我们就可以使用任何可比较的属性来对播放列表进行排序，甚至可以使用嵌套的多层属性。</p>
-<pre tabindex="0"><code>playlist.songs.sorted(by: \.name)
-playlist.songs.sorted(by: \.dateAdded)
-playlist.songs.sorted(by: \.ratings.worldWide)
-</code></pre><p>像上面那样的代码就像新增了一个语法糖，对任意属性都能使用同样的排序代码，不但能让处理序列的复杂代码的可读性变得更高，也能减少重复代码。</p>
-<h1 id="不需要对象实例了">不需要对象实例了</h1>
-<p>适量的语法糖还是很棒的。keypath的真正强大之处在于我们可以引用任意属性却不用关心它所属的对象实例。回到上面所说的音乐主题，比如说我们开发的app要显示一个音乐列表，需要为一首音乐配置一个UITableViewCell，我们可以定一个配置信息如下：</p>
-<pre tabindex="0"><code>struct SongCellConfigurator {
-    func configure(_ cell: UITableViewCell, for song: Song) {
-        cell.textLabel?.text = song.name
-        cell.detailTextLabel?.text = song.artistName
-        cell.imageView?.image = song.albumArtwork
-    }
-}
-</code></pre><blockquote>
-<p>你可以从下面的网站了解到更多关于为视图定义配置信息的知识
-<a href="https://www.swiftbysundell.com/articles/preventing-views-from-being-model-aware-in-swift">&ldquo;Preventing views from being model aware in Swift&rdquo;</a>.</p>
-</blockquote>
-<p>上面代码没什么问题，但有很高的几率我们还要用同样的风格来渲染数据模型（tableview经常要显示包含标题，副标题以及图片，无论它使用的是什么类型的数据模型）我们来看看是否可以用keypath来创建一套通用配置，无论什么类型的数据模型都能使用。</p>
-<p>先创建一个叫 CellConfigurator 的泛型类型，当我们需要为不同的数据模型渲染不同的数据时，可以定义一组基于keypath类型的属性，每一个属性对应一个需要渲染的数据。</p>
-<pre tabindex="0"><code>struct CellConfigurator&lt;Model&gt; {
-    let titleKeyPath: KeyPath&lt;Model, String&gt;
-    let subtitleKeyPath: KeyPath&lt;Model, String&gt;
-    let imageKeyPath: KeyPath&lt;Model, UIImage?&gt;
-
-    func configure(_ cell: UITableViewCell, for model: Model) {
-        cell.textLabel?.text = model[keyPath: titleKeyPath]
-        cell.detailTextLabel?.text = model[keyPath: subtitleKeyPath]
-        cell.imageView?.image = model[keyPath: imageKeyPath]
-    }
-}
-</code></pre><p>上面方法的美妙之处在于我们可以很简单地为每个数据模型设定一个泛型CellConfigurator，只要使用keypath就可以达到目的。就像这样：</p>
-<pre tabindex="0"><code>let songCellConfigurator = CellConfigurator&lt;Song&gt;(
-    titleKeyPath: \.name,
-    subtitleKeyPath: \.artistName,
-    imageKeyPath: \.albumArtwork
-)
-
-let playlistCellConfigurator = CellConfigurator&lt;Playlist&gt;(
-    titleKeyPath: \.title,
-    subtitleKeyPath: \.authorName,
-    imageKeyPath: \.artwork
-)
-</code></pre><p>我们可以用闭包来创建CellConfigurator，就像基础库里的功能性函数 sort 和 map方法一样。我们可以使用keypath来实现优美的语法，我们也不用编写特定的代码来与数据模型实例直接打交道了，也让这些配置声明更加简单和易懂。</p>
-<h1 id="转换为函数">转换为函数</h1>
-<p>到目前为止，我们只用了keypath来读取数据，现在来看看我们怎么使用keypath来动态写入数据。在各种开源代码里最常见的就像下面的例子 - 我们在ListViewController里加载渲染一个物品列表，当加载工作完成时，我们将相关数据设置给ViewController的一个属性。</p>
-<pre tabindex="0"><code>class ListViewController {
-    private var items = [Item]() { didSet { render() } }
-
-    func loadItems() {
-        loader.load { [weak self] items in
-            self?.items = items
-        }
-    }
-}
-</code></pre><p>我们来看看keypath是否可以让上面的语法更加简单，我们是否可以将 weak self这种经常要手动实现的东西给移除掉（使用weak self 主要是为了避免循环引用）。</p>
-<p>我们需要做的是将传给我们实现的闭包的数据设置给ViewController的一个属性。如果我们可以为这个属性传递一个setter函数，那是不是就更酷了？方法是我们load函数直接传入一个函数作为回调处理，这样就行的通了。</p>
-<p>要实现这个功能，我们需要定义一个可以将传入的可写keypath转换成 为这个keypath设定数据的闭包的函数。这次我们可以使用 ReferenceWritableKeyPath 类型，因为我们需要限定只对可引用类型来使用（不然的话我们改变的是实例数据的拷贝而不是实例本身）。传入对象实例和实例的属性keypath后，就可以自动将实例捕获为weak引用，并在调用返回的闭包后更改keypath对应的属性 - 就像这样：</p>
-<pre tabindex="0"><code>func setter&lt;Object: AnyObject, Value&gt;(
-    for object: Object,
-    keyPath: ReferenceWritableKeyPath&lt;Object, Value&gt;
-) -&gt; (Value) -&gt; Void {
-    return { [weak object] value in
-        object?[keyPath: keyPath] = value
-    }
-}
-</code></pre><p>用上面的方法，我们就可以将之前的代码简化，去掉weak self的语法，最终得到看上去更干净的代码。</p>
-<pre tabindex="0"><code>class ListViewController {
-    private var items = [Item]() { didSet { render() } }
-
-    func loadItems() {
-        loader.load(then: setter(for: self, keyPath: \.items))
-    }
-}
-</code></pre><p>太酷了！如果我们将它应用在进阶的功能里，比如函数组合，那就更酷了，比如我们可以将多个setter和其他函数绑定在一起。接下来我们会更深入地探讨keypath功能，函数组合将是接下来的文章话题。</p>
-<h1 id="结论">结论</h1>
-<p>一开始，可能有点难以理解如何以及何时使用swift的keypath，认为它只是简单的语法糖而已 而忽略它的真正强大之处。能更动态地引用对象的属性是一个强大的功能，尽管闭包能经常能达到相似的功能，但简单的语法和可声明性的本质让它成为处理各种各样的数据的很棒的选择。</p>
-<p>作为一个比较新出的功能（Swift 4 以上），我相信随着时间的推移，技术社区里会出现关于keypath的新用法和思路，因此在以后的技术文章里我们还会回顾keypath功能。到那时，我也想听听大家关于keypath的想法 - 比如你们是否真的在使用它 或是 正在尝试着使用它？</p>
-<p>谢谢阅读我的文章。</p>
-
+<h2 id="加减乘除重载">加减乘除重载</h2>
+<p>在对应的结构，类，枚举里重写即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> x: Int, y: Int
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#f92672">+</span> (p1: Point, p2: Point) -&gt; Point {
+</span></span><span style="display:flex;"><span>        Point(x: p1.x <span style="color:#f92672">+</span> p2.x, y: p1.y <span style="color:#f92672">+</span> p2.y)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="equatablecomparable">Equatable，Comparable</h2>
+<p>Equatable 设定对象可以比较是否相等。重写 == 运算符。
+Comparable 设定对象可以比较大小。重写 &gt;, &lt;, &gt;=, &lt;= 等运算符。</p>
+<h2 id="自定义运算符custom-operator">自定义运算符（Custom Operator）</h2>
+<p>可以自定义新的运算符：在全局作用域使用operator进行声明。</p>
+<p>prefix operator 前缀运算符
+postfix operator 后缀运算符</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">//前后运算符，自定义 +++ 为整型加2</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">prefix</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">+++</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">postfix</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">++-</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">prefix</span> <span style="color:#66d9ef">func</span> <span style="color:#f92672">+++</span> (<span style="color:#66d9ef">_</span> i: <span style="color:#66d9ef">inout</span> Int) {
+</span></span><span style="display:flex;"><span>    i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">postfix</span> <span style="color:#66d9ef">func</span> <span style="color:#f92672">++-</span> (<span style="color:#66d9ef">_</span> i: <span style="color:#66d9ef">inout</span> Int) {
+</span></span><span style="display:flex;"><span>    i <span style="color:#f92672">-=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> age = <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">+++</span>age
+</span></span><span style="display:flex;"><span>print(age) <span style="color:#75715e">// 12</span>
+</span></span><span style="display:flex;"><span>age<span style="color:#f92672">++-</span>
+</span></span><span style="display:flex;"><span>print(age) <span style="color:#75715e">// 10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//中缀运算符，也就是放置在两个变量中间的运算符，可以定义它的运算优先级</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">infix</span> <span style="color:#66d9ef">operator</span> <span style="color:#960050;background-color:#1e0010">中缀运算符：优先级组</span> 
+</span></span><span style="display:flex;"><span>precedencegroup <span style="color:#960050;background-color:#1e0010">优先级组</span> 
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">associativity</span>: <span style="color:#960050;background-color:#1e0010">结合性（</span><span style="color:#66d9ef">left</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">right</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">none</span><span style="color:#960050;background-color:#1e0010">）</span> 
+</span></span><span style="display:flex;"><span>higherThan: <span style="color:#960050;background-color:#1e0010">比谁的优先级更高</span> 
+</span></span><span style="display:flex;"><span>lowerThan: <span style="color:#960050;background-color:#1e0010">比谁的优先级低</span> 
+</span></span><span style="display:flex;"><span>assignment: true代表在可选链操作中拥有跟赋值运算符一样的优先级 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>样例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">//声明自定义的中缀运算符，名称为 PlusMinusPrecedence</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">infix</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">+-</span>: PlusMinusPrecedence
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//定义该运算符的优先级</span>
+</span></span><span style="display:flex;"><span>precedencegroup PlusMinusPrecedence {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/***
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     left: 从左往右执行，可以多个进行结合
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     right: 从右往左执行，可以多个进行结合
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     none: 不支持多个结合  比如 p1 +- p2 +- p3 就会报错
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">associativity</span>: <span style="color:#66d9ef">none</span>
+</span></span><span style="display:flex;"><span>    higherThan: AdditionPrecedence
+</span></span><span style="display:flex;"><span>    lowerThan: MultiplicationPrecedence
+</span></span><span style="display:flex;"><span>    assignment: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> x = <span style="color:#ae81ff">0</span>, y = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//实现运算符</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#f92672">+-</span> (p1: Point, p2: Point) -&gt; Point {
+</span></span><span style="display:flex;"><span>        Point(x: p1.x <span style="color:#f92672">+</span> p2.x, y: p1.y <span style="color:#f92672">-</span> p2.y)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>print(Point(x: <span style="color:#ae81ff">10</span>, y: <span style="color:#ae81ff">20</span>) <span style="color:#f92672">+-</span> Point(x: <span style="color:#ae81ff">5</span>, y: <span style="color:#ae81ff">10</span>)) <span style="color:#75715e">// Point(x: 15, y: 10)</span>
+</span></span></code></pre></div>
 
 <footer class="footline">
 	
@@ -1524,26 +1465,6 @@ let playlistCellConfigurator = CellConfigurator&lt;Playlist&gt;(
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
                 
                 
 
@@ -1655,6 +1576,26 @@ let playlistCellConfigurator = CellConfigurator&lt;Playlist&gt;(
             
             
                 
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -1839,10 +1780,10 @@ let playlistCellConfigurator = CellConfigurator&lt;Playlist&gt;(
 	 
 	 
 		
-			<a class="nav nav-prev" href="/swift/swift_dynamicmemberlookup/" title="Swift dynamicMemberLookup"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/swift/swift_privilege/" title="Swift 访问控制等级"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/swift/swift_oc_communicate/" title="Swift 与 OC的互相使用tips" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/swift/swift_property_wrappers/" title="属性包装器Property Wrappers" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1852,19 +1793,19 @@ let playlistCellConfigurator = CellConfigurator&lt;Playlist&gt;(
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1664282996"></script>
-    <script src="/js/perfect-scrollbar.min.js?1664282996"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1664282996"></script>
-    <script src="/js/jquery.sticky.js?1664282996"></script>
-    <script src="/js/featherlight.min.js?1664282996"></script>
-    <script src="/js/highlight.pack.js?1664282996"></script>
+    <script src="/js/clipboard.min.js?1664282997"></script>
+    <script src="/js/perfect-scrollbar.min.js?1664282997"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1664282997"></script>
+    <script src="/js/jquery.sticky.js?1664282997"></script>
+    <script src="/js/featherlight.min.js?1664282997"></script>
+    <script src="/js/highlight.pack.js?1664282997"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1664282996"></script>
-    <script src="/js/learn.js?1664282996"></script>
-    <script src="/js/hugo-learn.js?1664282996"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1664282997"></script>
+    <script src="/js/learn.js?1664282997"></script>
+    <script src="/js/hugo-learn.js?1664282997"></script>
     
         
-            <script src="/mermaid/mermaid.js?1664282996"></script>
+            <script src="/mermaid/mermaid.js?1664282997"></script>
         
         <script>
             mermaid.initialize({ startOnLoad: true });

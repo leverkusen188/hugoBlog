@@ -8,6 +8,18 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/swift/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>String 自定义格式化</title>
+      <link>https://leverkusen188.github.io/swift/string_custom_format/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/string_custom_format/</guid>
+      <description>比如一个自定义结构，在打印时，print 会按照 Swift struct 的默认格式打印 Person 值
+struct Person { let name: String let place: String } print(&amp;#34;Hi, \(Person(name: &amp;#34;Geralt&amp;#34;, place: &amp;#34;Rivia&amp;#34;))&amp;#34;) 如果要自定义Person的打印结果，可以 扩展String.StringInterpolation，样例代码：
+extension String.StringInterpolation { mutating func appendInterpolation(_ person: Person) { // 调用的 `appendLiteral(_ literal: String)` 接受 `String` 参数 appendLiteral(&amp;#34;\(person.name) of \(person.place)&amp;#34;) } } 这样，打印出来的Person会变成
+print(&amp;#34;Hi, \(Person(name: &amp;#34;Geralt&amp;#34;, place: &amp;#34;Rivia&amp;#34;))&amp;#34;) Hi, Geralt of Rivia</description>
+    </item>
+    
+    <item>
       <title>Swift dynamicMemberLookup</title>
       <link>https://leverkusen188.github.io/swift/swift_dynamicmemberlookup/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
@@ -38,6 +50,44 @@ let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.s
     </item>
     
     <item>
+      <title>Swift 与 OC的互相使用tips</title>
+      <link>https://leverkusen188.github.io/swift/swift_oc_communicate/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_oc_communicate/</guid>
+      <description>Swift要使用OC代码 Case1 : 如果是主工程里，则需要将对应的OC头文件放入 生成的 &amp;ldquo;-Bridging-Header.h&amp;rdquo; 头文件里。 Case2: 如果是子工程，必须将OC对应的头文件设为Public；再将该头文件放入modular header里来import。 Swift使用OC的 枚举。（不同的声明方式对应不同的使用方式） **Case1: **
+typedef enum : NSUInteger { XXXX1, } XXXX; 在swift中： let vv : XXXX = XXXX1 Case2:
+typedef NS_ENUM(NSUInteger, JapaneseFoodType1) { JapaneseFoodType1_Sushi = 1, JapaneseFoodType1_Tempura = 2, }; 在swift中： let v : JapaneseFoodType1 = .sushi PS：也都可以用 init(rawValue:) 来使用，但不推荐。
+Swift 使用OC的指针 Swift 端的指针类型有： UnsafePointer: 类似于const Pointee * UnsafeMutablePointer: 类似于Pointee * UnsafeRawPointer: 类似于const void * UnsafeMutableRawPointer: 类似于void * //OC传指针给Swift //Swift端 @objc class SwiftClosure : NSObject { @objc class func test1(_ ptr: UnsafeMutablePointer&amp;lt;Int&amp;gt;) { ptr.</description>
+    </item>
+    
+    <item>
+      <title>Swift 函数和闭包</title>
+      <link>https://leverkusen188.github.io/swift/swift_function_closure/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_function_closure/</guid>
+      <description>可变参数 可以设定同类型的参数为可变个数，然后在函数里将该参数作为数组来使用。 可变参数的位置不一定是最后一个。
+示例代码：
+func manyVar(v : Int..., d : Double) { for i in v {	//作为数组使用 } } manyVar( d: 2.2) //传 0 个v参数 manyVar(v:1,2,3, d: 2.2) //传3个 v参数 闭包 和 函数 对外部变量的引用 Block 和 函数在使用它们外部的变量时，使用的是该变量的引用（无论是基本类型还是 类结构），当变量变化时，block和函数内部的该变量也会一起变化。
+代码例子：
+var bInt : Int = 4 func capture(_ num : Int) -&amp;gt; String { bInt += num return &amp;#34;caturpe \(bInt)&amp;#34; } bInt += 1 print(&amp;#34;capture \(capture(1))”) //打印 capture 6 print(&amp;#34;capture \(capture(2))”) //打印 capture 7, 此时 bInt 变成7了 尾随闭包 当闭包作为函数最后一个参数时，可以将闭包体放在函数的括号外面，这是一个语法糖。</description>
+    </item>
+    
+    <item>
+      <title>Swift 字面量协议和模式匹配</title>
+      <link>https://leverkusen188.github.io/swift/swift_pattern_match/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_pattern_match/</guid>
+      <description>字面量协议(Literal Type) 字面量(Literal Type)就是基本类型的常量值。 比如： 10、false、&amp;ldquo;Jack&amp;quot;就是字面量
+var age = 10 var isRed = false var name = &amp;#34;Jack&amp;#34; 而如果类实现了对应的字面量协议后，就可以用字面量来初始化对象了。 常用的字面量协议有：
+Bool: ExpressibleByBooleanLiteral Int: ExpressibleByIntegerLiteral Float、Double: ExpressibleByIntegerLiteral、ExpressibleByFloatLiteral String: ExpressibleByStringLiteral Array、Set: ExpressibleByArrayLiteral Dictionary: ExpressibleByDictionaryLiteral Optional: ExpressibleByNilLiteral 样例代码：
+class LiteralTypeClass : ExpressibleByBooleanLiteral { var boolValue : Bool //实现了bool的字面量协议，可以用bool来初始化了 required init(booleanLiteral value: BooleanLiteralType) { boolValue = value } } let obj : LiteralTypeClass = false 模式匹配 模式是用于匹配的规则，比如switch的case、捕捉错误的catch、if\guard\while\for语句的条件等。
+1. 通配符模式（Wildcard Pattern） 1.1 _ 匹配任何值 1.2 _?</description>
+    </item>
+    
+    <item>
       <title>Swift 数组和字典</title>
       <link>https://leverkusen188.github.io/swift/swift_array_dictionary/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
@@ -46,6 +96,50 @@ let articleIDs = articles.map { $0.id } let articleSources = articles.map { $0.s
       <description>数组和字典的遍历(enumerated) 数组和字典的遍历有两种方式。
 方式1: let arr = [1,2,3] for v in arr.enumerated() { v.offset //就是下标序号 v.element //就是当前元素 } let dict = [1: “first”, 2: “second”] for v in dict.enumerated() { v.offset //就是序号 v.element //类型是 [Int: String].Element, 有key 和value属性； } 方式2: for (index, value) in arr.enumerated() { //index 是下标，value是元素 } for (index, value) in arr.enumerated() { //index 是下标，value是 [Int: String].Element } 用数组里的对象的属性贵族归组 快速创建字典 样例代码：
 struct Data { var i : Int var text : String } //dic 会用 Data的 i 属性来作为key生成。 let dic = Dictionary(grouping: [ Data999(i: 1, text: &amp;#34;haha&amp;#34;), Data999(i: 1, text: &amp;#34;baa&amp;#34;), Data999(i: 4, text: &amp;#34;abnn&amp;#34;), Data999(i: 4, text: &amp;#34;erwr&amp;#34;), Data999(i: 6, text: &amp;#34;babr&amp;#34;), ], by: { $0.</description>
+    </item>
+    
+    <item>
+      <title>Swift 类和结构</title>
+      <link>https://leverkusen188.github.io/swift/swift_class_structure/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_class_structure/</guid>
+      <description>结构的mutating 函数 结构体中，除了init 函数外，其他函数中如果有修改自身属性，必须声明为 mutating
+struct s { var str : String = &amp;#34;&amp;#34; mutating func(s1 : String) { self.str = s1 } } 类方法和 Static 方法 类方法和static方法都是通过 类名(结构名) 直接调用的方法。 但 类方法可以被子类重写，而static 不行.
+class EqualClass { class func canOverride() { print(&amp;#34;EqualClass canOverride&amp;#34;) } static func cannotOverride() { print(&amp;#34;EqualClass cannotOverride&amp;#34;) } } class SubEqualClass : EqualClass { override class func canOverride() { print(&amp;#34;SubEqualClass canOverride&amp;#34;) } //下面代码无法编译 override static func cannotOverride() { print(&amp;#34;SubEqualClass cannotOverride&amp;#34;) } } 下标脚本（subscript） 在类，结构或是枚举 声明中，可以定义下标脚本，通过一个或多个索引来访问实例里的数据。</description>
+    </item>
+    
+    <item>
+      <title>Swift 访问控制等级</title>
+      <link>https://leverkusen188.github.io/swift/swift_privilege/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_privilege/</guid>
+      <description>Top open: 允许在定义实体的模块、其他模块中访问，允许其他模块进行继承、重写（open只能用在类、类成员上） public: 允许在定义实体的模块、其他模块中访问，不允许其他模块进行继承、重写 internal: 只允许在定义实体的模块中访问，不允许在其他模块中访问 fileprivate: 只允许在定义实体的源文件中访问 private： 只允许在定义实体的封闭声明中访问 绝大部分实体默认都是internal级别
+准则1: 低等级的定义不能被高等级的定义包含，并暴露出去 //fileprivate 等级的类 fileprivate class Person {} public var p : Person //❌ public class Jason : Person {} //❌ fileprivate class John : Person {} //正确 准则2: 泛型使用场景中，应该以最低访问等级的那个类型为准。 internal class Car {} fileprivate class Dog {} //最低等级 public class Person&amp;lt;T1, T2&amp;gt; {} fileprivate var p = Person&amp;lt;Car, Dog&amp;gt;() //以最低等级为准，该变量必须设定为 fileprivate 准则3: 类型的等级会影响它的函数，变量等访问等级。 fileprivate class Person { var age : Int //也是fileprivate } 准则4: 源码文件最外面的private等同于 fileprivate。 //文件最外层的 private Dog结构，等同于fileprivate等级。 private struct Dog { private var age: Int = 0 //但它的属性和函数都是 private，只能在 Dog结构声明里使用。 func run() {} //跟随 Dog的等级，都是fileprivate } fileprivate struct Person { var dog: Dog = Dog() mutating func walk() { dog.</description>
+    </item>
+    
+    <item>
+      <title>Swift 运算符重载</title>
+      <link>https://leverkusen188.github.io/swift/swift_operator_override/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_operator_override/</guid>
+      <description>加减乘除重载 在对应的结构，类，枚举里重写即可。
+struct Point { var x: Int, y: Int static func + (p1: Point, p2: Point) -&amp;gt; Point { Point(x: p1.x + p2.x, y: p1.y + p2.y) } } Equatable，Comparable Equatable 设定对象可以比较是否相等。重写 == 运算符。 Comparable 设定对象可以比较大小。重写 &amp;gt;, &amp;lt;, &amp;gt;=, &amp;lt;= 等运算符。
+自定义运算符（Custom Operator） 可以自定义新的运算符：在全局作用域使用operator进行声明。
+prefix operator 前缀运算符 postfix operator 后缀运算符
+//前后运算符，自定义 +++ 为整型加2 prefix operator +++ postfix operator ++- prefix func +++ (_ i: inout Int) { i += 2 } postfix func ++- (_ i: inout Int) { i -= 2 } var age = 10 +++age print(age) // 12 age++- print(age) // 10 //中缀运算符，也就是放置在两个变量中间的运算符，可以定义它的运算优先级 infix operator 中缀运算符：优先级组 precedencegroup 优先级组 { associativity: 结合性（left\right\none） higherThan: 比谁的优先级更高 lowerThan: 比谁的优先级低 assignment: true代表在可选链操作中拥有跟赋值运算符一样的优先级 } 样例代码：</description>
+    </item>
+    
+    <item>
+      <title>属性包装器Property Wrappers</title>
+      <link>https://leverkusen188.github.io/swift/swift_property_wrappers/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift_property_wrappers/</guid>
+      <description>代码示例：
+@propertyWrapper struct Increase&amp;lt;T&amp;gt; { var wrappedValue : T { get {return value1} set { value1 = newValue if T.self is Int.Type { print(&amp;#34;\(T.self)&amp;#34;) } if T.self is NSObject.Type || T.self is (NSObject?).Type { print(&amp;#34;\(T.self)&amp;#34;) } } } var projectedValue : Increase&amp;lt;T&amp;gt; {return self} private var value1 : T init(wrappedValue: T) { self.value1 = wrappedValue } public func printValue() { if let v = wrappedValue as? Int { print(&amp;#34;Increase: value=\(v+1)&amp;#34;) } } } class SwiftTestObject : NSObject { @Increase var wrappedInt : Int = 1 @Increase(wrappedValue: nil) var wrappedObject : NSObject?</description>
     </item>
     
   </channel>
