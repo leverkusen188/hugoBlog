@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Javascripts on My New Hugo Site</title>
+    <link>https://leverkusen188.github.io/javascript/</link>
+    <description>Recent content in Javascripts on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>函数相关语法注意点</title>
+      <link>https://leverkusen188.github.io/javascript/function/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/javascript/function/</guid>
+      <description>参数与返回值 1. 无return值的函数，返回 undefined
+function tttt() { } if (tttt() === undefined) { console.log(&amp;#39;undefined111&amp;#39;) } 2. 函数只用名字来限定唯一性
+function t1(p1) { console.log(&amp;#39;t1 p1=&amp;#39; + p1) } function t1(p1, p2) { console.log(&amp;#39;t1 p1=&amp;#39; + p1 + &amp;#34;p2=&amp;#34;+p2) } 前面那个t1 会被覆盖
+3. 调用函数时，参数个数不一定要一致 如果参数多了，函数会忽略 如果参数少了，默认为 undefined
+4. 函数内使用 arguments arguments 可以访问函数传入的参数，但不同于数组。可以用 length 来判断个数，以及 下标来访问
+function abs() { if (arguments.length === 0) { return 0; } var x = arguments[0]; return x &amp;gt;= 0 ?</description>
+    </item>
+    
+    <item>
+      <title>基本语法注意点</title>
+      <link>https://leverkusen188.github.io/javascript/basicgramma/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/javascript/basicgramma/</guid>
+      <description>数据对比 不要使用==比较，始终坚持使用 === 比较。 == 会自动转换数据类型来对比，有时候会得到奇怪的结果（当对比数据类型不同时） === 会先判断数据类型是否一致（不一致返回false），再对比数据是否相同。
+false == 0; // 返回 true false === 0; // 返回 false 特例：
+NaN === NaN; //返回false 必须用 isNaN(Nan) 来判断
+字符串相关 格式化多行字符串
+var name = &amp;#39;小明&amp;#39;; var age = 20; var message = `你好, ${name}, 你今年${age}岁了!`; 字符串是不可变的 使用以下方法，都无法改变字符串
+var s = &amp;#39;Hello, world!&amp;#39;; s[0] = &amp;#39;X&amp;#39;; //还是 Hello world s.toUpperCase() //返回大写的字符串，但 s 不变 数组相关 直接给Array的length赋一个新的值会导致Array大小的变化
+var arr = [1, 2, 3]; arr.length = 6; //arr变为[1, 2, 3, undefined, undefined, undefined] 如果通过索引赋值时，索引超过了范围，同样会引起Array大小的变化：</description>
+    </item>
+    
+  </channel>
+</rss>

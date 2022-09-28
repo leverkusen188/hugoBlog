@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>图片组件（image） :: My New Hugo Site</title>
+    <title>IOS 子工程 源码和二进制库 编译方式切换方案 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1664352212" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/reactnative/rn_image/">
+  <body class="" data-url="/iosrelated/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/">
     <nav id="sidebar" class="">
 
 
@@ -177,7 +177,7 @@
   
     
     <li data-nav-id="/iosrelated/" title="IOSRelateds" class="dd-item
-        
+        parent
         
         
         ">
@@ -224,7 +224,7 @@
  
   
     
-      <li data-nav-id="/iosrelated/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/" title="IOS 子工程 源码和二进制库 编译方式切换方案" class="dd-item ">
+      <li data-nav-id="/iosrelated/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/" title="IOS 子工程 源码和二进制库 编译方式切换方案" class="dd-item active">
         <a href="/iosrelated/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/">
         IOS 子工程 源码和二进制库 编译方式切换方案
         
@@ -447,7 +447,7 @@
   
     
     <li data-nav-id="/reactnative/" title="ReactNatives" class="dd-item
-        parent
+        
         
         
         ">
@@ -536,7 +536,7 @@
  
   
     
-      <li data-nav-id="/reactnative/rn_image/" title="图片组件（image）" class="dd-item active">
+      <li data-nav-id="/reactnative/rn_image/" title="图片组件（image）" class="dd-item ">
         <a href="/reactnative/rn_image/">
         图片组件（image）
         
@@ -1304,7 +1304,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/reactnative/'>ReactNatives</a> > 图片组件（image）
+            <a href='/'>My New Hugo Site</a> > <a href='/iosrelated/'>IOSRelateds</a> > IOS 子工程 源码和二进制库 编译方式切换方案
           
         
           
@@ -1317,15 +1317,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#加载本地图片js-package里">加载本地图片（js package里）</a></li>
-    <li><a href="#加载混合app的图片">加载混合app的图片</a></li>
-    <li><a href="#加载网络图片">加载网络图片</a></li>
-    <li><a href="#组件的背景图">组件的背景图**</a></li>
-    <li><a href="#图片的圆角">图片的圆角</a></li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
     </div>
 </div>
 
@@ -1341,73 +1333,136 @@
           
             <h1>
               
-              图片组件（image）
+              IOS 子工程 源码和二进制库 编译方式切换方案
             </h1>
           
 
         
 
 
-<h2 id="加载本地图片js-package里">加载本地图片（js package里）</h2>
-<p>图片放置在 js的package里</p>
-<p>使用 Image 组件即可。</p>
-<pre tabindex="0"><code>&lt;Image source={require(&#39;./img/check.png&#39;)} /&gt;
-</code></pre><p>也能用变量来动态加载</p>
-<pre tabindex="0"><code>const icon = &#34;small.png&#34;;
-&lt;Image source={require(&#34;./&#34;+icon)} /&gt;
-</code></pre><p>上面描述的require语法也可以用来静态地加载你项目中的声音、视频或者文档文件。</p>
-<p>大多数常见文件类型都支持，包括.mp3, .wav, .mp4, .mov, .htm 和 .pdf等。</p>
-<p>参考 <a href="https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44">https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44</a></p>
-<h2 id="加载混合app的图片">加载混合app的图片</h2>
-<p>指的是加载原生app的asset里的图片资源。</p>
-<ul>
-<li>iOS</li>
-</ul>
-<pre tabindex="0"><code>&lt;Image
- source={{ uri: &#39;app_icon&#39; }}
- style={{ width: 40, height: 40 }}
-/&gt;
-</code></pre><ul>
-<li>android</li>
-</ul>
-<pre tabindex="0"><code>&lt;Image
-source={{ uri: &#39;asset:/app_icon.png&#39; }}
-style={{ width: 40, height: 40 }}
-/&gt;
-</code></pre><blockquote>
-<p><strong>注意：<strong>这些做法并没有任何安全检查。你需要自己确保图片在应用中确实存在，而且还需要</strong>指定尺寸</strong>。</p>
-</blockquote>
-<h2 id="加载网络图片">加载网络图片</h2>
-<p>使用远程地址作为参数即可. </p>
-<pre tabindex="0"><code>&lt;Image source={{uri: &#39;https://facebook.github.io/react/logo-og.png&#39;}}
-style={{width: 400, height: 400}} /&gt;
-</code></pre><blockquote>
-<p><strong>注意：<strong>跟加载app图片一样，需要</strong>指定尺寸</strong>。</p>
-</blockquote>
-<p>还能直接制定请求参数</p>
-<pre tabindex="0"><code>&lt;Image
- source={{
- uri: &#39;https://facebook.github.io/react/logo-og.png&#39;,
- method: &#39;POST&#39;,
- headers: {
- Pragma: &#39;no-cache&#39;
- },
- body: &#39;Your Body goes here&#39;
-}}
-style={{ width: 400, height: 400 }}
-/&gt;
-</code></pre><h2 id="组件的背景图">组件的背景图**</h2>
-<p>用<strong>ImageBackground</strong> 将组件包起来即可，相关属性跟 <strong>Image</strong> 一样。</p>
-<pre tabindex="0"><code>&lt;ImageBackground source={uri : ‘app_icon’} style={{width: &#39;100%&#39;, height: &#39;100%&#39;}}&gt;
- &lt;Text&gt;Inside&lt;/Text&gt;
- &lt;/ImageBackground&gt;
-</code></pre><h2 id="图片的圆角">图片的圆角</h2>
-<ul>
-<li>borderTopLeftRadius</li>
-<li>borderTopRightRadius</li>
-<li>borderBottomLeftRadius</li>
-<li>borderBottomRightRadius</li>
-</ul>
+<p><a href="https://www.jianshu.com/p/a6d0f37cdc27">https://www.jianshu.com/p/a6d0f37cdc27</a>  这个主要是用 环境变量控制 podspec 里，是使用源码还是 .a 。最终 pod install 来让主工程切换子模块的 源码和二进制编译方式。</p>
+<p><a href="https://juejin.im/entry/5b5308c66fb9a04f932ff87e">https://juejin.im/entry/5b5308c66fb9a04f932ff87e</a>   这个好一点，需要创建私有pod，在podspec里配置 subspec；然后通过修改 主工程podfile，指定私有pod的 subspec  来切换编译方式。</p>
+<p>具体实施：</p>
+<ol>
+<li>为需要提供切换功能的工程配好podspec，作为local pods来管理。</li>
+</ol>
+<p>pod lib create &ldquo;podname&rdquo;</p>
+<ol start="2">
+<li>编写 该工程的 build 脚本，用以将该工程的 framework / .a 以及头文件等输出为二进制，以供切换编译用。</li>
+</ol>
+<pre tabindex="0"><code>#!/bin/sh
+
+#要build的target名
+
+TARGET_NAME=&#39;BottomStatic&#39;
+
+CONFIGURATION=&#39;Debug&#39;
+
+#${PROJECT_NAME}
+
+if [[ $1 ]]
+
+then
+
+TARGET_NAME=$1
+
+fi
+
+UNIVERSAL_OUTPUT_FOLDER=&#34;${SRCROOT}/${PROJECT_NAME}_Products/&#34;
+
+UNIVERSAL_OUTPUT_FOLDER=&#34;${TARGET_NAME}_Products/&#34;
+
+BUILD_DIR=&#34;Build/&#34;
+
+BUILD_ROOT=&#34;Output/&#34;
+
+SRCROOT=&#34;.&#34;
+
+#创建输出目录，并删除之前的framework文件
+
+mkdir -p &#34;${UNIVERSAL_OUTPUT_FOLDER}&#34;
+
+mkdir -p &#34;${BUILD_DIR}&#34;
+
+mkdir -p &#34;${BUILD_ROOT}&#34;
+
+rm -rf &#34;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework&#34;
+
+#分别编译模拟器和真机的Framework
+
+xcodebuild -target &#34;${TARGET_NAME}&#34; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=&#34;${BUILD_DIR}&#34; BUILD_ROOT=&#34;${BUILD_ROOT}&#34; clean build
+
+xcodebuild -target &#34;${TARGET_NAME}&#34; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphonesimulator BUILD_DIR=&#34;${BUILD_DIR}&#34; BUILD_ROOT=&#34;${BUILD_ROOT}&#34; clean build
+
+#拷贝framework到univer目录
+
+cp -R &#34;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${TARGET_NAME}.framework&#34; &#34;${UNIVERSAL_OUTPUT_FOLDER}&#34;
+
+#合并framework，输出最终的framework到build目录
+
+lipo -create -output &#34;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework/${TARGET_NAME}&#34; &#34;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${TARGET_NAME}.framework/${TARGET_NAME}&#34; &#34;${BUILD_DIR}/${CONFIGURATION}-iphoneos/${TARGET_NAME}.framework/${TARGET_NAME}&#34;
+
+#删除编译之后生成的无关的配置文件
+
+dir_path=&#34;${UNIVERSAL_OUTPUT_FOLDER}/${TARGET_NAME}.framework/&#34;
+
+for file in ls $dir_path
+
+do
+
+if [[ ${file} =~ &#34;.xcconfig&#34; ]]
+
+then
+
+rm -f &#34;${dir_path}/${file}&#34;
+
+fi
+
+done
+
+#判断build文件夹是否存在，存在则删除
+
+if [ -d &#34;${SRCROOT}/build&#34; ]
+
+then
+
+rm -rf &#34;${SRCROOT}/build&#34;
+
+fi
+
+rm -rf &#34;${BUILD_DIR}/${CONFIGURATION}-iphonesimulator&#34; &#34;${BUILD_DIR}/${CONFIGURATION}-iphoneos&#34;
+
+#打开合并后的文件夹
+
+open &#34;${UNIVERSAL_OUTPUT_FOLDER}&#34;
+</code></pre><p>直接执行 . build.sh  target_name  即可。</p>
+<ol start="3">
+<li>执行脚本，编译出framework后，修改 podspec文件。</li>
+</ol>
+<pre tabindex="0"><code>#用环境变量控制编译方式
+
+if ENV[&#39;BINARY&#39;]
+
+    s.ios.vendored_framework = &#39;DJIMidWare_Products/*.framework&#39;
+
+  else
+
+    s.source_files = &#39;DJIMidWare/DJIMidWare/**/*&#39;, &#39;DJIMidWare/DJIMidWare/*&#39;,
+
+  end
+</code></pre><ol start="4">
+<li>最后使用环境变量模式来 pod update一下这个local  pods 即可。</li>
+</ol>
+<pre tabindex="0"><code>BINARY=1 pod update BottomStatic --no-repo-update
+</code></pre><p>有几点要注意一下：</p>
+<ol>
+<li>
+<p>针对要切换编译模式的工程， 整个项目里其他依赖该工程的 工程，也需要配置pods来link它，而不能通过project link的模式。</p>
+</li>
+<li>
+<p>源码编译方式时，主工程跟该工程同时开发都是没问题的。如果只是修改了源码文件，直接build主工程即可体现修改；但如果新增了文件，需要 pod update一下才行</p>
+</li>
+</ol>
 
 
 <footer class="footline">
@@ -1445,8 +1500,6 @@ style={{ width: 400, height: 400 }}
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -1460,6 +1513,9 @@ style={{ width: 400, height: 400 }}
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1477,21 +1533,6 @@ style={{ width: 400, height: 400 }}
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -1509,37 +1550,8 @@ style={{ width: 400, height: 400 }}
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
                         
-            
-            
-                
                     
                 
                 
@@ -1624,7 +1636,6 @@ style={{ width: 400, height: 400 }}
             
                 
                     
-                    
                 
                 
 
@@ -1638,8 +1649,53 @@ style={{ width: 400, height: 400 }}
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
                         
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
                     
                 
                 
@@ -1689,7 +1745,6 @@ style={{ width: 400, height: 400 }}
             
                 
                     
-                    
                 
                 
 
@@ -1705,9 +1760,6 @@ style={{ width: 400, height: 400 }}
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2212,10 +2264,10 @@ style={{ width: 400, height: 400 }}
 	 
 	 
 		
-			<a class="nav nav-prev" href="/reactnative/js_native_communication/" title="React Native 的JS与Oc 通信"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/iosrelated/ios%E6%80%A7%E8%83%BD/" title="IOS app性能调优相关知识点"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/reactnative/rn_layout/" title="组件布局" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/iosrelated/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/" title="IOS 组件化-动态库实战" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

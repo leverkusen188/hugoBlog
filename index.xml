@@ -9,10 +9,10 @@
     <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>IOS app性能调优相关知识点</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/</link>
+      <link>https://leverkusen188.github.io/iosrelated/ios%E6%80%A7%E8%83%BD/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/ios%E6%80%A7%E8%83%BD/</guid>
+      <guid>https://leverkusen188.github.io/iosrelated/ios%E6%80%A7%E8%83%BD/</guid>
       <description>前言 本文较长（5000字左右），建议阅读时间： 20min+
 一个iOS App的稳定性，主要决定于整体的系统架构设计，同时也不可忽略编程的细节，正所谓“千里之堤，溃于蚁穴”，一旦考虑不周，看似无关紧要的代码片段可能会带来整体软件系统的崩溃。尤其因为苹果限制了热更新机制，App本身的稳定性及容错性就显的更加重要，之前可以通过发布热补丁的方式解决线上代码问题，现在就需要在提交之前对App开发周期内的各个指标进行实时监测，尽量让问题暴漏在开发阶段，然后及时修复，减少线上出问题的几率。针对一个App的开发周期，它的稳定性指标主要有以下几个环节构成，用一个脑图表示如下：
 1 开发过程 开发过程中，主要是通过监控内存使用及泄露，CPU使用率，FPS，启动时间等指标，以及常见的UI的主线程监测，NSAssert断言等，最好能在Debug模式下，实时显示在界面上，针对出现的问题及早解决。
@@ -27,10 +27,10 @@ __weak typeof(self) weakSelf = self; self.mytimer = [NSTimer scheduledTimerWithT
     
     <item>
       <title>IOS 子工程 源码和二进制库 编译方式切换方案</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</link>
+      <link>https://leverkusen188.github.io/iosrelated/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</guid>
+      <guid>https://leverkusen188.github.io/iosrelated/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</guid>
       <description>https://www.jianshu.com/p/a6d0f37cdc27 这个主要是用 环境变量控制 podspec 里，是使用源码还是 .a 。最终 pod install 来让主工程切换子模块的 源码和二进制编译方式。
 https://juejin.im/entry/5b5308c66fb9a04f932ff87e 这个好一点，需要创建私有pod，在podspec里配置 subspec；然后通过修改 主工程podfile，指定私有pod的 subspec 来切换编译方式。
 具体实施：
@@ -40,10 +40,10 @@ https://juejin.im/entry/5b5308c66fb9a04f932ff87e 这个好一点，需要创建�
     
     <item>
       <title>IOS 组件化-动态库实战</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/</link>
+      <link>https://leverkusen188.github.io/iosrelated/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/</guid>
+      <guid>https://leverkusen188.github.io/iosrelated/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/</guid>
       <description>起因
 理论功底
 动态库和静态库
@@ -411,13 +411,27 @@ class WeiboModelTest : XCTestCase { var model : WeiboModel? let bag = DisposeBag
     
     <item>
       <title>一次还原ios release包的卡顿堆栈的记录</title>
-      <link>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</link>
+      <link>https://leverkusen188.github.io/iosrelated/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
       
-      <guid>https://leverkusen188.github.io/ios%E7%9B%B8%E5%85%B3/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</guid>
+      <guid>https://leverkusen188.github.io/iosrelated/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/</guid>
       <description>前提： 测试提了一个关于某个操作下会比较卡顿的问题，并上传了applog。
 log初探 app内部工具的InnerToolBlockDetect 里记录了卡顿的情况并打印了对应的线程堆栈信息。 但由于测试用的是release包，因此堆栈里都是相应函数的位移地址，无法看出真正的卡顿代码。
 libsystem_kernel.dylib 0x1f59140f4 mach_msg_trap + 8 libsystem_kernel.dylib 0x1f59135a0 mach_msg + 72 libdispatch.dylib 0x1f5778884 &amp;lt;redacted&amp;gt; + 500 libdispatch.dylib 0x1f5778d14 &amp;lt;redacted&amp;gt; + 52 libxpc.dylib 0x1f59d891c xpc_connection_send_message_with_reply_sync + 204 CoreMedia 0x1f93a9514 FigXPCRemoteClientSendSyncMessageCreatingReply + 36 CoreMedia 0x1f92ca884 &amp;lt;redacted&amp;gt; + 192 CoreFoundation 0x1f5d15d30 &amp;lt;redacted&amp;gt; + 192 MediaToolbox 0x1fa95459c &amp;lt;redacted&amp;gt; + 1448 MediaToolbox 0x1fa953f6c FigAssetRemoteCreateWithURL + 120 AVFoundation 0x1fbdf5bb0 &amp;lt;redacted&amp;gt; + 192 AVFoundation 0x1fbd0a874 &amp;lt;redacted&amp;gt; + 884 AVFoundation 0x1fbd033e4 &amp;lt;redacted&amp;gt; + 100 Fly-rls 0x106382da0 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1355164 Fly-rls 0x106383224 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1356320 Fly-rls 0x1044c5fec _mh_execute_header + 303084 Fly-rls 0x1044c5e1c _mh_execute_header + 302620 Fly-rls 0x10466c0ec _mh_execute_header + 2031852 Fly-rls 0x10466b920 _mh_execute_header + 2029856 Fly-rls 0x1044bd92c _mh_execute_header + 268588 libdispatch.</description>
+    </item>
+    
+    <item>
+      <title>函数相关语法注意点</title>
+      <link>https://leverkusen188.github.io/javascript/function/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/javascript/function/</guid>
+      <description>参数与返回值 1. 无return值的函数，返回 undefined
+function tttt() { } if (tttt() === undefined) { console.log(&amp;#39;undefined111&amp;#39;) } 2. 函数只用名字来限定唯一性
+function t1(p1) { console.log(&amp;#39;t1 p1=&amp;#39; + p1) } function t1(p1, p2) { console.log(&amp;#39;t1 p1=&amp;#39; + p1 + &amp;#34;p2=&amp;#34;+p2) } 前面那个t1 会被覆盖
+3. 调用函数时，参数个数不一定要一致 如果参数多了，函数会忽略 如果参数少了，默认为 undefined
+4. 函数内使用 arguments arguments 可以访问函数传入的参数，但不同于数组。可以用 length 来判断个数，以及 下标来访问
+function abs() { if (arguments.length === 0) { return 0; } var x = arguments[0]; return x &amp;gt;= 0 ?</description>
     </item>
     
     <item>
@@ -476,6 +490,21 @@ pip install Selenium 3.浏览器驱动（webdriver）
 选择合适的版本下载解压后放在随便一个位置即可。
 4.hello world
 from selenium import webdriver &amp;#39;&amp;#39;&amp;#39;这里填刚刚下载的驱动的路径&amp;#39;&amp;#39;&amp;#39; path = &amp;#39;/Applications/Google Chrome.app/Contents/chromedriver&amp;#39; driver = webdriver.Chrome(executable_path=path) url = &amp;#39;http://hotel.qunar.com/city/beijing_city/&amp;#39; driver.get(url) &amp;#39;&amp;#39;&amp;#39;运行上述代码，会打开一个浏览器，并且加载去哪儿的酒店列表页&amp;#39;&amp;#39;&amp;#39; 这时候可以通过webdriver自带的一些的一些方法获取元素内容或者与元素进行交互。 #返回ID = js_block_beijing_city_7810的元素信息 hotel_info = driver.find_element_by_id(&amp;#39;js_block_beijing_city_7810&amp;#39;) print(hotel_info.text) #返回 展示在列表页的酒店信息 #同理，可以find_element_by_[class_name|name] 等，均可完成查询。 也可以通过方法 find_elements查找符合某条件的一组元素，以列表的形式返回。 #当需要查询的唯一标识带有空格时，可以使用find_elements_by_css_selector，否则会报错。 hotel_list = driver.</description>
+    </item>
+    
+    <item>
+      <title>基本语法注意点</title>
+      <link>https://leverkusen188.github.io/javascript/basicgramma/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/javascript/basicgramma/</guid>
+      <description>数据对比 不要使用==比较，始终坚持使用 === 比较。 == 会自动转换数据类型来对比，有时候会得到奇怪的结果（当对比数据类型不同时） === 会先判断数据类型是否一致（不一致返回false），再对比数据是否相同。
+false == 0; // 返回 true false === 0; // 返回 false 特例：
+NaN === NaN; //返回false 必须用 isNaN(Nan) 来判断
+字符串相关 格式化多行字符串
+var name = &amp;#39;小明&amp;#39;; var age = 20; var message = `你好, ${name}, 你今年${age}岁了!`; 字符串是不可变的 使用以下方法，都无法改变字符串
+var s = &amp;#39;Hello, world!&amp;#39;; s[0] = &amp;#39;X&amp;#39;; //还是 Hello world s.toUpperCase() //返回大写的字符串，但 s 不变 数组相关 直接给Array的length赋一个新的值会导致Array大小的变化
+var arr = [1, 2, 3]; arr.length = 6; //arr变为[1, 2, 3, undefined, undefined, undefined] 如果通过索引赋值时，索引超过了范围，同样会引起Array大小的变化：</description>
     </item>
     
     <item>

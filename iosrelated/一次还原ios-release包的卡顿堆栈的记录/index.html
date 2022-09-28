@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>图片组件（image） :: My New Hugo Site</title>
+    <title>一次还原ios release包的卡顿堆栈的记录 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1664352212" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/reactnative/rn_image/">
+  <body class="" data-url="/iosrelated/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/">
     <nav id="sidebar" class="">
 
 
@@ -177,7 +177,7 @@
   
     
     <li data-nav-id="/iosrelated/" title="IOSRelateds" class="dd-item
-        
+        parent
         
         
         ">
@@ -266,7 +266,7 @@
  
   
     
-      <li data-nav-id="/iosrelated/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/" title="一次还原ios release包的卡顿堆栈的记录" class="dd-item ">
+      <li data-nav-id="/iosrelated/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/" title="一次还原ios release包的卡顿堆栈的记录" class="dd-item active">
         <a href="/iosrelated/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/">
         一次还原ios release包的卡顿堆栈的记录
         
@@ -447,7 +447,7 @@
   
     
     <li data-nav-id="/reactnative/" title="ReactNatives" class="dd-item
-        parent
+        
         
         
         ">
@@ -536,7 +536,7 @@
  
   
     
-      <li data-nav-id="/reactnative/rn_image/" title="图片组件（image）" class="dd-item active">
+      <li data-nav-id="/reactnative/rn_image/" title="图片组件（image）" class="dd-item ">
         <a href="/reactnative/rn_image/">
         图片组件（image）
         
@@ -1304,7 +1304,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/reactnative/'>ReactNatives</a> > 图片组件（image）
+            <a href='/'>My New Hugo Site</a> > <a href='/iosrelated/'>IOSRelateds</a> > 一次还原ios release包的卡顿堆栈的记录
           
         
           
@@ -1317,15 +1317,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#加载本地图片js-package里">加载本地图片（js package里）</a></li>
-    <li><a href="#加载混合app的图片">加载混合app的图片</a></li>
-    <li><a href="#加载网络图片">加载网络图片</a></li>
-    <li><a href="#组件的背景图">组件的背景图**</a></li>
-    <li><a href="#图片的圆角">图片的圆角</a></li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
     </div>
 </div>
 
@@ -1341,74 +1333,70 @@
           
             <h1>
               
-              图片组件（image）
+              一次还原ios release包的卡顿堆栈的记录
             </h1>
           
 
         
 
 
-<h2 id="加载本地图片js-package里">加载本地图片（js package里）</h2>
-<p>图片放置在 js的package里</p>
-<p>使用 Image 组件即可。</p>
-<pre tabindex="0"><code>&lt;Image source={require(&#39;./img/check.png&#39;)} /&gt;
-</code></pre><p>也能用变量来动态加载</p>
-<pre tabindex="0"><code>const icon = &#34;small.png&#34;;
-&lt;Image source={require(&#34;./&#34;+icon)} /&gt;
-</code></pre><p>上面描述的require语法也可以用来静态地加载你项目中的声音、视频或者文档文件。</p>
-<p>大多数常见文件类型都支持，包括.mp3, .wav, .mp4, .mov, .htm 和 .pdf等。</p>
-<p>参考 <a href="https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44">https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44</a></p>
-<h2 id="加载混合app的图片">加载混合app的图片</h2>
-<p>指的是加载原生app的asset里的图片资源。</p>
-<ul>
-<li>iOS</li>
-</ul>
-<pre tabindex="0"><code>&lt;Image
- source={{ uri: &#39;app_icon&#39; }}
- style={{ width: 40, height: 40 }}
-/&gt;
-</code></pre><ul>
-<li>android</li>
-</ul>
-<pre tabindex="0"><code>&lt;Image
-source={{ uri: &#39;asset:/app_icon.png&#39; }}
-style={{ width: 40, height: 40 }}
-/&gt;
-</code></pre><blockquote>
-<p><strong>注意：<strong>这些做法并没有任何安全检查。你需要自己确保图片在应用中确实存在，而且还需要</strong>指定尺寸</strong>。</p>
-</blockquote>
-<h2 id="加载网络图片">加载网络图片</h2>
-<p>使用远程地址作为参数即可. </p>
-<pre tabindex="0"><code>&lt;Image source={{uri: &#39;https://facebook.github.io/react/logo-og.png&#39;}}
-style={{width: 400, height: 400}} /&gt;
-</code></pre><blockquote>
-<p><strong>注意：<strong>跟加载app图片一样，需要</strong>指定尺寸</strong>。</p>
-</blockquote>
-<p>还能直接制定请求参数</p>
-<pre tabindex="0"><code>&lt;Image
- source={{
- uri: &#39;https://facebook.github.io/react/logo-og.png&#39;,
- method: &#39;POST&#39;,
- headers: {
- Pragma: &#39;no-cache&#39;
- },
- body: &#39;Your Body goes here&#39;
-}}
-style={{ width: 400, height: 400 }}
-/&gt;
-</code></pre><h2 id="组件的背景图">组件的背景图**</h2>
-<p>用<strong>ImageBackground</strong> 将组件包起来即可，相关属性跟 <strong>Image</strong> 一样。</p>
-<pre tabindex="0"><code>&lt;ImageBackground source={uri : ‘app_icon’} style={{width: &#39;100%&#39;, height: &#39;100%&#39;}}&gt;
- &lt;Text&gt;Inside&lt;/Text&gt;
- &lt;/ImageBackground&gt;
-</code></pre><h2 id="图片的圆角">图片的圆角</h2>
-<ul>
-<li>borderTopLeftRadius</li>
-<li>borderTopRightRadius</li>
-<li>borderBottomLeftRadius</li>
-<li>borderBottomRightRadius</li>
-</ul>
-
+<h1 id="前提">前提：</h1>
+<p>测试提了一个关于某个操作下会比较卡顿的问题，并上传了applog。</p>
+<h1 id="log初探">log初探</h1>
+<p>app内部工具的InnerToolBlockDetect 里记录了卡顿的情况并打印了对应的线程堆栈信息。
+但由于测试用的是release包，因此堆栈里都是相应函数的位移地址，无法看出真正的卡顿代码。</p>
+<pre tabindex="0"><code>libsystem_kernel.dylib          0x1f59140f4 mach_msg_trap + 8
+libsystem_kernel.dylib          0x1f59135a0 mach_msg + 72
+libdispatch.dylib               0x1f5778884 &lt;redacted&gt; + 500
+libdispatch.dylib               0x1f5778d14 &lt;redacted&gt; + 52
+libxpc.dylib                    0x1f59d891c xpc_connection_send_message_with_reply_sync + 204
+CoreMedia                       0x1f93a9514 FigXPCRemoteClientSendSyncMessageCreatingReply + 36
+CoreMedia                       0x1f92ca884 &lt;redacted&gt; + 192
+CoreFoundation                  0x1f5d15d30 &lt;redacted&gt; + 192
+MediaToolbox                    0x1fa95459c &lt;redacted&gt; + 1448
+MediaToolbox                    0x1fa953f6c FigAssetRemoteCreateWithURL + 120
+AVFoundation                    0x1fbdf5bb0 &lt;redacted&gt; + 192
+AVFoundation                    0x1fbd0a874 &lt;redacted&gt; + 884
+AVFoundation                    0x1fbd033e4 &lt;redacted&gt; + 100
+Fly-rls                     0x106382da0 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1355164
+Fly-rls                     0x106383224 _ZNSt3__114__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN3dji6common6WorkerC1EvEUlvE_EEEEEPvSC_ + 1356320
+Fly-rls                     0x1044c5fec _mh_execute_header + 303084
+Fly-rls                     0x1044c5e1c _mh_execute_header + 302620
+Fly-rls                     0x10466c0ec _mh_execute_header + 2031852
+Fly-rls                     0x10466b920 _mh_execute_header + 2029856
+Fly-rls                     0x1044bd92c _mh_execute_header + 268588
+libdispatch.dylib               0x1f57c0a38 &lt;redacted&gt; + 24
+libdispatch.dylib               0x1f57c17d4 &lt;redacted&gt; + 16
+libdispatch.dylib               0x1f576f008 &lt;redacted&gt; + 1068
+CoreFoundation                  0x1f5d1432c &lt;redacted&gt; + 12
+CoreFoundation                  0x1f5d0f264 &lt;redacted&gt; + 1924
+CoreFoundation                  0x1f5d0e7c0 CFRunLoopRunSpecific + 436
+GraphicsServices                0x1f7f0f79c GSEventRunModal + 104
+UIKitCore                       0x222813c38 UIApplicationMain + 212
+Fly-rls                     0x10448482c _mh_execute_header + 34860
+libdyld.dylib                   0x1f57d28e0 &lt;redacted&gt; + 4
+</code></pre><h1 id="堆栈还原">堆栈还原</h1>
+<p>手头上有对应app包的 dysm 文件，查了一下，发现可以用 <strong>xcrun</strong> 命令来还原堆栈。比如：</p>
+<pre tabindex="0"><code>xcrun atos -o Foo.app/Foo -arch arm64 -l 0xd7000 0x0033f9bb
+</code></pre><p>其中 <strong>0xd7000</strong> 是app执行文件的 运行开始内存地址，<strong>0x0033f9bb</strong> 是 对应的堆栈函数地址（比如上面的<strong>0x1044bd92c</strong>）
+函数地址都已知，但不像crash的 ips文件，这里并没有列出 Fly-rls 执行文件的运行起始地址。
+在 crash 的ips文件里,列出了 对应执行文件的运行时内存地址区间。</p>
+<pre tabindex="0"><code>Binary Images:
+0x104144000 - 0x10922bfff Fly-dbg arm64  &lt;191a2e0e899a36d2affc5183f78af174&gt; /var/containers/Bundle/Application/25A26AFE-CE43-4E1C-B3E0-543BA6C28ADB/Fly-dbg.app/Fly-dbg
+</code></pre><p>但我发现，main函数的入口地址 就是app运行开始地址 加上一部分位移（该位移在不同的build 包里，是不一样的）。
+如：</p>
+<pre tabindex="0"><code>34  Fly-dbg                   	0x000000010415466c 0x104144000 + 67180
+</code></pre><p>于是我便去bugly上，搜索 对应release包的crash记录，看能不能找到产生卡顿的版本的app包的 main函数位移地址。
+随便搜了一条crash记录，并查看这个记录的原始 堆栈地址信息，成功找到了 位移大小（就是34860）。</p>
+<pre tabindex="0"><code>Fly-rls	0x000000010252082c 0x0000000102518000 + 34860
+</code></pre><p>看，跟卡顿堆栈log 的 位移是一样的。
+那么用 ** 0x10448482c** 减去 <strong>34860</strong> 就是卡顿发生那次运行的app的起始内存地址了。
+算出来是 <strong>0x10447c000</strong>
+然后再跑xcrun 命令就可以顺利解析出卡顿堆栈了。</p>
+<pre tabindex="0"><code>xcrun atos -o /Users/spy.liu/Downloads/_GO_Lite_Develop_697.dSYM/\ Fly-rls.app.dSYM/Contents/Resources/DWARF/\ Fly-rls -arch arm64 -l 0x10447c000 0x1044c5e1c
+</code></pre><p>把多个堆栈地址放到一个文件里，换行隔开，可以一次解析多个堆栈。</p>
+<pre tabindex="0"><code>xcrun atos -o /Users/spy.liu/Downloads/_GO_Lite_Develop_697.dSYM/\ Fly-rls.app.dSYM/Contents/Resources/DWARF/\ Fly-rls -arch arm64 -l 0x10447c000 -f addresss.txt
+</code></pre>
 
 <footer class="footline">
 	
@@ -1445,185 +1433,6 @@ style={{ width: 400, height: 400 }}
             
                 
                     
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
                     
                 
                 
@@ -1701,6 +1510,9 @@ style={{ width: 400, height: 400 }}
             
         
                     
+            
+        
+                    
                         
             
             
@@ -1708,6 +1520,179 @@ style={{ width: 400, height: 400 }}
                     
                         
                         
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
@@ -2212,10 +2197,10 @@ style={{ width: 400, height: 400 }}
 	 
 	 
 		
-			<a class="nav nav-prev" href="/reactnative/js_native_communication/" title="React Native 的JS与Oc 通信"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/iosrelated/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/" title="IOS 组件化-动态库实战"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/reactnative/rn_layout/" title="组件布局" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/javascript/" title="Javascripts" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

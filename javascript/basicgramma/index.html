@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>图片组件（image） :: My New Hugo Site</title>
+    <title>基本语法注意点 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1664352212" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/reactnative/rn_image/">
+  <body class="" data-url="/javascript/basicgramma/">
     <nav id="sidebar" class="">
 
 
@@ -295,7 +295,7 @@
   
     
     <li data-nav-id="/javascript/" title="Javascripts" class="dd-item
-        
+        parent
         
         
         ">
@@ -342,7 +342,7 @@
  
   
     
-      <li data-nav-id="/javascript/basicgramma/" title="基本语法注意点" class="dd-item ">
+      <li data-nav-id="/javascript/basicgramma/" title="基本语法注意点" class="dd-item active">
         <a href="/javascript/basicgramma/">
         基本语法注意点
         
@@ -447,7 +447,7 @@
   
     
     <li data-nav-id="/reactnative/" title="ReactNatives" class="dd-item
-        parent
+        
         
         
         ">
@@ -536,7 +536,7 @@
  
   
     
-      <li data-nav-id="/reactnative/rn_image/" title="图片组件（image）" class="dd-item active">
+      <li data-nav-id="/reactnative/rn_image/" title="图片组件（image）" class="dd-item ">
         <a href="/reactnative/rn_image/">
         图片组件（image）
         
@@ -1304,7 +1304,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/reactnative/'>ReactNatives</a> > 图片组件（image）
+            <a href='/'>My New Hugo Site</a> > <a href='/javascript/'>Javascripts</a> > 基本语法注意点
           
         
           
@@ -1319,11 +1319,13 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#加载本地图片js-package里">加载本地图片（js package里）</a></li>
-    <li><a href="#加载混合app的图片">加载混合app的图片</a></li>
-    <li><a href="#加载网络图片">加载网络图片</a></li>
-    <li><a href="#组件的背景图">组件的背景图**</a></li>
-    <li><a href="#图片的圆角">图片的圆角</a></li>
+    <li><a href="#数据对比">数据对比</a></li>
+    <li><a href="#字符串相关">字符串相关</a></li>
+    <li><a href="#数组相关">数组相关</a></li>
+    <li><a href="#对象相关">对象相关</a></li>
+    <li><a href="#容器相关">容器相关</a></li>
+    <li><a href="#局部作用域">局部作用域</a></li>
+    <li><a href="#快速结构赋值">快速结构赋值</a></li>
   </ul>
 </nav>
     </div>
@@ -1341,74 +1343,162 @@
           
             <h1>
               
-              图片组件（image）
+              基本语法注意点
             </h1>
           
 
         
 
 
-<h2 id="加载本地图片js-package里">加载本地图片（js package里）</h2>
-<p>图片放置在 js的package里</p>
-<p>使用 Image 组件即可。</p>
-<pre tabindex="0"><code>&lt;Image source={require(&#39;./img/check.png&#39;)} /&gt;
-</code></pre><p>也能用变量来动态加载</p>
-<pre tabindex="0"><code>const icon = &#34;small.png&#34;;
-&lt;Image source={require(&#34;./&#34;+icon)} /&gt;
-</code></pre><p>上面描述的require语法也可以用来静态地加载你项目中的声音、视频或者文档文件。</p>
-<p>大多数常见文件类型都支持，包括.mp3, .wav, .mp4, .mov, .htm 和 .pdf等。</p>
-<p>参考 <a href="https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44">https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44</a></p>
-<h2 id="加载混合app的图片">加载混合app的图片</h2>
-<p>指的是加载原生app的asset里的图片资源。</p>
+<h2 id="数据对比">数据对比</h2>
+<p><strong>不要使用==比较，始终坚持使用 === 比较。
+== 会自动转换数据类型来对比，有时候会得到奇怪的结果（当对比数据类型不同时）
+=== 会先判断数据类型是否一致（不一致返回false），再对比数据是否相同。</strong></p>
+<pre tabindex="0"><code>false == 0; // 返回 true
+false === 0; // 返回 false
+</code></pre><p><strong>特例：</strong></p>
+<pre tabindex="0"><code>NaN === NaN; //返回false
+</code></pre><p>必须用 <code>isNaN(Nan) </code>来判断</p>
+<h2 id="字符串相关">字符串相关</h2>
+<p>格式化多行字符串</p>
+<pre tabindex="0"><code>var name = &#39;小明&#39;;
+var age = 20;
+var message = `你好, ${name}, 你今年${age}岁了!`;
+</code></pre><p>字符串是<strong>不可变</strong>的
+使用以下方法，都无法改变字符串</p>
+<pre tabindex="0"><code>var s = &#39;Hello, world!&#39;;
+s[0] = &#39;X&#39;; //还是 Hello world
+s.toUpperCase() //返回大写的字符串，但 s 不变
+</code></pre><h2 id="数组相关">数组相关</h2>
+<p>直接给Array的length赋一个新的值会导致Array大小的变化</p>
+<pre tabindex="0"><code>var arr = [1, 2, 3];
+arr.length = 6; //arr变为[1, 2, 3, undefined, undefined, undefined]
+</code></pre><p>如果通过索引赋值时，索引超过了范围，同样会引起Array大小的变化：</p>
+<pre tabindex="0"><code>var arr = [1, 2, 3];
+arr[5] = &#39;x&#39;;	// arr变为[1, 2, 3, undefined, undefined, &#39;x&#39;]
+</code></pre><h2 id="对象相关">对象相关</h2>
 <ul>
-<li>iOS</li>
+<li>简单示例：</li>
 </ul>
-<pre tabindex="0"><code>&lt;Image
- source={{ uri: &#39;app_icon&#39; }}
- style={{ width: 40, height: 40 }}
-/&gt;
+<pre tabindex="0"><code>var xiaoming = {
+    name: &#39;小明&#39;,
+    birth: 1990,
+    school: &#39;No.1 Middle School&#39;,
+    height: 1.70,
+    weight: 65,
+    score: null
+};
 </code></pre><ul>
-<li>android</li>
+<li>判断对象是否有某个属性的方法</li>
 </ul>
-<pre tabindex="0"><code>&lt;Image
-source={{ uri: &#39;asset:/app_icon.png&#39; }}
-style={{ width: 40, height: 40 }}
-/&gt;
-</code></pre><blockquote>
-<p><strong>注意：<strong>这些做法并没有任何安全检查。你需要自己确保图片在应用中确实存在，而且还需要</strong>指定尺寸</strong>。</p>
-</blockquote>
-<h2 id="加载网络图片">加载网络图片</h2>
-<p>使用远程地址作为参数即可. </p>
-<pre tabindex="0"><code>&lt;Image source={{uri: &#39;https://facebook.github.io/react/logo-og.png&#39;}}
-style={{width: 400, height: 400}} /&gt;
-</code></pre><blockquote>
-<p><strong>注意：<strong>跟加载app图片一样，需要</strong>指定尺寸</strong>。</p>
-</blockquote>
-<p>还能直接制定请求参数</p>
-<pre tabindex="0"><code>&lt;Image
- source={{
- uri: &#39;https://facebook.github.io/react/logo-og.png&#39;,
- method: &#39;POST&#39;,
- headers: {
- Pragma: &#39;no-cache&#39;
- },
- body: &#39;Your Body goes here&#39;
-}}
-style={{ width: 400, height: 400 }}
-/&gt;
-</code></pre><h2 id="组件的背景图">组件的背景图**</h2>
-<p>用<strong>ImageBackground</strong> 将组件包起来即可，相关属性跟 <strong>Image</strong> 一样。</p>
-<pre tabindex="0"><code>&lt;ImageBackground source={uri : ‘app_icon’} style={{width: &#39;100%&#39;, height: &#39;100%&#39;}}&gt;
- &lt;Text&gt;Inside&lt;/Text&gt;
- &lt;/ImageBackground&gt;
-</code></pre><h2 id="图片的圆角">图片的圆角</h2>
+<ol>
+<li><code>'name' in xiaoming;</code> // true</li>
+<li><code>xiaoming.hasOwnProperty('name');</code> //只针对 该属性属于该类，忽略父类</li>
+</ol>
 <ul>
-<li>borderTopLeftRadius</li>
-<li>borderTopRightRadius</li>
-<li>borderBottomLeftRadius</li>
-<li>borderBottomRightRadius</li>
+<li>条件判断</li>
 </ul>
-
+<pre tabindex="0"><code>var s = ‘’123
+If (s.length) 
+</code></pre><blockquote>
+<p>JavaScript把null、undefined、0、NaN和空字符串&rsquo;&lsquo;视为false，其他值一概视为true，因此上述代码条件判断的结果是true。</p>
+</blockquote>
+<h2 id="容器相关">容器相关</h2>
+<ul>
+<li>循环</li>
+</ul>
+<pre tabindex="0"><code>//对象key循环遍历
+var o = {
+    name: &#39;Jack&#39;,
+    age: 20,
+    city: &#39;Beijing&#39;
+};
+for (var key in o) {
+    console.log(key); // &#39;name&#39;, &#39;age&#39;, &#39;city&#39;
+}
+</code></pre><pre tabindex="0"><code>//数组遍历， 遍历的是数组的序号（是字符串而不是数字类型）
+var a = [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;];
+for (var i in a) {
+    console.log(i); // &#39;0&#39;, &#39;1&#39;, &#39;2&#39; 
+}
+</code></pre><pre tabindex="0"><code>//遍历元素，用of
+For (var item of a) {
+console.log(i); // ‘A’, ‘B’, ‘C’ 
+}
+</code></pre><ul>
+<li>for &hellip; of循环和for &hellip; in循环有何区别</li>
+</ul>
+<p>Array实际上也是个对象，元素下标就是它的key。</p>
+<pre tabindex="0"><code>var a = [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;];
+a.name = ‘D‘
+for (var x in a) {
+    console.log(x); // &#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;name&#39;
+}
+</code></pre><p>因此用 of 来遍历，就不会有上面的问题</p>
+<pre tabindex="0"><code>for (var x of a) {
+    console.log(x); // &#39;A&#39;, &#39;B&#39;, &#39;C&#39; 不会有 ‘D’
+}
+</code></pre><pre tabindex="0"><code>//forEach 遍历方法
+ar.forEach(function (e, i, ar) { //e 是元素，i是序号，ar 是原数组
+            console.log(`element=${e} index=${i}`)
+ })
+</code></pre><h2 id="局部作用域">局部作用域</h2>
+<p><strong>由于JavaScript的变量作用域实际上是函数内部，在函数代码块中声明的变量，在函数体内都是可以用的</strong></p>
+<pre tabindex="0"><code>function foo() {
+    {
+	var i = 1
+    }
+    i += 100; // 仍然可以引用变量i
+}
+</code></pre><ul>
+<li>使用let 即可申请一个块级作用域的变量</li>
+</ul>
+<pre tabindex="0"><code>function foo() {
+    {
+	let i = 1
+    }
+    i += 100; // 会报错，无该变量
+}
+</code></pre><blockquote>
+<p>PS：常量声明 const 也有块级作用域功能</p>
+</blockquote>
+<h2 id="快速结构赋值">快速结构赋值</h2>
+<ul>
+<li>从数组里赋值</li>
+</ul>
+<pre tabindex="0"><code>var [x,y,z] = [‘a’, ‘b’, ‘c’]
+var [x, [y, z]] = [‘a’, [1,2]]
+var [,y,z] = [1,2,3]
+</code></pre><ul>
+<li>从对象结构里赋值</li>
+</ul>
+<pre tabindex="0"><code>var person = {
+    name: &#39;小明&#39;,
+    age: 20,
+    address: {
+        city: &#39;Beijing&#39;,
+        street: &#39;No.1 Road&#39;,
+        zipcode: &#39;100001&#39;
+    }
+};
+var {name, address: {city, zip=‘55’}} = person;
+</code></pre><blockquote>
+<p>name //小明
+city //Beijing
+zip //应该无值的，但有默认值 ’55‘</p>
+</blockquote>
+<pre tabindex="0"><code>var {name: realName} = person;
+</code></pre><blockquote>
+<p>name //undefined
+realName //小明</p>
+</blockquote>
+<ul>
+<li>已经声明的变量 再从对象里赋值</li>
+</ul>
+<pre tabindex="0"><code>var name, address;
+{name, address} = person; //执行会报错
+({name, address} = person; ) //用小括号包起来即可
+</code></pre>
 
 <footer class="footline">
 	
@@ -1528,6 +1618,62 @@ style={{ width: 400, height: 400 }}
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
                 
                 
 
@@ -1616,42 +1762,6 @@ style={{ width: 400, height: 400 }}
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
             
             
@@ -1688,26 +1798,6 @@ style={{ width: 400, height: 400 }}
             
             
                 
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
                     
                 
                 
@@ -2212,10 +2302,10 @@ style={{ width: 400, height: 400 }}
 	 
 	 
 		
-			<a class="nav nav-prev" href="/reactnative/js_native_communication/" title="React Native 的JS与Oc 通信"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/javascript/function/" title="函数相关语法注意点"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/reactnative/rn_layout/" title="组件布局" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/python/" title="Pythons" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

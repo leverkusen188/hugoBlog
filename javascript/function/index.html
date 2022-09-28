@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>图片组件（image） :: My New Hugo Site</title>
+    <title>函数相关语法注意点 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1664352212" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/reactnative/rn_image/">
+  <body class="" data-url="/javascript/function/">
     <nav id="sidebar" class="">
 
 
@@ -295,7 +295,7 @@
   
     
     <li data-nav-id="/javascript/" title="Javascripts" class="dd-item
-        
+        parent
         
         
         ">
@@ -321,7 +321,7 @@
  
   
     
-      <li data-nav-id="/javascript/function/" title="函数相关语法注意点" class="dd-item ">
+      <li data-nav-id="/javascript/function/" title="函数相关语法注意点" class="dd-item active">
         <a href="/javascript/function/">
         函数相关语法注意点
         
@@ -447,7 +447,7 @@
   
     
     <li data-nav-id="/reactnative/" title="ReactNatives" class="dd-item
-        parent
+        
         
         
         ">
@@ -536,7 +536,7 @@
  
   
     
-      <li data-nav-id="/reactnative/rn_image/" title="图片组件（image）" class="dd-item active">
+      <li data-nav-id="/reactnative/rn_image/" title="图片组件（image）" class="dd-item ">
         <a href="/reactnative/rn_image/">
         图片组件（image）
         
@@ -1304,7 +1304,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/reactnative/'>ReactNatives</a> > 图片组件（image）
+            <a href='/'>My New Hugo Site</a> > <a href='/javascript/'>Javascripts</a> > 函数相关语法注意点
           
         
           
@@ -1319,11 +1319,12 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#加载本地图片js-package里">加载本地图片（js package里）</a></li>
-    <li><a href="#加载混合app的图片">加载混合app的图片</a></li>
-    <li><a href="#加载网络图片">加载网络图片</a></li>
-    <li><a href="#组件的背景图">组件的背景图**</a></li>
-    <li><a href="#图片的圆角">图片的圆角</a></li>
+    <li><a href="#参数与返回值">参数与返回值</a></li>
+    <li><a href="#对象内的函数的-this-问题">对象内的函数的 this 问题</a></li>
+    <li><a href="#函数的另类调用方式apply-和-call">函数的另类调用方式(apply 和 call)</a></li>
+    <li><a href="#数组的-map-和-reduce用法">数组的 Map 和 Reduce用法</a></li>
+    <li><a href="#数组的filter-用法">数组的Filter 用法</a></li>
+    <li><a href="#数组的其他高阶函数">数组的其他高阶函数</a></li>
   </ul>
 </nav>
     </div>
@@ -1341,73 +1342,144 @@
           
             <h1>
               
-              图片组件（image）
+              函数相关语法注意点
             </h1>
           
 
         
 
 
-<h2 id="加载本地图片js-package里">加载本地图片（js package里）</h2>
-<p>图片放置在 js的package里</p>
-<p>使用 Image 组件即可。</p>
-<pre tabindex="0"><code>&lt;Image source={require(&#39;./img/check.png&#39;)} /&gt;
-</code></pre><p>也能用变量来动态加载</p>
-<pre tabindex="0"><code>const icon = &#34;small.png&#34;;
-&lt;Image source={require(&#34;./&#34;+icon)} /&gt;
-</code></pre><p>上面描述的require语法也可以用来静态地加载你项目中的声音、视频或者文档文件。</p>
-<p>大多数常见文件类型都支持，包括.mp3, .wav, .mp4, .mov, .htm 和 .pdf等。</p>
-<p>参考 <a href="https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44">https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44</a></p>
-<h2 id="加载混合app的图片">加载混合app的图片</h2>
-<p>指的是加载原生app的asset里的图片资源。</p>
-<ul>
-<li>iOS</li>
-</ul>
-<pre tabindex="0"><code>&lt;Image
- source={{ uri: &#39;app_icon&#39; }}
- style={{ width: 40, height: 40 }}
-/&gt;
-</code></pre><ul>
-<li>android</li>
-</ul>
-<pre tabindex="0"><code>&lt;Image
-source={{ uri: &#39;asset:/app_icon.png&#39; }}
-style={{ width: 40, height: 40 }}
-/&gt;
-</code></pre><blockquote>
-<p><strong>注意：<strong>这些做法并没有任何安全检查。你需要自己确保图片在应用中确实存在，而且还需要</strong>指定尺寸</strong>。</p>
+<h2 id="参数与返回值">参数与返回值</h2>
+<p><strong>1. 无return值的函数，返回 undefined</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">tttt</span>() {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">tttt</span>() <span style="color:#f92672">===</span> <span style="color:#66d9ef">undefined</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;undefined111&#39;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>2. 函数只用名字来限定唯一性</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">t1</span>(<span style="color:#a6e22e">p1</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;t1 p1=&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">p1</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">t1</span>(<span style="color:#a6e22e">p1</span>, <span style="color:#a6e22e">p2</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;t1 p1=&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">p1</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;p2=&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">p2</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p><strong>前面那个t1 会被覆盖</strong></p>
 </blockquote>
-<h2 id="加载网络图片">加载网络图片</h2>
-<p>使用远程地址作为参数即可. </p>
-<pre tabindex="0"><code>&lt;Image source={{uri: &#39;https://facebook.github.io/react/logo-og.png&#39;}}
-style={{width: 400, height: 400}} /&gt;
-</code></pre><blockquote>
-<p><strong>注意：<strong>跟加载app图片一样，需要</strong>指定尺寸</strong>。</p>
+<p><strong>3. 调用函数时，参数个数不一定要一致
+如果参数多了，函数会忽略
+如果参数少了，默认为 undefined</strong></p>
+<p><strong>4. 函数内使用 arguments
+arguments 可以访问函数传入的参数，但不同于数组。可以用 length 来判断个数，以及 下标来访问</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">abs</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">arguments</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">arguments</span>[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">x</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">abs</span>(); <span style="color:#75715e">// 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">abs</span>(<span style="color:#ae81ff">10</span>); <span style="color:#75715e">// 10
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">abs</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>); <span style="color:#75715e">// 9
+</span></span></span></code></pre></div><p><strong>5. 用rest 获取多出的参数数组，rest只能放在参数最后面声明</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">foo</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>, ...<span style="color:#a6e22e">rest</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;a = &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">a</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;b = &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">b</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">rest</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">foo</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>);
+</span></span></code></pre></div><blockquote>
+<p>结果:
+a = 1
+b = 2
+Array [ 3, 4, 5 ]</p>
 </blockquote>
-<p>还能直接制定请求参数</p>
-<pre tabindex="0"><code>&lt;Image
- source={{
- uri: &#39;https://facebook.github.io/react/logo-og.png&#39;,
- method: &#39;POST&#39;,
- headers: {
- Pragma: &#39;no-cache&#39;
- },
- body: &#39;Your Body goes here&#39;
-}}
-style={{ width: 400, height: 400 }}
-/&gt;
-</code></pre><h2 id="组件的背景图">组件的背景图**</h2>
-<p>用<strong>ImageBackground</strong> 将组件包起来即可，相关属性跟 <strong>Image</strong> 一样。</p>
-<pre tabindex="0"><code>&lt;ImageBackground source={uri : ‘app_icon’} style={{width: &#39;100%&#39;, height: &#39;100%&#39;}}&gt;
- &lt;Text&gt;Inside&lt;/Text&gt;
- &lt;/ImageBackground&gt;
-</code></pre><h2 id="图片的圆角">图片的圆角</h2>
-<ul>
-<li>borderTopLeftRadius</li>
-<li>borderTopRightRadius</li>
-<li>borderBottomLeftRadius</li>
-<li>borderBottomRightRadius</li>
-</ul>
+<h2 id="对象内的函数的-this-问题">对象内的函数的 this 问题</h2>
+<p>以下面代码为例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getAge</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">y</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Date().<span style="color:#a6e22e">getFullYear</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">y</span> <span style="color:#f92672">-</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">birth</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">xiaoming</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;小明&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">birth</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1990</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">getAge</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xiaoming</span>.<span style="color:#a6e22e">age</span>(); <span style="color:#75715e">// 32, 正常结果
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">getAge</span>(); <span style="color:#75715e">// NaN
+</span></span></span></code></pre></div><blockquote>
+<p>在一个方法内部，this是一个特殊变量，它始终指向当前对象。
+通过 xiaoming 这个对象调用时，this 就是该对象。
+而直接调用 getAge() 时，this 就变成全局的 window了。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fn</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">xiaoming</span>.<span style="color:#a6e22e">age</span>; <span style="color:#75715e">// 先拿到xiaoming的age函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">fn</span>(); <span style="color:#75715e">// NaN
+</span></span></span></code></pre></div><blockquote>
+<p>上面的用法也是不行的，必须要指定调用哪个对象的 age 函数。</p>
+</blockquote>
+<p><strong>this指针只在age方法的函数内指向xiaoming，如果是 age 方法内的方法里，则又指向全局window了，参考下例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getAge</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getAgeFromBirth</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">y</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Date().<span style="color:#a6e22e">getFullYear</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">y</span> <span style="color:#f92672">-</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">birth</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">getAgeFromBirth</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">xiaoming</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;小明&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">birth</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1990</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">getAge</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xiaoming</span>.<span style="color:#a6e22e">age</span>(); <span style="color:#75715e">// NaN
+</span></span></span></code></pre></div><blockquote>
+<p>因为在getAge 的 getAgeFromBirth 里，this已经不再指向调用方法的对象了。
+可以如下修改：(用一个临时变量 that 来保存this指针即可)</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getAge</span>() {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">that</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getAgeFromBirth</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">y</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Date().<span style="color:#a6e22e">getFullYear</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">y</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">that</span>.<span style="color:#a6e22e">birth</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">getAgeFromBirth</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="函数的另类调用方式apply-和-call">函数的另类调用方式(apply 和 call)</h2>
+<p>Apply和call 能指定函数的调用对象，以让this 指针指向我们需要的对象。
+以上面的 xiaoming 为例。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">tmpAge</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">xiaoming</span>.<span style="color:#a6e22e">age</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">tmpAge</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">xiaoming</span>, []) 
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">tmpAge</span>.<span style="color:#a6e22e">call</span>(<span style="color:#a6e22e">xiaoming</span>)
+</span></span></code></pre></div><blockquote>
+<p>Apply和call 的区别在于函数参数的传递方式，apply用的是数组，而 call是依次传入</p>
+</blockquote>
+<h2 id="数组的-map-和-reduce用法">数组的 Map 和 Reduce用法</h2>
+<p>Map 就是把数组的每个元素 用传入的函数处理后 ，将返回的新元素组成新数组。
+PS: 传入的函数 只接收一个参数，且必须有返回值。
+样例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>].<span style="color:#a6e22e">map</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">x</span>) {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>}) <span style="color:#75715e">//返回 [2,3,4]
+</span></span></span></code></pre></div><p>Reduce 的函数参数 接收两个参数，分别为 上次两个元素的计算结果 和下一个元素。（如果是首个元素，那参数就是第一个和第二个元素）
+[1,2,3].reduce((a, b) =&gt; a+b) //结果是6， 也就是  (1+2) + 3
+[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4)</p>
+<h2 id="数组的filter-用法">数组的Filter 用法</h2>
+<p>Filter 传入一个三参数（element， index， array）的函数，用以决定当前index的元素是否需要保留在返回的新数组里。
+样例代码：(返回奇数数组)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>].<span style="color:#a6e22e">filter</span>( <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">ele</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">array</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">eye</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h2 id="数组的其他高阶函数">数组的其他高阶函数</h2>
+<p><code>every()</code> 方法可以判断数组的所有元素是否满足测试条件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">arr</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Apple&#39;</span>, <span style="color:#e6db74">&#39;pear&#39;</span>, <span style="color:#e6db74">&#39;orange&#39;</span>];
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">arr</span>.<span style="color:#a6e22e">every</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">s</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>})); <span style="color:#75715e">// true, 因为每个元素都满足s.length&gt;0
+</span></span></span></code></pre></div><p><code>find()</code> 方法用于查找符合条件的第一个元素，如果找到了，返回这个元素，否则，返回undefined</p>
+<p><code>findIndex()</code> 和<code>find()</code> 类似，也是查找符合条件的第一个元素，不同之处在于<code>findIndex()</code>会返回这个元素的索引，如果没有找到，返回-1：</p>
 
 
 <footer class="footline">
@@ -1528,6 +1600,59 @@ style={{ width: 400, height: 400 }}
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                 
                 
 
@@ -1616,42 +1741,6 @@ style={{ width: 400, height: 400 }}
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
             
             
@@ -1688,26 +1777,6 @@ style={{ width: 400, height: 400 }}
             
             
                 
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
                     
                 
                 
@@ -2212,10 +2281,10 @@ style={{ width: 400, height: 400 }}
 	 
 	 
 		
-			<a class="nav nav-prev" href="/reactnative/js_native_communication/" title="React Native 的JS与Oc 通信"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/javascript/" title="Javascripts"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/reactnative/rn_layout/" title="组件布局" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/javascript/basicgramma/" title="基本语法注意点" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
