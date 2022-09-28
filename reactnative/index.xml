@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ReactNatives on My New Hugo Site</title>
+    <link>https://leverkusen188.github.io/reactnative/</link>
+    <description>Recent content in ReactNatives on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/reactnative/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JS 使用原生UI组件</title>
+      <link>https://leverkusen188.github.io/reactnative/js_native_ui/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/reactnative/js_native_ui/</guid>
+      <description>使用原生UIView Native端： 首先创建一个RCTViewManager的子类。 @interface NativeView : RCTViewManager @end
+添加RCT_EXPORT_MODULE()宏标记导出的模块名称 RCT_EXPORT_MODULE(MyNativeView)
+实现-(UIView *)view方法，返回对应的native视图给JS
+- (UITextField*)view { UITextField * field = [UITextField new]; field.text = @&amp;#34;BBBB&amp;#34;; field.textColor = [UIColor blueColor]; field.textAlignment = UITextAlignmentCenter; return field; } JS端： 用一个js文件来导入模块。 NativeView.js import { requireNativeComponent } from &amp;#39;react-native&amp;#39;; // requireNativeComponent 自动把&amp;#39;RNTMap&amp;#39;解析为&amp;#39;RNTMapManager&amp;#39; export default requireNativeComponent(&amp;#39;MyNativeView&amp;#39;); 然后在其他js里使用即可。 import NativeView from &amp;#39;./MyNativeView&amp;#39; &amp;lt;NativeView style={{width:150, height:50, backgroundColor:&amp;#34;green&amp;#34;}}&amp;gt; &amp;lt;/NativeView&amp;gt; 封装原生属性 可以将view 方法里返回的视图的属性封装并供给JS端来设置.
+以上面代码为例，Native 端：
+RCT_EXPORT_VIEW_PROPERTY(userInteractionEnabled, BOOL) JS端：
+&amp;lt;NativeView style={{width:150, height:50, backgroundColor:&amp;#34;green&amp;#34;}} userInteractionEnabled={false}&amp;gt; &amp;lt;/NativeView&amp;gt; 那么view返回的UITextField 将无法接收点击等操作。</description>
+    </item>
+    
+    <item>
+      <title>React Native 优化相关</title>
+      <link>https://leverkusen188.github.io/reactnative/rn_optimization/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/reactnative/rn_optimization/</guid>
+      <description>JS加载 在 react-native 执行 JS 代码之前，必须将代码加载到内存中并进行解析。如果你加载了一个 50MB 的 bundle，那么所有的 50mb 都必须被加载和解析才能被执行。RAM 格式的 bundle 则对此进行了优化，即启动时只加载 50MB 中实际需要的部分，之后再逐渐按需加载更多的包。
+使用内联引用，可以实现懒加载，降低启动时间。
+直接加载的样例代码：
+import ModalApp from &amp;#39;./MyJS/Modal&amp;#39;; AppRegistry.registerComponent(&amp;#34;ModalApp&amp;#34;, () =&amp;gt; ModalApp); 内联引用加载:
+let m = require(&amp;#39;./MyJS/Modal&amp;#39;).default AppRegistry.registerComponent(&amp;#34;ModalApp&amp;#34;, () =&amp;gt; m); </description>
+    </item>
+    
+    <item>
+      <title>React Native 的JS与Oc 通信</title>
+      <link>https://leverkusen188.github.io/reactnative/js_native_communication/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/reactnative/js_native_communication/</guid>
+      <description>JS 调用 OC 创建一个OC类，实现 RCTBridgeModule 协议。 H 头文件 #import &amp;lt;React/RCTBridgeModule.h&amp;gt; @interface TestObjectForJS : NSObject&amp;lt;RCTBridgeModule&amp;gt; @end M 文件 #import &amp;lt;React/RCTLog.h&amp;gt; @implementation TestObjectForJS RCT_EXPORT_MODULE(TestObject); //声明导出的模块名 //声明并实现导出的方法（实际上是类方法） RCT_EXPORT_METHOD(testFunc:(NSString *)first location:(NSString *)second) { NSString *output = [first stringByAppendingString:second]; RCTLogInfo(@&amp;#34;Pretending to create an event: %@&amp;#34;, output); } @end 在JS中调用即可。 import { NativeModules } from &amp;#39;react-native&amp;#39;; NativeModules.TestObject.testFunc(&amp;#39;11&amp;#39;, &amp;#39;22&amp;#39;) OC 给JS调用的方法支持的参数类型 RCT_EXPORT_METHOD 支持所有标准 JSON 类型，包括：
+string (NSString) number (NSInteger, float, double, CGFloat, NSNumber) boolean (BOOL, NSNumber) array (NSArray) 可包含本列表中任意类型 object (NSDictionary) 可包含 string 类型的键和本列表中任意类型的值 function (RCTResponseSenderBlock) RCTConvert 声明的也都可以支持 以NSDate 为例： JS端, 可以传递 Date 的 getTime() (时间戳) const date = new Date(&amp;#39;1995-12-17T03:24:00&amp;#39;); NativeModules.</description>
+    </item>
+    
+    <item>
+      <title>图片组件（image）</title>
+      <link>https://leverkusen188.github.io/reactnative/rn_image/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/reactnative/rn_image/</guid>
+      <description>加载本地图片（js package里） 图片放置在 js的package里
+使用 Image 组件即可。
+&amp;lt;Image source={require(&amp;#39;./img/check.png&amp;#39;)} /&amp;gt; 也能用变量来动态加载
+const icon = &amp;#34;small.png&amp;#34;; &amp;lt;Image source={require(&amp;#34;./&amp;#34;+icon)} /&amp;gt; 上面描述的require语法也可以用来静态地加载你项目中的声音、视频或者文档文件。
+大多数常见文件类型都支持，包括.mp3, .wav, .mp4, .mov, .htm 和 .pdf等。
+参考 https://github.com/facebook/metro/blob/main/packages/metro-config/src/defaults/defaults.js#L14-L44
+加载混合app的图片 指的是加载原生app的asset里的图片资源。
+iOS &amp;lt;Image source={{ uri: &amp;#39;app_icon&amp;#39; }} style={{ width: 40, height: 40 }} /&amp;gt; android &amp;lt;Image source={{ uri: &amp;#39;asset:/app_icon.png&amp;#39; }} style={{ width: 40, height: 40 }} /&amp;gt; 注意：这些做法并没有任何安全检查。你需要自己确保图片在应用中确实存在，而且还需要指定尺寸。
+加载网络图片 使用远程地址作为参数即可. &amp;lt;Image source={{uri: &amp;#39;https://facebook.github.io/react/logo-og.png&amp;#39;}} style={{width: 400, height: 400}} /&amp;gt; 注意：跟加载app图片一样，需要指定尺寸。
+还能直接制定请求参数
+&amp;lt;Image source={{ uri: &amp;#39;https://facebook.</description>
+    </item>
+    
+    <item>
+      <title>组件布局</title>
+      <link>https://leverkusen188.github.io/reactnative/rn_layout/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/reactnative/rn_layout/</guid>
+      <description>Flex Direction 一种子组件的排列方式。 使用的是 flexDirection 属性，默认是 column，一共四种：
+&amp;ldquo;column&amp;rdquo;, //从上往下 &amp;ldquo;row&amp;rdquo;, //从左往右 &amp;ldquo;row-reverse&amp;rdquo;, //从右往左 &amp;ldquo;column-reverse&amp;rdquo; //从下往上 Layout Direction 另一种排列方式，使用的是 direction 属性，决定子组件靠左，还是靠右，但不会递归传递下去。
+一共两种： ltr: 从左往右 rtl: 从右往左 Justify Content 在组件的 style 中指定justifyContent可以决定其子元素沿着主轴的排列方式。
+flex-start: 子元素从开始处依次排列。 当 flexDirection 为 row时 当 flexDirection 为 row-reverse时（因为布局是从右往左的） flex-end：所有子元素靠结尾处排列 当 flexDirection 为 row时(结尾处是右边) 当 flexDirection 为 row-reverse时（因为布局是从右往左的, 所以结尾处就是最左边） center： 所有子元素按总宽度计算后，靠中间一起排列 space-between：第一个和最后一个子元素分别靠开始和结尾，其他子元素平均排列，保证子元素之间距离相同。 space-around: 第一个和最后一个子元素会跟开始和结尾 空一小段，其他子元素平均排列，子元素之间距离相同 space-evenly：所有元素之间距离 以及 首尾元素跟边缘的距离 完全一样。 Align Items 在组件的 style 中指定alignItems可以决定其子元素沿着次轴（如果主轴是row，那么次轴就是 column）的排列方式
+stretch: 将子元素往次轴方向拉伸，以填满。（要求width不能限定值; 下图里 第一二个元素限定了width:50, 第三个未限定） flex-start: 子元素靠次轴的开始方向布局。（次轴是row，开始方向就是最左边） flex-end：子元素靠次轴的结尾方向布局。 center：子元素靠次轴的中间布局。 Align Self 可以将alignSelf 给单独的子元素（可设置的值跟 alignItems 一样），那么该子元素就会遵从 alignSelf的设置而忽略父元素的alignItems。 比如下面例子，第一个元素的alignSelf 设为 stretch, 因此完全忽略了父元素的 center设置。 Flex Wrap flexWrap 决定子元素在主轴上超过父元素大小时，是否在次轴方向进行换行显示。 默认是no-wrap, 可以设置为 wrap</description>
+    </item>
+    
+    <item>
+      <title>组件的样式和大小</title>
+      <link>https://leverkusen188.github.io/reactnative/styleandsize/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/reactnative/styleandsize/</guid>
+      <description>样式 订制组件的样式，用style 属性。 Style 里可以放入js的变量，也能放入多个变量的数组（以数组靠后的变量样式为最优先）
+样例代码：
+import React from &amp;#39;react&amp;#39;; import { StyleSheet, Text, View } from &amp;#39;react-native&amp;#39;; const LotsOfStyles = () =&amp;gt; { return ( &amp;lt;View style={styles.container}&amp;gt; &amp;lt;Text style={styles.red}&amp;gt;just red&amp;lt;/Text&amp;gt; &amp;lt;Text style={styles.bigBlue}&amp;gt;just bigBlue&amp;lt;/Text&amp;gt; &amp;lt;Text style={[styles.bigBlue, styles.red]}&amp;gt;bigBlue, then red&amp;lt;/Text&amp;gt; &amp;lt;Text style={[styles.red, styles.bigBlue]}&amp;gt;red, then bigBlue&amp;lt;/Text&amp;gt; //red的color 被后面的 bigBlue的color覆盖了 &amp;lt;/View&amp;gt; ); }; const styles = StyleSheet.create({ container: { marginTop: 50, }, bigBlue: { color: &amp;#39;blue&amp;#39;, fontWeight: &amp;#39;bold&amp;#39;, fontSize: 30, }, red: { color: &amp;#39;red&amp;#39;, }, }); export default LotsOfStyles; 显示效果： 组件大小 高宽的绝对值 最简单的给组件设定尺寸的方式就是在样式中指定固定的width和height。React Native 中的尺寸都是无单位的，表示的是与设备像素密度无关的逻辑像素点, 其实也就是系统的 UIScreen 获取到的大小。</description>
+    </item>
+    
+    <item>
+      <title>调试debug </title>
+      <link>https://leverkusen188.github.io/reactnative/rndebug/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/reactnative/rndebug/</guid>
+      <description>本机模拟器调试： 实际上就是在本机器上启动了一个NPM的 web服务，将对应的js文件也放进去。 模拟器app 通过 localhost 来加载所有的js文件，通过 react-native 解析成native代码，最终渲染出UI。
+连手机调试： 在本机器上启动NPM的web服务，将对应的js文件也放进去。 联机编译时，react-native-xcode.sh 脚本会生成一个 ip.txt 文件，里面是本机器的ip地址，并将该txt文件放入app的bundle里。 手机app 通过该IP 以及 NPM的web服务来加载所有JS文件。
+UI层次调试 可以使用 react-devtools。 安装方式：
+export ELECTRON_MIRROR=&amp;#34;https://npm.taobao.org/mirrors/electron/&amp;#34; //换一下package源，避免墙问题 npm install -g react-devtools PS：如果连手机调试，需要手机和电脑在同一个网段下。
+然后用 react-devtools 启动工具即可。
+堆栈还原 npx metro-symbolicate android/app/build/generated/sourcemaps/react/release/index.android.bundle.map &amp;lt; stacktrace.txt </description>
+    </item>
+    
+  </channel>
+</rss>
