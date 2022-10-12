@@ -7,13 +7,6 @@
 	"content": "kkndme_tianya（持续更新中\u0026hellip;）\n房产的稀缺性 房产的稀缺性来自于土地的稀缺性，更来自于 该土地周围的相关配套资源的稀缺性，包括生活便利性，交通，教育，医疗等。\nzf对土地和房产的垄断 zf垄断土地资源，可以进行几乎无风险的卖地行为，将风险（开发商的资金压力，居民的中长期贷款）甩给开发商和银行。\n社会的基本稳定是zf的治理目标 zf只用保证最底层的农民吃饱即可，就能基本保证社会的稳定，底层农民们只关心最基本的生活资源，他们并不关心城市的房产价格如何。而对房产价格极其敏感的所谓中产阶级白领，他们出了呻吟几声外没有任何的其他能量。\n维持大量底层劳力是zf的治理目标 zf必须维持大量的底层劳力，几乎不用给予他们上升空间，因为大量的低端人口才能保证精英们的幸福生活，类似于网络游戏里免费玩家是付费玩家的福利一样。\nzf通过创造需求来提高土地和房产的稀缺性 zf可以通过各种行为来创造需求，以提高房产的出售数和价格，比如拆迁城中村，把居民赶入城里买房；为某地规划交通和教育医疗资源以提高该地附近的房产价格；对城中村进行改造，提高租赁价格以提高整体租房价格，并对该地人员进行经济筛选，没钱的滚回老家去。\n"
 },
 {
-	"uri": "https://leverkusen188.github.io/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/",
-	"title": "2010天涯KK大神预测总结",
-	"tags": [],
-	"description": "",
-	"content": "离职原因 腾讯 DJI的光环 收入的提升 DJI 对以硬件为主软件为辅的产品研发流程感到有点厌倦。 对拍摄相关兴趣不高，延伸到对自家软件产品的成就感，关注度不够高。 负责的模块处于对接多个模块（团队）的中心位置，除日常开发维护外的其他工作（比如软硬件功能问题定位，CI编译问题等）较多，耗费大量精力。 公司相关项目经历 腾讯经历： 主要负责ios 手机QQ App的群相关业务开发工作，以及移动端跨平台插件技术调研 \u0026amp; 研发。\nlua-wax 要点： 内存管理：定时器检查引用计数。对象引用关系影响retain count。对象释放会有延迟。 lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放入 strongtable中的对象，在定时器扫描时发现retainccount 小于2时，就会帮你调用release释放，模拟出arc效果。 线程模型：一个Lua stack 代表一个线程（stack是lua用来和C 进行数据通信的渠道）。一个wax instance等于一个stack。 block 支持不是很好，比如block的参数也是block时。 DJI 经历： 带领ios团队，承担电商部门ios平台的相关产品研发工作。 主要职责：app框架搭建，技术选型评估（比如内置IM的第三方sdk选型），参与业务需求讨论定型，前后端接口设计。\n部门重组后加入软件部，参与软件部多个主要app产品的开发，维护，持续优化 以及 疑难问题攻关工作。以及一些能提高团队研发效率的相关技术调研和工具开发工作。 开发角色：前期主要负责DJI Go App上 远端 \u0026amp; 本地相册，视频编辑，用户中心，App内置H5 等模块的开发维护。 后期主要负责 跨平台回放，iOS端的智能相册模块。 团队效率方面：csdk 源码/二进制编译切换工具；分享，网络请求，用户中心几个功能的模块化；UI和Midware代码库合并（Fly 和Mimo）\n案例1： 相机HTTP多线程下载开发，以及 32int 溢出导致的下载失败问题。 动态库引起的多单例问题。\n案例2: 在使用内部的KVO工具绑定接收消息时，发现明显的性能问题。 跟踪发现是其他团队的内部性能检测工具在检测到DJI 开头的类的属性变化时，会记录当前的线程 callstack，并在耗时达到一定程度时 记录下来作为性能问题。\n"
-},
-{
 	"uri": "https://leverkusen188.github.io/iosrelated/ios%E6%80%A7%E8%83%BD/",
 	"title": "IOS app性能调优相关知识点",
 	"tags": [],
@@ -327,6 +320,13 @@
 	"tags": [],
 	"description": "",
 	"content": "代码示例：\n@propertyWrapper struct Increase\u0026lt;T\u0026gt; { var wrappedValue : T { get {return value1} set { value1 = newValue if T.self is Int.Type { print(\u0026#34;\\(T.self)\u0026#34;) } if T.self is NSObject.Type || T.self is (NSObject?).Type { print(\u0026#34;\\(T.self)\u0026#34;) } } } var projectedValue : Increase\u0026lt;T\u0026gt; {return self} private var value1 : T init(wrappedValue: T) { self.value1 = wrappedValue } public func printValue() { if let v = wrappedValue as? Int { print(\u0026#34;Increase: value=\\(v+1)\u0026#34;) } } } class SwiftTestObject : NSObject { @Increase var wrappedInt : Int = 1 @Increase(wrappedValue: nil) var wrappedObject : NSObject? func testFunc() { self.wrappedObject. //NSObject _wrappedObject //Increase\u0026lt;NSObject\u0026gt; self.$wrappedObject. //Increase\u0026lt;NSObject\u0026gt; } } @propertyWrapper 来声明，必须带 泛型定义。 必须创建 var wrappedValue ，同时重写 set get方法。 在声明对应属性包装器 属性的class里，可以用 _value 来访问 Increase 对象。用 self.value 来访问对应的 T 类型对象 可以用 @Increase var value :int = 1. 或是 @Increase(wrappedValue: 1) var value : Int. 来声明并初始化 如果外面其他地方要访问 Increase 对象，必须在 propertyWrapper 里声明一个 projectedValue 来返回self，外面即可用 object.$value 语法糖来访问。 属性包装器的限制 带有包装器的属性不能在子类中覆盖。 具有包装器的属性不能是lazy，@NSCopying，@NSManaged，weak或unowned 具有包装器的属性不能具有自定义的set或get方法。 wrappedValue，init（wrappedValue :)和projectedValue必须具有与包装类型本身相同的访问控制级别 不能在协议或扩展中声明带有包装器的属性。 参考：Swift 5 属性包装器Property Wrappers完整指南\n"
+},
+{
+	"uri": "https://leverkusen188.github.io/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/",
+	"title": "简历自我介绍补全",
+	"tags": [],
+	"description": "",
+	"content": "离职原因 腾讯 DJI的光环 收入的提升 DJI 对以硬件为主软件为辅的产品研发流程感到有点厌倦。 对拍摄相关兴趣不高，延伸到对自家软件产品的成就感，关注度不够高。 负责的模块处于对接多个模块（团队）的中心位置，除日常开发维护外的其他工作（比如软硬件功能问题定位，CI编译问题等）较多，耗费大量精力。 公司相关项目经历 腾讯经历： 主要负责ios 手机QQ App的群相关业务开发工作，以及移动端跨平台插件技术调研 \u0026amp; 研发。\nlua-wax 要点： 内存管理：定时器检查引用计数。对象引用关系影响retain count。对象释放会有延迟。 lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放入 strongtable中的对象，在定时器扫描时发现retainccount 小于2时，就会帮你调用release释放，模拟出arc效果。 线程模型：一个Lua stack 代表一个线程（stack是lua用来和C 进行数据通信的渠道）。一个wax instance等于一个stack。 block 支持不是很好，比如block的参数也是block时。 DJI 经历： 带领ios团队，承担电商部门ios平台的相关产品研发工作。 主要职责：app框架搭建，技术选型评估（比如内置IM的第三方sdk选型），参与业务需求讨论定型，前后端接口设计。\n部门重组后加入软件部，参与软件部多个主要app产品的开发，维护，持续优化 以及 疑难问题攻关工作。以及一些能提高团队研发效率的相关技术调研和工具开发工作。 开发角色：前期主要负责DJI Go App上 远端 \u0026amp; 本地相册，视频编辑，用户中心，App内置H5 等模块的开发维护。 后期主要负责 跨平台回放，iOS端的智能相册模块。 团队效率方面：csdk 源码/二进制编译切换工具；分享，网络请求，用户中心几个功能的模块化；UI和Midware代码库合并（Fly 和Mimo）\n案例1： 相机HTTP多线程下载开发，以及 32int 溢出导致的下载失败问题。 动态库引起的多单例问题。\n案例2: 在使用内部的KVO工具绑定接收消息时，发现明显的性能问题。 跟踪发现是其他团队的内部性能检测工具在检测到DJI 开头的类的属性变化时，会记录当前的线程 callstack，并在耗时达到一定程度时 记录下来作为性能问题。\n"
 },
 {
 	"uri": "https://leverkusen188.github.io/reactnative/rn_layout/",

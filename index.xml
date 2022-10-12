@@ -22,19 +22,6 @@ zf通过创造需求来提高土地和房产的稀缺性 zf可以通过各种行
     </item>
     
     <item>
-      <title>2010天涯KK大神预测总结</title>
-      <link>https://leverkusen188.github.io/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/</link>
-      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
-      
-      <guid>https://leverkusen188.github.io/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/</guid>
-      <description>离职原因 腾讯 DJI的光环 收入的提升 DJI 对以硬件为主软件为辅的产品研发流程感到有点厌倦。 对拍摄相关兴趣不高，延伸到对自家软件产品的成就感，关注度不够高。 负责的模块处于对接多个模块（团队）的中心位置，除日常开发维护外的其他工作（比如软硬件功能问题定位，CI编译问题等）较多，耗费大量精力。 公司相关项目经历 腾讯经历： 主要负责ios 手机QQ App的群相关业务开发工作，以及移动端跨平台插件技术调研 &amp;amp; 研发。
-lua-wax 要点： 内存管理：定时器检查引用计数。对象引用关系影响retain count。对象释放会有延迟。 lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放入 strongtable中的对象，在定时器扫描时发现retainccount 小于2时，就会帮你调用release释放，模拟出arc效果。 线程模型：一个Lua stack 代表一个线程（stack是lua用来和C 进行数据通信的渠道）。一个wax instance等于一个stack。 block 支持不是很好，比如block的参数也是block时。 DJI 经历： 带领ios团队，承担电商部门ios平台的相关产品研发工作。 主要职责：app框架搭建，技术选型评估（比如内置IM的第三方sdk选型），参与业务需求讨论定型，前后端接口设计。
-部门重组后加入软件部，参与软件部多个主要app产品的开发，维护，持续优化 以及 疑难问题攻关工作。以及一些能提高团队研发效率的相关技术调研和工具开发工作。 开发角色：前期主要负责DJI Go App上 远端 &amp;amp; 本地相册，视频编辑，用户中心，App内置H5 等模块的开发维护。 后期主要负责 跨平台回放，iOS端的智能相册模块。 团队效率方面：csdk 源码/二进制编译切换工具；分享，网络请求，用户中心几个功能的模块化；UI和Midware代码库合并（Fly 和Mimo）
-案例1： 相机HTTP多线程下载开发，以及 32int 溢出导致的下载失败问题。 动态库引起的多单例问题。
-案例2: 在使用内部的KVO工具绑定接收消息时，发现明显的性能问题。 跟踪发现是其他团队的内部性能检测工具在检测到DJI 开头的类的属性变化时，会记录当前的线程 callstack，并在耗时达到一定程度时 记录下来作为性能问题。</description>
-    </item>
-    
-    <item>
       <title>IOS app性能调优相关知识点</title>
       <link>https://leverkusen188.github.io/iosrelated/ios%E6%80%A7%E8%83%BD/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
@@ -542,6 +529,19 @@ var arr = [1, 2, 3]; arr.length = 6; //arr变为[1, 2, 3, undefined, undefined, 
       <guid>https://leverkusen188.github.io/swift/swift_property_wrappers/</guid>
       <description>代码示例：
 @propertyWrapper struct Increase&amp;lt;T&amp;gt; { var wrappedValue : T { get {return value1} set { value1 = newValue if T.self is Int.Type { print(&amp;#34;\(T.self)&amp;#34;) } if T.self is NSObject.Type || T.self is (NSObject?).Type { print(&amp;#34;\(T.self)&amp;#34;) } } } var projectedValue : Increase&amp;lt;T&amp;gt; {return self} private var value1 : T init(wrappedValue: T) { self.value1 = wrappedValue } public func printValue() { if let v = wrappedValue as? Int { print(&amp;#34;Increase: value=\(v+1)&amp;#34;) } } } class SwiftTestObject : NSObject { @Increase var wrappedInt : Int = 1 @Increase(wrappedValue: nil) var wrappedObject : NSObject?</description>
+    </item>
+    
+    <item>
+      <title>简历自我介绍补全</title>
+      <link>https://leverkusen188.github.io/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/</guid>
+      <description>离职原因 腾讯 DJI的光环 收入的提升 DJI 对以硬件为主软件为辅的产品研发流程感到有点厌倦。 对拍摄相关兴趣不高，延伸到对自家软件产品的成就感，关注度不够高。 负责的模块处于对接多个模块（团队）的中心位置，除日常开发维护外的其他工作（比如软硬件功能问题定位，CI编译问题等）较多，耗费大量精力。 公司相关项目经历 腾讯经历： 主要负责ios 手机QQ App的群相关业务开发工作，以及移动端跨平台插件技术调研 &amp;amp; 研发。
+lua-wax 要点： 内存管理：定时器检查引用计数。对象引用关系影响retain count。对象释放会有延迟。 lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放入 strongtable中的对象，在定时器扫描时发现retainccount 小于2时，就会帮你调用release释放，模拟出arc效果。 线程模型：一个Lua stack 代表一个线程（stack是lua用来和C 进行数据通信的渠道）。一个wax instance等于一个stack。 block 支持不是很好，比如block的参数也是block时。 DJI 经历： 带领ios团队，承担电商部门ios平台的相关产品研发工作。 主要职责：app框架搭建，技术选型评估（比如内置IM的第三方sdk选型），参与业务需求讨论定型，前后端接口设计。
+部门重组后加入软件部，参与软件部多个主要app产品的开发，维护，持续优化 以及 疑难问题攻关工作。以及一些能提高团队研发效率的相关技术调研和工具开发工作。 开发角色：前期主要负责DJI Go App上 远端 &amp;amp; 本地相册，视频编辑，用户中心，App内置H5 等模块的开发维护。 后期主要负责 跨平台回放，iOS端的智能相册模块。 团队效率方面：csdk 源码/二进制编译切换工具；分享，网络请求，用户中心几个功能的模块化；UI和Midware代码库合并（Fly 和Mimo）
+案例1： 相机HTTP多线程下载开发，以及 32int 溢出导致的下载失败问题。 动态库引起的多单例问题。
+案例2: 在使用内部的KVO工具绑定接收消息时，发现明显的性能问题。 跟踪发现是其他团队的内部性能检测工具在检测到DJI 开头的类的属性变化时，会记录当前的线程 callstack，并在耗时达到一定程度时 记录下来作为性能问题。</description>
     </item>
     
     <item>
