@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>简历自我介绍补全 :: My New Hugo Site</title>
+    <title>iOS 与外设通信 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1666083589" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/">
+  <body class="" data-url="/iosrelated/ios%E4%B8%8E%E5%A4%96%E8%AE%BE%E9%80%9A%E4%BF%A1/">
     <nav id="sidebar" class="">
 
 
@@ -177,7 +177,7 @@
   
     
     <li data-nav-id="/iosrelated/" title="IOSRelateds" class="dd-item
-        
+        parent
         
         
         ">
@@ -224,7 +224,7 @@
  
   
     
-      <li data-nav-id="/iosrelated/ios%E4%B8%8E%E5%A4%96%E8%AE%BE%E9%80%9A%E4%BF%A1/" title="iOS 与外设通信" class="dd-item ">
+      <li data-nav-id="/iosrelated/ios%E4%B8%8E%E5%A4%96%E8%AE%BE%E9%80%9A%E4%BF%A1/" title="iOS 与外设通信" class="dd-item active">
         <a href="/iosrelated/ios%E4%B8%8E%E5%A4%96%E8%AE%BE%E9%80%9A%E4%BF%A1/">
         iOS 与外设通信
         
@@ -1289,7 +1289,7 @@
   
     
     <li data-nav-id="/%E9%9D%9E%E6%8A%80%E6%9C%AF/" title="非技术s" class="dd-item
-        parent
+        
         
         
         ">
@@ -1336,7 +1336,7 @@
  
   
     
-      <li data-nav-id="/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/" title="简历自我介绍补全" class="dd-item active">
+      <li data-nav-id="/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/" title="简历自我介绍补全" class="dd-item ">
         <a href="/%E9%9D%9E%E6%8A%80%E6%9C%AF/%E7%AE%80%E5%8E%86%E5%AD%97%E6%88%91%E4%BB%8B%E7%BB%8D%E8%A1%A5%E5%85%A8/">
         简历自我介绍补全
         
@@ -1401,7 +1401,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/%E9%9D%9E%E6%8A%80%E6%9C%AF/'>非技术s</a> > 简历自我介绍补全
+            <a href='/'>My New Hugo Site</a> > <a href='/iosrelated/'>IOSRelateds</a> > iOS 与外设通信
           
         
           
@@ -1416,13 +1416,13 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#腾讯">腾讯</a></li>
-    <li><a href="#dji">DJI</a></li>
+    <li><a href="#基本概念">基本概念</a></li>
+    <li><a href="#工作流程以central端为例">工作流程（以Central端为例）</a></li>
   </ul>
 
   <ul>
-    <li><a href="#腾讯经历">腾讯经历：</a></li>
-    <li><a href="#dji-经历">DJI 经历：</a></li>
+    <li><a href="#什么是mfi">什么是MFI</a></li>
+    <li><a href="#为什么要做-mfi-认证">为什么要做 MFi 认证</a></li>
   </ul>
 </nav>
     </div>
@@ -1440,59 +1440,108 @@
           
             <h1>
               
-              简历自我介绍补全
+              iOS 与外设通信
             </h1>
           
 
         
 
 
-<h1 id="离职原因">离职原因</h1>
-<h2 id="腾讯">腾讯</h2>
-<ol>
-<li>DJI的光环</li>
-<li>收入的提升</li>
-</ol>
-<h2 id="dji">DJI</h2>
-<ol>
-<li>对以硬件为主软件为辅的产品研发流程感到有点厌倦。</li>
-<li>对拍摄相关兴趣不高，延伸到对自家软件产品的成就感，关注度不够高。</li>
-<li>负责的模块处于对接多个模块（团队）的中心位置，除日常开发维护外的其他工作（比如软硬件功能问题定位，CI编译问题等）较多，耗费大量精力。</li>
-</ol>
-<h1 id="公司相关项目经历">公司相关项目经历</h1>
-<h2 id="腾讯经历">腾讯经历：</h2>
-<p>主要负责ios 手机QQ App的群相关业务开发工作，以及移动端跨平台插件技术调研 &amp; 研发。</p>
+<h1 id="蓝牙通讯">蓝牙通讯</h1>
+<blockquote>
+<p>PS： _notifyCharacteristicID，_writeCharacteristicID，_externalCharacteristicID 都是跟硬件约定好的对应权限的Characteristic特征的uuid</p>
+</blockquote>
+<h2 id="基本概念">基本概念</h2>
 <ul>
-<li>lua-wax 要点：</li>
+<li>
+<p>Peripheral、Central：中心和外设，发起连接的是 Central，被连接的设备为 Peripheral；外设设备会不停地向外广播以寻求连接。
+在Mimo里，app的角色是 Central，而相机是 Peripheral</p>
+</li>
+<li>
+<p>Service: 每个service 有唯一的uuid，多个外设可以共用一个service，也就是 扫描指定的uuid的service时，会返回所有使用了该service的 外设（Peripheral）
+每个service会有一个或多个 Characteristic（特征），</p>
+</li>
+<li>
+<p>Characteristic：特征，也是设备之间的数据传输通道，每个特征也有唯一的标识符（uuid）。分为 write，notify，
+Write类型用以 往外设上发送数据。</p>
+</li>
 </ul>
+<h2 id="工作流程以central端为例">工作流程（以Central端为例）</h2>
 <ol>
-<li>内存管理：定时器检查引用计数。对象引用关系影响retain count。对象释放会有延迟。
-lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放入 strongtable中的对象，在定时器扫描时发现retainccount 小于2时，就会帮你调用release释放，模拟出arc效果。</li>
-<li>线程模型：一个Lua stack 代表一个线程（stack是lua用来和C 进行数据通信的渠道）。一个wax instance等于一个stack。</li>
-<li>block 支持不是很好，比如block的参数也是block时。</li>
+<li>开始扫描使用指定 uuid service的Peripheral 外设</li>
 </ol>
-<h2 id="dji-经历">DJI 经历：</h2>
-<p>带领ios团队，承担电商部门ios平台的相关产品研发工作。
-主要职责：app框架搭建，技术选型评估（比如内置IM的第三方sdk选型），参与业务需求讨论定型，前后端接口设计。</p>
-<p>部门重组后加入软件部，参与软件部多个主要app产品的开发，维护，持续优化 以及 疑难问题攻关工作。以及一些能提高团队研发效率的相关技术调研和工具开发工作。
-开发角色：前期主要负责DJI Go App上 远端 &amp; 本地相册，视频编辑，用户中心，App内置H5 等模块的开发维护。
-后期主要负责 跨平台回放，iOS端的智能相册模块。
-团队效率方面：csdk 源码/二进制编译切换工具；分享，网络请求，用户中心几个功能的模块化；UI和Midware代码库合并（Fly 和Mimo）</p>
-<blockquote>
-<p>案例1：
-相机HTTP多线程下载开发，以及 32int 溢出导致的下载失败问题。
-动态库引起的多单例问题。</p>
-</blockquote>
-<blockquote>
-<p>案例2:
-在使用内部的KVO工具绑定接收消息时，发现明显的性能问题。
-跟踪发现是其他团队的内部性能检测工具在检测到DJI 开头的类的属性变化时，会记录当前的线程 callstack，并在耗时达到一定程度时 记录下来作为性能问题。</p>
-</blockquote>
-<p>2022-10-12 腾讯面试</p>
-<ol>
-<li>关于软件性能优化方面的成绩，技术助力不够。</li>
-<li></li>
+<pre tabindex="0"><code>    //创建 CBCentralManager
+    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:_bleWorkQueue options:options];
+//扫描指定的多个uuid的service
+    [_centralManager scanForPeripheralsWithServices:_scanServices options:options];
+</code></pre><ol start="2">
+<li>扫描到Peripheral 信息后，开始连接该外设</li>
 </ol>
+<pre tabindex="0"><code>- (void)centralManager:(CBCentralManager *)central
+ didDiscoverPeripheral:(CBPeripheral *)peripheral
+     advertisementData:(NSDictionary&lt;NSString *,
+                        id&gt; *)advertisementData
+                  RSSI:(NSNumber *)RSSI
+{
+//发现外设后，尝试连接
+[[DJIBLECentralManager defautManager] connectPeripheral:aPeripheral]
+}
+</code></pre><ol start="3">
+<li>连接到外设后，在该外设上检索 指定的service，并监听相关回调</li>
+</ol>
+<pre tabindex="0"><code>- (void)centralManager:(CBCentralManager *)central
+  didConnectPeripheral:(CBPeripheral *)peripheral
+{
+    [peripheral setDelegate:self];
+    [peripheral discoverServices:@[_serviceUUID]];
+}
+</code></pre><ol start="4">
+<li>检索到service以后，开始在该service上检索 Characteristic 特征。</li>
+</ol>
+<pre tabindex="0"><code>- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
+{
+
+    for (CBService *aService in peripheral.services) {
+        if ([aService.UUID isEqual:_serviceUUID]) {
+            NSMutableArray *searchUUIDs = [NSMutableArray array];
+            if (_notifyCharacteristicID) {
+                [searchUUIDs addObject:[CBUUID UUIDWithString:_notifyCharacteristicID]];
+            }
+            if (_writeCharacteristicID) {
+                [searchUUIDs addObject:[CBUUID UUIDWithString:_writeCharacteristicID]];
+            }
+            if (_externalCharacteristicID) {
+                [searchUUIDs addObject:[CBUUID UUIDWithString:_externalCharacteristicID]];
+            }
+            [peripheral discoverCharacteristics:searchUUIDs forService:aService];
+        }
+    }
+}
+</code></pre><ol start="5">
+<li>检索到Characteristic 特征以后，就可以用对应类型的特征来做相关事情了，比如用write类型特征往外设上写入数据</li>
+</ol>
+<pre tabindex="0"><code>- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
+{
+for (CBCharacteristic *aCharacteristic in service.characteristics) {
+        if ([aCharacteristic.UUID isEqual:[CBUUID UUIDWithString:_writeCharacteristicID]]) {
+            self.writeCharacteristic = aCharacteristic;
+        }
+}
+//往write类型的特征通道上写入数据
+ [_peripheral writeValue:sendData forCharacteristic:_writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
+}
+</code></pre><p>或是接收来自某个 特征通道的数据</p>
+<pre tabindex="0"><code>- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(nullable NSError *)error
+{
+    NSData * updatedValue = characteristic.value;
+}
+</code></pre><h1 id="mfi-认证通讯">MFI 认证通讯</h1>
+<h2 id="什么是mfi">什么是MFI</h2>
+<p>苹果 MFi 认证，是苹果公司（Apple Inc.）对其授权配件厂商生产的外置配件的一种标识使用许可，是 Apple 公司 “Made for iOS” 的英文缩写。</p>
+<h2 id="为什么要做-mfi-认证">为什么要做 MFi 认证</h2>
+<p>iOS App 跟外设的连接方式有网络、EAP 和 BLE。
+只有经过 MFi 认证的外设才能使用 EAP（External Accessory Protocol） 跟 App 进行通信。</p>
+<p>因为如果采用 EAP，那么对应的 App 就必须集成苹果的 EA 框架（ExternalAccessory.framework）</p>
 
 
 <footer class="footline">
@@ -1530,8 +1579,6 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -1545,6 +1592,9 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1562,21 +1612,6 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -1594,40 +1629,8 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
                         
-            
-            
-                
                     
                 
                 
@@ -1636,6 +1639,9 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -1765,19 +1771,6 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
             
         
                     
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
             
         
                     
@@ -1793,233 +1786,6 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
                     
                     
 
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -2293,30 +2059,10 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
             
         
                     
-            
-        
-                    
                         
             
             
                 
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
                     
                 
                 
@@ -2334,6 +2080,309 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
@@ -2358,10 +2407,10 @@ lua创建的oc对象，不用显式地调用alloc，wax会帮你调用。在放�
 	 
 	 
 		
-			<a class="nav nav-prev" href="/%E9%9D%9E%E6%8A%80%E6%9C%AF/2010%E5%A4%A9%E6%B6%AFkk%E5%A4%A7%E7%A5%9E%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/" title="2010天涯KK大神预测总结"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/iosrelated/ios%E6%80%A7%E8%83%BD/" title="IOS app性能调优相关知识点"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/%E9%9D%9E%E6%8A%80%E6%9C%AF/2010%E5%A4%A9%E6%B6%AFkk%E5%A4%A7%E7%A5%9E%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/" title="2010天涯KK大神预测总结" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/iosrelated/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/" title="IOS 子工程 源码和二进制库 编译方式切换方案" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

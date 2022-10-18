@@ -26,6 +26,19 @@ __weak typeof(self) weakSelf = self; self.mytimer = [NSTimer scheduledTimerWithT
     </item>
     
     <item>
+      <title>iOS 与外设通信</title>
+      <link>https://leverkusen188.github.io/iosrelated/ios%E4%B8%8E%E5%A4%96%E8%AE%BE%E9%80%9A%E4%BF%A1/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/iosrelated/ios%E4%B8%8E%E5%A4%96%E8%AE%BE%E9%80%9A%E4%BF%A1/</guid>
+      <description>蓝牙通讯 PS： _notifyCharacteristicID，_writeCharacteristicID，_externalCharacteristicID 都是跟硬件约定好的对应权限的Characteristic特征的uuid
+基本概念 Peripheral、Central：中心和外设，发起连接的是 Central，被连接的设备为 Peripheral；外设设备会不停地向外广播以寻求连接。 在Mimo里，app的角色是 Central，而相机是 Peripheral
+Service: 每个service 有唯一的uuid，多个外设可以共用一个service，也就是 扫描指定的uuid的service时，会返回所有使用了该service的 外设（Peripheral） 每个service会有一个或多个 Characteristic（特征），
+Characteristic：特征，也是设备之间的数据传输通道，每个特征也有唯一的标识符（uuid）。分为 write，notify， Write类型用以 往外设上发送数据。
+工作流程（以Central端为例） 开始扫描使用指定 uuid service的Peripheral 外设 //创建 CBCentralManager _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:_bleWorkQueue options:options]; //扫描指定的多个uuid的service [_centralManager scanForPeripheralsWithServices:_scanServices options:options]; 扫描到Peripheral 信息后，开始连接该外设 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary&amp;lt;NSString *, id&amp;gt; *)advertisementData RSSI:(NSNumber *)RSSI { //发现外设后，尝试连接 [[DJIBLECentralManager defautManager] connectPeripheral:aPeripheral] } 连接到外设后，在该外设上检索 指定的service，并监听相关回调 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral { [peripheral setDelegate:self]; [peripheral discoverServices:@[_serviceUUID]]; } 检索到service以后，开始在该service上检索 Characteristic 特征。 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error { for (CBService *aService in peripheral.</description>
+    </item>
+    
+    <item>
       <title>IOS 子工程 源码和二进制库 编译方式切换方案</title>
       <link>https://leverkusen188.github.io/iosrelated/%E6%BA%90%E7%A0%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E8%AF%91%E5%88%87%E6%8D%A2/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
