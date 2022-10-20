@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>python基础环境搭建 :: My New Hugo Site</title>
+    <title>SDK 开发规范 &amp; 经验总结 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1666236988" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+  <body class="" data-url="/iosrelated/sdk%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
     <nav id="sidebar" class="">
 
 
@@ -177,7 +177,7 @@
   
     
     <li data-nav-id="/iosrelated/" title="IOSRelateds" class="dd-item
-        
+        parent
         
         
         ">
@@ -287,7 +287,7 @@
  
   
     
-      <li data-nav-id="/iosrelated/sdk%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" title="SDK 开发规范 &amp; 经验总结" class="dd-item ">
+      <li data-nav-id="/iosrelated/sdk%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" title="SDK 开发规范 &amp; 经验总结" class="dd-item active">
         <a href="/iosrelated/sdk%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
         SDK 开发规范 &amp; 经验总结
         
@@ -413,7 +413,7 @@
   
     
     <li data-nav-id="/python/" title="Pythons" class="dd-item
-        parent
+        
         
         
         ">
@@ -439,7 +439,7 @@
  
   
     
-      <li data-nav-id="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="python基础环境搭建" class="dd-item active">
+      <li data-nav-id="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="python基础环境搭建" class="dd-item ">
         <a href="/python/python%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
         python基础环境搭建
         
@@ -1422,7 +1422,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/python/'>Pythons</a> > python基础环境搭建
+            <a href='/'>My New Hugo Site</a> > <a href='/iosrelated/'>IOSRelateds</a> > SDK 开发规范 & 经验总结
           
         
           
@@ -1437,18 +1437,16 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#安装虚拟环境">安装虚拟环境：</a></li>
-    <li><a href="#创建虚拟环境">创建虚拟环境：</a></li>
-    <li><a href="#进入退出-虚拟环境">进入/退出 虚拟环境：</a>
+    <li>
       <ul>
-        <li><a href="#退出">退出</a></li>
+        <li><a href="#1-开发规范">1. 开发规范</a></li>
+        <li><a href="#2-命名规范">2. 命名规范</a></li>
+        <li><a href="#3-日志设计">3. 日志设计</a></li>
+        <li><a href="#4-第三方库依赖处理原则">4. 第三方库依赖处理原则</a></li>
+        <li><a href="#5-版本管理规范">5. 版本管理规范</a></li>
+        <li><a href="#6-打包原则">6. 打包原则</a></li>
       </ul>
     </li>
-  </ul>
-
-  <ul>
-    <li><a href="#package文件结构和组成">package文件结构和组成</a></li>
-    <li><a href="#package安装方法">package安装方法</a></li>
   </ul>
 </nav>
     </div>
@@ -1466,67 +1464,70 @@
           
             <h1>
               
-              python基础环境搭建
+              SDK 开发规范 &amp; 经验总结
             </h1>
           
 
         
 
 
-<h1 id="虚拟环境">虚拟环境：</h1>
-<p>主要是创建一个虚拟的 python 环境，相关的第三方package会独立放在指定的目录下。
-但python相关的bin文件，都是从正式环境 景象过来的。
-参考：<a href="https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/">https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/</a></p>
-<h2 id="安装虚拟环境">安装虚拟环境：</h2>
-<p>On macOS and Linux:</p>
-<pre tabindex="0"><code>python3 -m pip install --user virtualenv
-</code></pre><p>On Windows:</p>
-<pre tabindex="0"><code>py -m pip install --user virtualenv
-</code></pre><h2 id="创建虚拟环境">创建虚拟环境：</h2>
-<p>On macOS and Linux:</p>
-<pre tabindex="0"><code>python3 -m venv env_name
-</code></pre><p>On Windows:</p>
-<pre tabindex="0"><code>py -m venv env_name
-</code></pre><h2 id="进入退出-虚拟环境">进入/退出 虚拟环境：</h2>
-<p>On macOS and Linux:</p>
-<pre tabindex="0"><code>source env/bin/activate
-</code></pre><p>On Windows:</p>
-<pre tabindex="0"><code>.\env\Scripts\activate
-</code></pre><h3 id="退出">退出</h3>
-<pre tabindex="0"><code>deactivate
-</code></pre><h1 id="关于python-package安装包">关于python package安装包</h1>
-<p>参考： <a href="https://python-packaging.readthedocs.io/en/latest/minimal.html">https://python-packaging.readthedocs.io/en/latest/minimal.html</a></p>
-<h2 id="package文件结构和组成">package文件结构和组成</h2>
+<h1 id="开发规范">开发规范</h1>
+<h3 id="1-开发规范">1. 开发规范</h3>
 <ul>
-<li>用pip install安装的包，在根目录下需要有个 setup.py 文件，里面配置了 这个package的相关信息（类似cocoapods的 podspec 文件）</li>
+<li>API功能单一，减少类似enum的入参设计</li>
+<li>线程处理， 如非必要不要使用应用主线程，不能长时间占用，SDK内应有一个专门线程处理SDK 相关操作</li>
+<li>尽量减少全局回调</li>
+<li>提供异常情况回调和输出方便接入方定位，错误回调采用code+msg组合</li>
+<li>能不用单例的就尽量少的使用</li>
+<li>对iOS 来说能不用xib 就不用，能不用通知就不用通知</li>
 </ul>
-<pre tabindex="0"><code>from setuptools import setup
+<h3 id="2-命名规范">2. 命名规范</h3>
+<ul>
+<li>接口名称，参数命名清晰规范，参数尽可能少，所有传入参数要做好校验，禁止使用拼音和中文</li>
+<li>类名，全局静态变量，宏等命名尽量使用自定义前缀来保证唯一性，避免与其他模块发生命名冲突。c++ 可以使用namespace来声明类和结构的模块层级，还能避免命名冲突。</li>
+<li>函数命名遵循共性，不要出现歧义或者违背大家的共识</li>
+<li>所有资源命名前缀：imageName_工程命名_平台名：<strong>toast_xxxSDK_iOS</strong></li>
+</ul>
+<h3 id="3-日志设计">3. 日志设计</h3>
+<ul>
+<li>log模块相关功能可配置（比如日志开关，日志文件输出目录，日志打印接管接口）</li>
+<li>log优先级分不同级别，可控制打印log级别</li>
+</ul>
+<h3 id="4-第三方库依赖处理原则">4. 第三方库依赖处理原则</h3>
+<ul>
+<li>最小可用性原则，即用最少的代码，如无必要勿增实体；</li>
+<li>最少依赖性原则，即用最低限度的外部依赖，如无必要勿增依赖</li>
+<li>SDK开发中，需要尽量避免依赖第三方库以免引起不必要的冲突；如实在需要，可以以源码形式引入稳定版本，并对类，结构，全局变量等添加前缀以避免外部使用到该第三方库时产生冲突。</li>
+</ul>
+<h3 id="5-版本管理规范">5. 版本管理规范</h3>
+<p>使用三位版本号，每位版本号最高三位数字如：1.0.12</p>
+<ul>
+<li>版本号递增原则：
+<ul>
+<li>第三位：bug修复，极小的变更</li>
+<li>第二位：一般的功能迭代</li>
+<li>第一位：项目重构，功能变更较大，需团队共同确定</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-打包原则">6. 打包原则</h3>
+<ul>
+<li>使用脚本一键打包，提升打包效率，降低手动打包带来的出错率</li>
+<li>要提供示例工程， 示例工程必须让开发者以最低的成本运行起来，可以用来验证主要功能接口 以及 SDK的接入方式。</li>
+</ul>
+<h1 id="经验--问题总结">经验 &amp; 问题总结</h1>
+<ul>
+<li>
+<p>业务型SDK里，当业务形态发生变化后，之前的接口参数无法满足需求，该如何处理？</p>
+<ol>
+<li>添加新的接口，老接口标识为 该版本弃用，在SDK迭代数个版本后删除。</li>
+</ol>
+</li>
+<li>
+<p>如何设计log的tag，才便于跟踪某个业务场景下产生的问题？</p>
+</li>
+</ul>
 
-setup(name=&#39;requests1&#39;,
-      version=&#39;0.1&#39;,
-      description=&#39;The funniest joke in the world&#39;,
-      url=&#39;http://github.com/storborg/funniest&#39;,
-      author=&#39;Flying Circus&#39;,
-      author_email=&#39;flyingcircus@example.com&#39;,
-      license=&#39;MIT&#39;,
-      packages=[&#39;requests2&#39;, &#39;requests1&#39;, &#39;requests1/sub_request&#39;],
-      zip_safe=False)
-</code></pre><ul>
-<li>每个目录下，需要有一个 <strong>init</strong>.py 文件，里面定义了这个目录模块的相关声明，以及 其他模块的import关系。
-以上面setup.py 的requests1 模块为例。
-<strong>init</strong>.py:</li>
-</ul>
-<pre tabindex="0"><code>import os
-from .test_module import print_string
-from .sub_request.sub_test_module import sub_print_string
-</code></pre><p>test_module.py</p>
-<pre tabindex="0"><code>import os
-def print_string(str):
-    print(&#39;test_module printstring={0}&#39;.format(str))
-</code></pre><h2 id="package安装方法">package安装方法</h2>
-<p>cd 到 setup.py 同级目录下，执行</p>
-<pre tabindex="0"><code>pip3 install .
-</code></pre>
 
 <footer class="footline">
 	
@@ -1563,8 +1564,6 @@ def print_string(str):
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -1578,6 +1577,9 @@ def print_string(str):
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1643,6 +1645,58 @@ def print_string(str):
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
                 
                 
 
@@ -1706,59 +1760,6 @@ def print_string(str):
             
             
                 
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
                     
                 
                 
@@ -2407,10 +2408,10 @@ def print_string(str):
 	 
 	 
 		
-			<a class="nav nav-prev" href="/python/" title="Pythons"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/iosrelated/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/" title="IOS 组件化-动态库实战"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/python/python_selenium%E7%88%AC%E8%99%AB/" title="基于Python &#43;Selenium的爬虫详解" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/iosrelated/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/" title="一次还原ios release包的卡顿堆栈的记录" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
