@@ -20,6 +20,27 @@ print(&amp;#34;Hi, \(Person(name: &amp;#34;Geralt&amp;#34;, place: &amp;#34;Rivi
     </item>
     
     <item>
+      <title>Swift 5.7 note</title>
+      <link>https://leverkusen188.github.io/swift/swift5.7_note/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift5.7_note/</guid>
+      <description>译自 Swift 5.7: Optional Binding, Closure Type Inference, Clock, Noasync
+什么是Swift Apple 的swift是一种运行在 iOS，MacOS，WatchOS，TvOS以及 linux上的编程语言。
+Swift是一种可编译的跑在apple相关产品设备以及电脑的类linux系统上的语言。这些系统上的应用可以使用c，c++，ObjectiveC等语言和swift 混合开发编译运行。
+我们啥时可以开始使用swift 5.7？ 根据最新消息，5.7 将于xcode14 以及 iOS SDK16 开始使用。
+根据最新消息，swift将有哪些新的变化？ 根据介绍，最主要的让开发者们的工作变得更轻松的点有，增强和简化了最常用的开发工具比如 binding optional语法；还有一些常用的表达式语法以及常用语法。
+速记：隐藏一个现有的optional变量 什么是optional变量？
+optional变量在swift里可以赋予一个有效的值或对象或是一个空指针。
+作为一个iOS的swift开发者，在编码时要经常使用到optional变量，它可以决定变量/容器是否可以赋值/包含 nil。
+在编码时检查一个变量是否有值是跟呼吸一样频繁的事。
+尽管使用起来已经够简单了，但每次都要把很长的变量名重写一遍还是比较麻烦。swift5.7 就在这方面很好地改进了相关语法。
+之前的swift let colleageName : String? = &amp;#34;John&amp;#34; if let colleageName = colleageName { print(colleageName) } 有时变量名过长时，每次重写就有点繁琐，或者有时候超过了一行的字数限制。
+下面的代码就显得特别冗长而且可读性较差
+let colleageNameiohfahiefhaohgho : String? = &amp;#34;John&amp;#34; let colleageNameiohfahiefhaohgho2 : String? = &amp;#34;Bill&amp;#34; if let colleageNameiohfahiefhaohgho = colleageNameiohfahiefhaohgho, let colleageNameiohfahiefhaohgho2 = colleageNameiohfahiefhaohgho2 { print(&amp;#34;\(colleageNameiohfahiefhaohgho) \(colleageNameiohfahiefhaohgho2)&amp;#34;) } 而且这会导致变量命名趋向于简短且描述性差。</description>
+    </item>
+    
+    <item>
       <title>Swift dynamicMemberLookup</title>
       <link>https://leverkusen188.github.io/swift/swift_dynamicmemberlookup/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>

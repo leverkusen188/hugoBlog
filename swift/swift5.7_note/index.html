@@ -10,23 +10,23 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>SDK 开发规范 &amp; 经验总结 :: My New Hugo Site</title>
+    <title>Swift 5.7 note :: My New Hugo Site</title>
 
     
-    <link href="/css/nucleus.css?1666604685" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1666604685" rel="stylesheet">
-    <link href="/css/hybrid.css?1666604685" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1666604685" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1666604685" rel="stylesheet">
-    <link href="/css/auto-complete.css?1666604685" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1666604685" rel="stylesheet">
-    <link href="/css/theme.css?1666604685" rel="stylesheet">
-    <link href="/css/tabs.css?1666604685" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1666604685" rel="stylesheet">
+    <link href="/css/nucleus.css?1666604686" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1666604686" rel="stylesheet">
+    <link href="/css/hybrid.css?1666604686" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1666604686" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1666604686" rel="stylesheet">
+    <link href="/css/auto-complete.css?1666604686" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1666604686" rel="stylesheet">
+    <link href="/css/theme.css?1666604686" rel="stylesheet">
+    <link href="/css/tabs.css?1666604686" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1666604686" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1666604685"></script>
+    <script src="/js/jquery-3.3.1.min.js?1666604686"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/iosrelated/sdk%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
+  <body class="" data-url="/swift/swift5.7_note/">
     <nav id="sidebar" class="">
 
 
@@ -136,19 +136,19 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1666604685"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1666604685"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1666604686"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1666604686"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/leverkusen188.github.io\/";
     
 </script>
 
-<script type="text/javascript" src="/js/search.js?1666604685"></script>
+<script type="text/javascript" src="/js/search.js?1666604686"></script>
 
 
-<script src="/js/fuse.min.js?1666604685"></script> 
-<script src="/js/fastsearch.js?1666604685"></script>
+<script src="/js/fuse.min.js?1666604686"></script> 
+<script src="/js/fastsearch.js?1666604686"></script>
 
 
     
@@ -177,7 +177,7 @@
   
     
     <li data-nav-id="/iosrelated/" title="IOSRelateds" class="dd-item
-        parent
+        
         
         
         ">
@@ -287,7 +287,7 @@
  
   
     
-      <li data-nav-id="/iosrelated/sdk%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" title="SDK 开发规范 &amp; 经验总结" class="dd-item active">
+      <li data-nav-id="/iosrelated/sdk%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" title="SDK 开发规范 &amp; 经验总结" class="dd-item ">
         <a href="/iosrelated/sdk%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
         SDK 开发规范 &amp; 经验总结
         
@@ -809,7 +809,7 @@
   
     
     <li data-nav-id="/swift/" title="Swifts" class="dd-item
-        
+        parent
         
         
         ">
@@ -856,7 +856,7 @@
  
   
     
-      <li data-nav-id="/swift/swift5.7_note/" title="Swift 5.7 note" class="dd-item ">
+      <li data-nav-id="/swift/swift5.7_note/" title="Swift 5.7 note" class="dd-item active">
         <a href="/swift/swift5.7_note/">
         Swift 5.7 note
         
@@ -1443,7 +1443,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/iosrelated/'>IOSRelateds</a> > SDK 开发规范 & 经验总结
+            <a href='/'>My New Hugo Site</a> > <a href='/swift/'>Swifts</a> > Swift 5.7 note
           
         
           
@@ -1456,20 +1456,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#1-开发规范">1. 开发规范</a></li>
-        <li><a href="#2-命名规范">2. 命名规范</a></li>
-        <li><a href="#3-日志设计">3. 日志设计</a></li>
-        <li><a href="#4-第三方库依赖处理原则">4. 第三方库依赖处理原则</a></li>
-        <li><a href="#5-版本管理规范">5. 版本管理规范</a></li>
-        <li><a href="#6-打包原则">6. 打包原则</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
     </div>
 </div>
 
@@ -1485,69 +1472,181 @@
           
             <h1>
               
-              SDK 开发规范 &amp; 经验总结
+              Swift 5.7 note
             </h1>
           
 
         
 
 
-<h1 id="开发规范">开发规范</h1>
-<h3 id="1-开发规范">1. 开发规范</h3>
+<p><strong>译自 <a href="https://blog.appsynth.net/swift-5-7-optional-binding-closure-type-inference-clock-noasync-657b583eb26d">Swift 5.7: Optional Binding, Closure Type Inference, Clock, Noasync</a></strong></p>
+<h1 id="什么是swift">什么是Swift</h1>
+<p>Apple 的swift是一种运行在 iOS，MacOS，WatchOS，TvOS以及 linux上的编程语言。</p>
+<p>Swift是一种可编译的跑在apple相关产品设备以及电脑的类linux系统上的语言。这些系统上的应用可以使用c，c++，ObjectiveC等语言和swift 混合开发编译运行。</p>
+<h1 id="我们啥时可以开始使用swift-57">我们啥时可以开始使用swift 5.7？</h1>
+<p>根据最新消息，5.7 将于xcode14 以及 iOS SDK16 开始使用。</p>
+<h1 id="根据最新消息swift将有哪些新的变化">根据最新消息，swift将有哪些新的变化？</h1>
+<p>根据介绍，最主要的让开发者们的工作变得更轻松的点有，增强和简化了最常用的开发工具比如 <code>binding optional</code>语法；还有一些常用的表达式语法以及常用语法。</p>
+<h1 id="速记隐藏一个现有的optional变量">速记：隐藏一个现有的optional变量</h1>
+<p>什么是optional变量？</p>
+<blockquote>
+<p>optional变量在swift里可以赋予一个有效的值或对象或是一个空指针。</p>
+</blockquote>
+<p>作为一个iOS的swift开发者，在编码时要经常使用到optional变量，它可以决定变量/容器是否可以赋值/包含 nil。</p>
+<p>在编码时检查一个变量是否有值是跟呼吸一样频繁的事。</p>
+<p>尽管使用起来已经够简单了，但每次都要把很长的变量名重写一遍还是比较麻烦。swift5.7 就在这方面很好地改进了相关语法。</p>
 <ul>
-<li>API功能单一，减少类似enum的入参设计</li>
-<li>线程处理， 如非必要不要使用应用主线程，不能长时间占用，SDK内应有一个专门线程处理SDK 相关操作</li>
-<li>尽量减少全局回调</li>
-<li>提供异常情况回调和输出方便接入方定位，错误回调采用code+msg组合</li>
-<li>能不用单例的就尽量少的使用</li>
-<li>对iOS 来说能不用xib 就不用，能不用通知就不用通知</li>
+<li>之前的swift</li>
 </ul>
-<h3 id="2-命名规范">2. 命名规范</h3>
-<ul>
-<li>接口名称，参数命名清晰规范，参数尽可能少，所有传入参数要做好校验，禁止使用拼音和中文</li>
-<li>类名，全局静态变量，宏等命名尽量使用自定义前缀来保证唯一性，避免与其他模块发生命名冲突。c++ 可以使用namespace来声明类和结构的模块层级，还能避免命名冲突。</li>
-<li>函数命名遵循共性，不要出现歧义或者违背大家的共识</li>
-<li>所有资源命名前缀：imageName_工程命名_平台名：<strong>toast_xxxSDK_iOS</strong></li>
+<pre tabindex="0"><code>let colleageName : String? = &#34;John&#34;
+if let colleageName = colleageName {
+  print(colleageName)
+}
+</code></pre><p>有时变量名过长时，每次重写就有点繁琐，或者有时候超过了一行的字数限制。</p>
+<blockquote>
+<p>下面的代码就显得特别冗长而且可读性较差</p>
+</blockquote>
+<pre tabindex="0"><code>let colleageNameiohfahiefhaohgho : String? = &#34;John&#34;
+let colleageNameiohfahiefhaohgho2 : String? = &#34;Bill&#34;
+if let colleageNameiohfahiefhaohgho = colleageNameiohfahiefhaohgho,
+  let colleageNameiohfahiefhaohgho2 = colleageNameiohfahiefhaohgho2
+ {
+  print(&#34;\(colleageNameiohfahiefhaohgho) \(colleageNameiohfahiefhaohgho2)&#34;)
+}
+</code></pre><p>而且这会导致变量命名趋向于简短且描述性差。</p>
+<p>这会让其他开发者或是自己在接下来的编码中难以理解这些变量的真正意义。</p>
+<pre tabindex="0"><code>let colleageNameiohfahiefhaohgho : String? = &#34;John&#34;
+let colleageNameiohfahiefhaohgho2 : String? = &#34;Bill&#34;
+if let name1 = colleageNameiohfahiefhaohgho,
+  let name2 = colleageNameiohfahiefhaohgho2
+ {
+  print(&#34;\(name1) \(name2)&#34;)
+}
+</code></pre><ul>
+<li>在swift5.7里
+上述场景的语法被简化和改进了</li>
 </ul>
-<h3 id="3-日志设计">3. 日志设计</h3>
-<ul>
-<li>log模块相关功能可配置（比如日志开关，日志文件输出目录，日志打印接管接口）</li>
-<li>log优先级分不同级别，可控制打印log级别</li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> colleageName : String? = <span style="color:#e6db74">&#34;John&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> colleageName {
+</span></span><span style="display:flex;"><span>  print(colleageName)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>而且在其他的条件控制语句里也可以使用</p>
+<pre tabindex="0"><code>if let foo { ... }
+if var foo { ... }
+else if let foo { ... }
+else if var foo { ... }
+guard let foo else { ... }
+guard var foo else { ... }
+while let foo { ... }
+while var foo { ... }
+</code></pre><ul>
+<li><strong>使用限制</strong>
+主要限制在于 不能如此使用一个对象的 optional 属性。</li>
 </ul>
-<h3 id="4-第三方库依赖处理原则">4. 第三方库依赖处理原则</h3>
+<pre tabindex="0"><code>class Animal {
+  var name : String? = &#34;dog&#34;
+}
+let ani = Animal()
+if let name = ani.name { //编译正确
+}
+if let ani.name { //编译❌
+}
+</code></pre><h1 id="闭包类型的引用">闭包类型的引用</h1>
+<p>swift理解闭包的能力大大增强了，当闭包返回一个不可变的简单数据类型时，swfit能很轻松地推断出返回的具体类型。
+但如果闭包语法复杂一些时，推断起来就没那么轻松了。</p>
 <ul>
-<li>最小可用性原则，即用最少的代码，如无必要勿增实体；</li>
-<li>最少依赖性原则，即用最低限度的外部依赖，如无必要勿增依赖</li>
-<li>SDK开发中，需要尽量避免依赖第三方库以免引起不必要的冲突；如实在需要，可以以源码形式引入稳定版本，并对类，结构，全局变量等添加前缀以避免外部使用到该第三方库时产生冲突。</li>
+<li>在下面的例子里，用到了String的list</li>
 </ul>
-<h3 id="5-版本管理规范">5. 版本管理规范</h3>
-<p>使用三位版本号，每位版本号最高三位数字如：1.0.12</p>
-<ul>
-<li>版本号递增原则：
-<ul>
-<li>第三位：bug修复，极小的变更</li>
-<li>第二位：一般的功能迭代</li>
-<li>第一位：项目重构，功能变更较大，需团队共同确定</li>
+<pre tabindex="0"><code>let numbers = [1,2,3]
+let numberStrings = numbers.map {&#34;\($0)&#34;}
+</code></pre><p>如果我们把闭包改得稍微复杂一点，swift会抛出一个编译错误，要求你明确指定返回的类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> numberString = [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>].map { num <span style="color:#66d9ef">in</span> <span style="color:#75715e">//编译❌</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> s = <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> s
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>在swift5.7前，我们有两种方法来解决这个错误</li>
 </ul>
-</li>
-</ul>
-<h3 id="6-打包原则">6. 打包原则</h3>
-<ul>
-<li>使用脚本一键打包，提升打包效率，降低手动打包带来的出错率</li>
-<li>要提供示例工程， 示例工程必须让开发者以最低的成本运行起来，可以用来验证主要功能接口 以及 SDK的接入方式。</li>
-</ul>
-<h1 id="经验--问题总结">经验 &amp; 问题总结</h1>
-<ul>
-<li>
-<p>业务型SDK里，当业务形态发生变化后，之前的接口参数无法满足需求，该如何处理？</p>
 <ol>
-<li>添加新的接口，老接口标识为 该版本弃用，在SDK迭代数个版本后删除。</li>
+<li>限定闭包的返回类型</li>
 </ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> numberString = [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>].map { num -&gt; String <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> s = <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> s
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol start="2">
+<li>设定我们需要map函数返回的数据类型</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> numberString : [String] = [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>].map { num  <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> s = <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> s
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>但在swift5.7里，swift的推导会更加智能，能正确推导出闭包返回类型，就不会报错了。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> numberString = [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>].map { num <span style="color:#66d9ef">in</span> <span style="color:#75715e">//编译ok</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> s = <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> s
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="clock-协议-se-0329httpsgithubcomappleswift-evolutionblobmainproposals0329-clock-instant-durationmd">Clock 协议 <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0329-clock-instant-duration.md">(SE-0329)</a></h1>
+<p>在iOS16里，新增了一个Clock协议，它声明了一套 时间和时间段的标准化接口，可以用来表达时长，也能用来做定时的延时工作。</p>
+<p>它包含三个主要部分</p>
+<ul>
+<li>
+<p><strong>Clocks</strong>: 作为时长的丈量方法，可用来设定延迟或是当前时间戳，它由两个内置模块组成</p>
+<ul>
+<li><strong>ContinuousClock</strong>: 一种用来丈量时长的Clock，它会一直不停递增，甚至在系统睡眠时也不会停。</li>
+<li><strong>SuspendingClock</strong>: 跟上面的不同之处在于 系统睡眠时它会暂停。</li>
+</ul>
 </li>
 <li>
-<p>如何设计log的tag，才便于跟踪某个业务场景下产生的问题？</p>
+<p><strong>Instants</strong>： 代表一个确定的时间点</p>
+</li>
+<li>
+<p><strong>Durations</strong>：代表两个clock实例间相差多少时长</p>
 </li>
 </ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">try</span> await Task.sleep(until: .now <span style="color:#f92672">+</span>  .seconds(<span style="color:#ae81ff">1</span>), clock: .continuous)
+</span></span></code></pre></div><p><code>tolerance</code> 参数用来处理性能相关事项，Clock可以用一个设定的重新设定一个未来任务的发生时间。
+如果没设置 <code>tolerance</code> 参数，那么会有个默认值被设置上去。</p>
+<pre tabindex="0"><code>try await Task.sleep(until: .now + .seconds(1),
+                     tolerance: .seconds(0.5), 
+                     clock: .continuous)
+</code></pre><p>也可以用clock去计算一个API的执行时间。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>@available(iOS <span style="color:#ae81ff">16.0</span>, <span style="color:#f92672">*</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> clock = ContinuousClock()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> time = clock.measure {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// complex work here</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Took </span><span style="color:#e6db74">\(</span>time.components.seconds<span style="color:#e6db74">)</span><span style="color:#e6db74"> seconds&#34;</span>)
+</span></span></code></pre></div><h1 id="禁用async异步功能-se-0340httpsgithubcomappleswift-evolutionblobmainproposals0340-swift-noasyncmd">禁用Async（异步）功能 <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0340-swift-noasync.md">(SE-0340)</a></h1>
+<p>新增了一种在swift里的多任务并行执行场景的保护手段。现在可以将类型或是函数标识为不支持异步调用操作。</p>
+<p><code>@available</code> 可以用来标识类型或函数的支持功能或版本，但用新增的 <code>noasync </code>来标识的话。</p>
+<pre tabindex="0"><code>@available(*, noasync)
+    func doRiskyWork() {
+        
+    }
+</code></pre><p>虽然我们还是可以像往常一样直接调用该函数，但如果在标明为 async 的异步方法里使用它的话，xcode会抛一个warning，表示这是不正确的调用方式。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sssync</span>() async {
+</span></span><span style="display:flex;"><span>        doRiskyWork() <span style="color:#75715e">//Instance method &#39;doRiskyWork&#39; is unavailable from asynchronous contexts; this is an error in Swift 6</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>但只能用于直接调用标识为 noasync 函数的场景，如果嵌套多一层，xcode就不会抛warning了，但实际使用中还是可能出问题，需要注意这点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>@available(<span style="color:#f92672">*</span>, noasync)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">doRiskyWork</span>() {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sssync</span>() async {
+</span></span><span style="display:flex;"><span>        doRiskyWork() <span style="color:#75715e">//有warning</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sssync1</span>() async {
+</span></span><span style="display:flex;"><span>        await sssync() <span style="color:#75715e">//无warning</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h1 id="结论">结论</h1>
+<p>swfit5.7 还有很多更新在这篇文章里没有列出来。比如一些功能强大的API <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0334-pointer-usability-improvements.md">pointer API</a>
+, <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md">Swift regex</a>, <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0360-opaque-result-types-with-availability.md">opaques result type</a>, <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0338-clarify-execution-non-actor-async.md">distributed actors</a>, <a href="https://github.com/apple/swift/blob/main/CHANGELOG.md">many others</a>.</p>
+<p>在这些更新点的支持下，提供了大量的新功能，但同时也淘汰了正在使用的一些方法。不过我坚信它们能让开发的代码质量更好，同时也让swift 变得更加可靠。</p>
 
 
 <footer class="footline">
@@ -1585,20 +1684,6 @@
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
                         
                         
                     
@@ -1609,221 +1694,6 @@
                     
                     
 
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -1969,54 +1839,6 @@
             
         
                     
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
             
         
                     
@@ -2065,10 +1887,290 @@
             
         
                     
+            
+        
+                    
                         
             
             
                 
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -2445,10 +2547,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/iosrelated/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%8A%A8%E6%80%81%E5%BA%93/" title="IOS 组件化-动态库实战"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/swift/string_custom_format/" title="String 自定义格式化"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/iosrelated/%E4%B8%80%E6%AC%A1%E8%BF%98%E5%8E%9Fios-release%E5%8C%85%E7%9A%84%E5%8D%A1%E9%A1%BF%E5%A0%86%E6%A0%88%E7%9A%84%E8%AE%B0%E5%BD%95/" title="一次还原ios release包的卡顿堆栈的记录" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/swift/swift_dynamicmemberlookup/" title="Swift dynamicMemberLookup" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -2458,19 +2560,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1666604685"></script>
-    <script src="/js/perfect-scrollbar.min.js?1666604685"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1666604685"></script>
-    <script src="/js/jquery.sticky.js?1666604685"></script>
-    <script src="/js/featherlight.min.js?1666604685"></script>
-    <script src="/js/highlight.pack.js?1666604685"></script>
+    <script src="/js/clipboard.min.js?1666604686"></script>
+    <script src="/js/perfect-scrollbar.min.js?1666604686"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1666604686"></script>
+    <script src="/js/jquery.sticky.js?1666604686"></script>
+    <script src="/js/featherlight.min.js?1666604686"></script>
+    <script src="/js/highlight.pack.js?1666604686"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1666604685"></script>
-    <script src="/js/learn.js?1666604685"></script>
-    <script src="/js/hugo-learn.js?1666604685"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1666604686"></script>
+    <script src="/js/learn.js?1666604686"></script>
+    <script src="/js/hugo-learn.js?1666604686"></script>
     
         
-            <script src="/mermaid/mermaid.js?1666604685"></script>
+            <script src="/mermaid/mermaid.js?1666604686"></script>
         
         <script>
             mermaid.initialize({ startOnLoad: true });
