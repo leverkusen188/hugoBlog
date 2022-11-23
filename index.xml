@@ -6,7 +6,23 @@
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 22 Sep 2022 18:11:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Nov 2022 12:39:53 +0800</lastBuildDate><atom:link href="https://leverkusen188.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RxSwift迁移Combine指南</title>
+      <link>https://leverkusen188.github.io/rxswift/rxswift%E8%BF%81%E7%A7%BBcombine%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Tue, 22 Nov 2022 12:39:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/rxswift/rxswift%E8%BF%81%E7%A7%BBcombine%E6%8C%87%E5%8D%97/</guid>
+      <description>译自 RxSwift to Combine: The Complete Transition Guide
+不逐字翻译了，只翻主要的知识点信息。 简介 Combine 是swift新推出的一种面向 响应式编程的框架。 很多开发者都想从RxSwift 切换到Combine，两者之间有很多的相似之处。 但细节方面还是有很多区别的，如果你想切换过来，这篇文章会列出 RxSwift和Combine之间的 操作符，函数，类型等等的映射。
+响应式编程可以让 数据状态在对象之间，工程之间，甚至app之间互相同步。 在ios开发中，最常见的就是在UI和Model之间进行状态同步。在之前很长一段时间里，RxSwift都是最好的选择。但apple推出了 跟SwiftUI 更契合的Combine 作为响应式编程的框架，基本可以完全替代RxSwift的所有功能了。
+此文章将分为 Combine是怎么工作的 切换到Combine是好的选择吗 怎么更简单地从RxSwift切换到Combine 三个部分。
+Combine是怎么工作的 考虑到本文章是介绍如何从RxSwift迁移到Combine， 假设读者已经对RxSwift有一定的了解了。 如果需要了解RxSwift，可以参考 RxSwift repository on GitHub.
+Combine在很多方面跟RxSwift都有相似之处以及对等的映射概念映射，比如 方法，类型声明等。 如果要找出两者之间更深层次的差异，需要对Combine进行更深地挖掘，看看它的底层机制。
+Publisher 跟RxSwift的Observable 相对应的是Combine里的Publisher。 在RxSwift里是一个类，而在Combine里是一个协议。
+protocol Publisher { associatedtype Output associatedtype Failure: Error func receive&amp;lt;S: Subscriber&amp;gt;(subscriber: S) where Self.Failure == S.Failure, Self.Output == S.Input } Combine 不会指定 Wrapper types来描述它的唯一特征，比如RxSwift里的Infallible, Maybe or Single。 但每个Publisher也有自己的自定义类型，借由该类型，Publisher的特征也能被推导出来。</description>
+    </item>
+    
     <item>
       <title>2010天涯KK大神预测总结</title>
       <link>https://leverkusen188.github.io/%E9%9D%9E%E6%8A%80%E6%9C%AF/2010%E5%A4%A9%E6%B6%AFkk%E5%A4%A7%E7%A5%9E%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/</link>
@@ -273,6 +289,18 @@ optional变量在swift里可以赋予一个有效的值或对象或是一个空�
 之前的swift let colleageName : String? = &amp;#34;John&amp;#34; if let colleageName = colleageName { print(colleageName) } 有时变量名过长时，每次重写就有点繁琐，或者有时候超过了一行的字数限制。
 下面的代码就显得特别冗长而且可读性较差
 let colleageNameiohfahiefhaohgho : String? = &amp;#34;John&amp;#34; let colleageNameiohfahiefhaohgho2 : String? = &amp;#34;Bill&amp;#34; if let colleageNameiohfahiefhaohgho = colleageNameiohfahiefhaohgho, let colleageNameiohfahiefhaohgho2 = colleageNameiohfahiefhaohgho2 { print(&amp;#34;\(colleageNameiohfahiefhaohgho) \(colleageNameiohfahiefhaohgho2)&amp;#34;) } 而且这会导致变量命名趋向于简短且描述性差。</description>
+    </item>
+    
+    <item>
+      <title>Swift 5.7 note (Pointer 功能加强)</title>
+      <link>https://leverkusen188.github.io/swift/swift5.7_note_unsafepointer/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift5.7_note_unsafepointer/</guid>
+      <description>译自 Swift 5.7: Pointer API Usability Improvements
+简介 这篇文章介绍了UnsafePointer 以及它的 Mutable 和 Raw 变种的强大且实用的改进细节。
+新增了一个可以获取 指定alignment（位移）的UnsafePointer 指针的接口。 新增了一个可以获取给定 UnsafePointer&amp;lt;T&amp;gt; 里，T的指定属性指针的接口。 可以compare 两个不同类型的指针了。 起因(To Be Continued) 每次我们实用 UnsafePointer 以及它的扩展变种时，都会碰到很多跟这些类型的不安全性无关的困难和麻烦。在不用隐藏这些不安全性的基础上，我们也可以改进这些类型的工作效率。
+举个例子，如果你想要</description>
     </item>
     
     <item>

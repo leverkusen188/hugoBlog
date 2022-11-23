@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Stub 和 Mock :: My New Hugo Site</title>
+    <title>Swift 5.7 note (Pointer 功能加强) :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1669178411" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/xctest/stub_mock/">
+  <body class="" data-url="/swift/swift5.7_note_unsafepointer/">
     <nav id="sidebar" class="">
 
 
@@ -830,7 +830,7 @@
   
     
     <li data-nav-id="/swift/" title="Swifts" class="dd-item
-        
+        parent
         
         
         ">
@@ -898,7 +898,7 @@
  
   
     
-      <li data-nav-id="/swift/swift5.7_note_unsafepointer/" title="Swift 5.7 note (Pointer 功能加强)" class="dd-item ">
+      <li data-nav-id="/swift/swift5.7_note_unsafepointer/" title="Swift 5.7 note (Pointer 功能加强)" class="dd-item active">
         <a href="/swift/swift5.7_note_unsafepointer/">
         Swift 5.7 note (Pointer 功能加强)
         
@@ -1276,7 +1276,7 @@
   
     
     <li data-nav-id="/xctest/" title="XCTests" class="dd-item
-        parent
+        
         
         
         ">
@@ -1302,7 +1302,7 @@
  
   
     
-      <li data-nav-id="/xctest/stub_mock/" title="Stub 和 Mock" class="dd-item active">
+      <li data-nav-id="/xctest/stub_mock/" title="Stub 和 Mock" class="dd-item ">
         <a href="/xctest/stub_mock/">
         Stub 和 Mock
         
@@ -1485,7 +1485,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/xctest/'>XCTests</a> > Stub 和 Mock
+            <a href='/'>My New Hugo Site</a> > <a href='/swift/'>Swifts</a> > Swift 5.7 note (Pointer 功能加强)
           
         
           
@@ -1498,12 +1498,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#stub">Stub</a></li>
-    <li><a href="#mock">mock</a></li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
     </div>
 </div>
 
@@ -1519,56 +1514,25 @@
           
             <h1>
               
-              Stub 和 Mock
+              Swift 5.7 note (Pointer 功能加强)
             </h1>
           
 
         
 
 
-<h2 id="stub">Stub</h2>
-<p>用在修改 测试代码里出现无法预期其行为（比如返回数据）的相关函数时，将该函数的返回值用插桩方式修改为自定义的数据（修改方式可自定义，比如 在输入参数为多少时，才返回对应的字定义数据），以满足整块代码的单测需要。</p>
-<p>下面是例子说明 (stub 实现基于 Kiwi 框架 <a href="https://github.com/kiwi-bdd/Kiwi">https://github.com/kiwi-bdd/Kiwi</a>)：</p>
-<p>功能是接收温度和湿度参数，通过weatherForecaster 的方法计算出对应的结果，并存入数据库。</p>
-<p>假设 resultWithTemprature 方法是无法被测试的，那么整块代码里，可以测试的是 写入数据库的代码（write函数）</p>
-<pre tabindex="0"><code>@class WeatherRecorder
+<p><strong>译自 <a href="https://github.com/apple/swift-evolution/blob/main/proposals/0334-pointer-usability-improvements.md">Swift 5.7: Pointer API Usability Improvements</a></strong></p>
+<h1 id="简介">简介</h1>
+<p>这篇文章介绍了<code>UnsafePointer </code> 以及它的 <code> Mutable 和 Raw</code>  变种的强大且实用的改进细节。</p>
+<ol>
+<li>新增了一个可以获取 指定alignment（位移）的<code>UnsafePointer </code>指针的接口。</li>
+<li>新增了一个可以获取给定  <code>UnsafePointer&lt;T&gt; </code>里，T的指定属性指针的接口。</li>
+<li>可以compare 两个不同类型的指针了。</li>
+</ol>
+<h1 id="起因to-be-continued">起因(To Be Continued)</h1>
+<p>每次我们实用 <code>UnsafePointer </code>以及它的扩展变种时，都会碰到很多跟这些类型的不安全性无关的困难和麻烦。在不用隐藏这些不安全性的基础上，我们也可以改进这些类型的工作效率。</p>
+<p>举个例子，如果你想要</p>
 
--(void) writeResultToDatabaseWithTemprature:(NSInteger)temprature 
-
- humidity:(NSInteger)humidity
-
-{
-
-id result = [self.weatherForecaster resultWithTemprature:temprature humidity:humidity];
-
-[self write:result];
-
-}
-</code></pre><blockquote>
-<p>为了不影响单测用例，可以改写 <strong>resultWithTemprature 的行为，返回自定义的 result，来测试数据库写入代码。</strong></p>
-</blockquote>
-<pre tabindex="0"><code>[weatherForecaster stub:@selector(resultWithTemprature:humidity:) 
- andReturn:someResult 
- withArguments:theValue(23),theValue(50)];
-</code></pre><h2 id="mock">mock</h2>
-<p>其实就是一个对象，它是对现有类的行为一种模拟（或是对现有接口实现的模拟），它是一种更全面更智能的 Stub。</p>
-<p>以上面代码为例，在OC里，实际上就是将 weatherForecaster 换为自定义的mock类，从而使 resultWithTemprature 函数的行为是我们测试需要的。</p>
-<p><strong>样例代码：</strong></p>
-<ul>
-<li>创建 weatherForecaster 的 mock实例</li>
-</ul>
-<pre tabindex="0"><code>id weatherForecasterMock **=** [WeatherForecaster **mock**];
-
-[[weatherForecasterMock **should**] **receive**:**@selector**(**resultWithTemprature**:humidity**:**) 
-
- andReturn**:**someResult 
-
- withArguments**:**theValue(23),theValue(50)];
-</code></pre><ul>
-<li>然后将WeatherRecorder的 weatherForecaster 属性替换为该mock实例</li>
-</ul>
-<pre tabindex="0"><code>[weatherRecorder stub:@selector(weatherForecaster) andReturn:weatherForecasterMock];
-</code></pre>
 
 <footer class="footline">
 	
@@ -2056,6 +2020,7 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
                 
                     
+                    
                 
                 
 
@@ -2068,6 +2033,61 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
             
                 
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
                     
                 
                 
@@ -2224,54 +2244,6 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
         
                     
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
             
         
                     
@@ -2376,7 +2348,6 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
                 
                     
-                    
                 
                 
 
@@ -2389,7 +2360,6 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
             
                 
-                    
                     
                 
                 
@@ -2406,9 +2376,6 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2497,10 +2464,10 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
 	 
 	 
 		
-			<a class="nav nav-prev" href="/xctest/" title="XCTests"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/swift/swift5.7_note/" title="Swift 5.7 note"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/xctest/xctest_mork/" title="XCTest Mork" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/swift/swift_dynamicmemberlookup/" title="Swift dynamicMemberLookup" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

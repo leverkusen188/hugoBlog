@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Stub 和 Mock :: My New Hugo Site</title>
+    <title>RxSwift迁移Combine指南 :: My New Hugo Site</title>
 
     
     <link href="/css/nucleus.css?1669178411" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/xctest/stub_mock/">
+  <body class="" data-url="/rxswift/rxswift%E8%BF%81%E7%A7%BBcombine%E6%8C%87%E5%8D%97/">
     <nav id="sidebar" class="">
 
 
@@ -177,7 +177,7 @@
   
     
     <li data-nav-id="/rxswift/" title="RxSwifts" class="dd-item
-        
+        parent
         
         
         ">
@@ -203,7 +203,7 @@
  
   
     
-      <li data-nav-id="/rxswift/rxswift%E8%BF%81%E7%A7%BBcombine%E6%8C%87%E5%8D%97/" title="RxSwift迁移Combine指南" class="dd-item ">
+      <li data-nav-id="/rxswift/rxswift%E8%BF%81%E7%A7%BBcombine%E6%8C%87%E5%8D%97/" title="RxSwift迁移Combine指南" class="dd-item active">
         <a href="/rxswift/rxswift%E8%BF%81%E7%A7%BBcombine%E6%8C%87%E5%8D%97/">
         RxSwift迁移Combine指南
         
@@ -1276,7 +1276,7 @@
   
     
     <li data-nav-id="/xctest/" title="XCTests" class="dd-item
-        parent
+        
         
         
         ">
@@ -1302,7 +1302,7 @@
  
   
     
-      <li data-nav-id="/xctest/stub_mock/" title="Stub 和 Mock" class="dd-item active">
+      <li data-nav-id="/xctest/stub_mock/" title="Stub 和 Mock" class="dd-item ">
         <a href="/xctest/stub_mock/">
         Stub 和 Mock
         
@@ -1485,7 +1485,7 @@
             
           
           
-            <a href='/'>My New Hugo Site</a> > <a href='/xctest/'>XCTests</a> > Stub 和 Mock
+            <a href='/'>My New Hugo Site</a> > <a href='/rxswift/'>RxSwifts</a> > RxSwift迁移Combine指南
           
         
           
@@ -1500,8 +1500,42 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#stub">Stub</a></li>
-    <li><a href="#mock">mock</a></li>
+    <li><a href="#不逐字翻译了只翻主要的知识点信息">不逐字翻译了，只翻主要的知识点信息。</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#combine是怎么工作的">Combine是怎么工作的</a>
+      <ul>
+        <li><a href="#publisher">Publisher</a></li>
+        <li><a href="#subscriber">Subscriber</a></li>
+        <li><a href="#subscription">Subscription</a></li>
+        <li><a href="#subject">Subject</a></li>
+      </ul>
+    </li>
+    <li><a href="#切换到combine是好的选择吗">切换到Combine是好的选择吗</a>
+      <ul>
+        <li><a href="#不过combine不像rxswift那样全面和强大是么">不过Combine不像RxSwift那样全面和强大，是么？</a></li>
+        <li><a href="#总结一下">总结一下</a></li>
+      </ul>
+    </li>
+    <li><a href="#怎么更简单地从rxswift切换到combine">怎么更简单地从RxSwift切换到Combine</a>
+      <ul>
+        <li><a href="#一些简单的说明">一些简单的说明</a></li>
+      </ul>
+    </li>
+    <li><a href="#类型">类型</a>
+      <ul>
+        <li><a href="#disposable">Disposable</a></li>
+        <li><a href="#publishers">Publishers</a></li>
+        <li><a href="#subjects">Subjects</a></li>
+        <li><a href="#relays">Relays</a></li>
+        <li><a href="#observer-operators">Observer Operators</a></li>
+        <li><a href="#scheduling">Scheduling</a></li>
+        <li><a href="#factory-functions">Factory Functions</a></li>
+        <li><a href="#publisher--observable-operators">Publisher / Observable Operators</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结一下-1">总结一下</a></li>
   </ul>
 </nav>
     </div>
@@ -1519,56 +1553,688 @@
           
             <h1>
               
-              Stub 和 Mock
+              RxSwift迁移Combine指南
             </h1>
           
 
         
 
 
-<h2 id="stub">Stub</h2>
-<p>用在修改 测试代码里出现无法预期其行为（比如返回数据）的相关函数时，将该函数的返回值用插桩方式修改为自定义的数据（修改方式可自定义，比如 在输入参数为多少时，才返回对应的字定义数据），以满足整块代码的单测需要。</p>
-<p>下面是例子说明 (stub 实现基于 Kiwi 框架 <a href="https://github.com/kiwi-bdd/Kiwi">https://github.com/kiwi-bdd/Kiwi</a>)：</p>
-<p>功能是接收温度和湿度参数，通过weatherForecaster 的方法计算出对应的结果，并存入数据库。</p>
-<p>假设 resultWithTemprature 方法是无法被测试的，那么整块代码里，可以测试的是 写入数据库的代码（write函数）</p>
-<pre tabindex="0"><code>@class WeatherRecorder
-
--(void) writeResultToDatabaseWithTemprature:(NSInteger)temprature 
-
- humidity:(NSInteger)humidity
-
-{
-
-id result = [self.weatherForecaster resultWithTemprature:temprature humidity:humidity];
-
-[self write:result];
-
-}
-</code></pre><blockquote>
-<p>为了不影响单测用例，可以改写 <strong>resultWithTemprature 的行为，返回自定义的 result，来测试数据库写入代码。</strong></p>
+<p><strong>译自 <a href="https://quickbirdstudios.com/blog/rxswift-combine-transition-guide/#types">RxSwift to Combine: The Complete Transition Guide</a></strong></p>
+<h2 id="不逐字翻译了只翻主要的知识点信息">不逐字翻译了，只翻主要的知识点信息。</h2>
+<h1 id="简介">简介</h1>
+<p>Combine 是swift新推出的一种面向 响应式编程的框架。
+很多开发者都想从RxSwift 切换到Combine，两者之间有很多的相似之处。
+但细节方面还是有很多区别的，如果你想切换过来，这篇文章会列出 RxSwift和Combine之间的 操作符，函数，类型等等的映射。</p>
+<p>响应式编程可以让 数据状态在对象之间，工程之间，甚至app之间互相同步。
+在ios开发中，最常见的就是在UI和Model之间进行状态同步。在之前很长一段时间里，RxSwift都是最好的选择。但apple推出了 跟SwiftUI 更契合的Combine 作为响应式编程的框架，基本可以完全替代RxSwift的所有功能了。</p>
+<p>此文章将分为 <a href="##Combine%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84">Combine是怎么工作的</a> <a href="##%E5%88%87%E6%8D%A2%E5%88%B0Combine%E6%98%AF%E5%A5%BD%E7%9A%84%E9%80%89%E6%8B%A9%E5%90%97">切换到Combine是好的选择吗</a>  <a href="##%E6%80%8E%E4%B9%88%E6%9B%B4%E7%AE%80%E5%8D%95%E5%9C%B0%E4%BB%8ERxSwift%E5%88%87%E6%8D%A2%E5%88%B0Combine">怎么更简单地从RxSwift切换到Combine</a> 三个部分。</p>
+<h2 id="combine是怎么工作的">Combine是怎么工作的</h2>
+<p>考虑到本文章是介绍如何从RxSwift迁移到Combine， 假设读者已经对RxSwift有一定的了解了。 如果需要了解RxSwift，可以参考 <a href="https://github.com/ReactiveX/RxSwift">RxSwift repository on GitHub</a>.</p>
+<p>Combine在很多方面跟RxSwift都有相似之处以及对等的映射概念映射，比如 方法，类型声明等。
+如果要找出两者之间更深层次的差异，需要对Combine进行更深地挖掘，看看它的底层机制。</p>
+<h3 id="publisher">Publisher</h3>
+<p>跟RxSwift的Observable 相对应的是Combine里的Publisher。
+在RxSwift里是一个类，而在Combine里是一个协议。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Publisher</span> {
+</span></span><span style="display:flex;"><span>    associatedtype Output
+</span></span><span style="display:flex;"><span>    associatedtype Failure: Error
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">receive</span>&lt;S: Subscriber&gt;(subscriber: S) 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">Self</span>.Failure == S.Failure, 
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">Self</span>.Output == S.Input
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Combine 不会指定 Wrapper types来描述它的唯一特征，比如RxSwift里的Infallible, Maybe or Single。
+但每个Publisher也有自己的自定义类型，借由该类型，Publisher的特征也能被推导出来。</p>
+<p>RxSwift的Observable 需要实现subscribe 函数，对应的Publisher需要实现 receive函数，它们的功能基本一致。相比于RxSwift而言，Publisher指定了一个 Failure类型，可以表明该publisher 是否/如何 失败。对于那些不用处理失败的Publisher，我们设定Failure类型为Never 即可。</p>
+<p>Combine的Publisher 可以是 值类型（比如struct）或是 引用类型（比如类）。大多数的Publisher都是值类型的。</p>
+<p>在RxSwift里，操作符一般就是简单地返回一个Observable 类型，而Combine里返回的是一个混合类型，比较复杂；比如<code>Timer.TimerPublisher </code>， <code>CombineLatest&lt;Just&lt;Int&gt;, Just&lt;Int&gt;&gt;</code>. 鉴于自己定义一个混合类型比较麻烦，我们可以就用 <code>AnyPublisher </code> 来简化Publisher的使用。
+举个例子：<code>AnyPublisher&lt;Int, Never&gt;</code>，可以作为一个 不会失败的抛出Int值的Publisher。
+<img src="https://upload-images.jianshu.io/upload_images/3865814-4092dc61f2b917c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Image"></p>
+<h3 id="subscriber">Subscriber</h3>
+<p>Subscriber （RxSwift: Observer）可以接收订阅信息(subscriptions), 输入数据(inputs)，以及结束回调(completions). 这点跟RxSwift不同，没有声明包含了数据回调以及 结束回调的event的枚举，但提供了单独的方法来分别处理对应的事件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Subscriber</span>: CustomCombineIdentifierConvertible {
+</span></span><span style="display:flex;"><span>    associatedtype Input
+</span></span><span style="display:flex;"><span>    associatedtype Failure: Error
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">receive</span>(subscription: Subscription)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">receive</span>(<span style="color:#66d9ef">_</span> input: <span style="color:#66d9ef">Self</span>.Input) -&gt; Subscribers.Demand
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">receive</span>(completion: Subscribers.Completion&lt;<span style="color:#66d9ef">Self</span>.Failure&gt;)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在上面的代码片段里，你可以看到Subscriber 也声明了一个Failure 类型，决定了它能失败，以及失败的相关类型。对应的RxSwift也声明了独立的Error事件。Combine非常明显的表明了 失败会导致Publisher 终结（RxSwift里，error事件也表明了 Observable的终结）。</p>
+<p>Subscribers 必须是类，因为 subscription要引用它来做数据传递，而不能在订阅期间重新创建多次Subscribers（值类型比如struct 会在数据变化时会重新创建实例）。</p>
+<h3 id="subscription">Subscription</h3>
+<p>每当你订阅时，就会创建一个 Subscription，它会持有所有必要的资源的引用，而且可以随时cancel(对应RxSwift里的DisposeBag)。这也是为什么Subscription 必须是类。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Subscription</span>: Cancellable, ... {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">request</span>(<span style="color:#66d9ef">_</span> demand: Subscribers.Demand)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Cancellable</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">cancel</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>与RxSwift相比，Combine允许订阅者随时可以去获取更多数据，并以 <strong>backpressure support</strong> 的形式返回；因此 实际上是订阅者在主动请求数据而不是 Publisher来决定什么时候将数据传出去。
+这能让订阅者不会被大量数据堵塞而导致无法及时处理，这看上去更像是可控制的数据流。</p>
+<blockquote>
+<p>如果想更深入地了解 <strong>backpressure support</strong> ，可以参考 <a href="https://developer.apple.com/documentation/combine/processing-published-elements-with-subscribers">Processing Published Elements with Subscribers</a></p>
 </blockquote>
-<pre tabindex="0"><code>[weatherForecaster stub:@selector(resultWithTemprature:humidity:) 
- andReturn:someResult 
- withArguments:theValue(23),theValue(50)];
-</code></pre><h2 id="mock">mock</h2>
-<p>其实就是一个对象，它是对现有类的行为一种模拟（或是对现有接口实现的模拟），它是一种更全面更智能的 Stub。</p>
-<p>以上面代码为例，在OC里，实际上就是将 weatherForecaster 换为自定义的mock类，从而使 resultWithTemprature 函数的行为是我们测试需要的。</p>
-<p><strong>样例代码：</strong></p>
+<h3 id="subject">Subject</h3>
+<p>Subject 跟RxSwift的差不多，可以看作是 Subscriber 和 Publisher 的组合，既可以发送数据也能接收数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Subject</span>: AnyObject, Publisher {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">send</span>(<span style="color:#66d9ef">_</span> value: <span style="color:#66d9ef">Self</span>.Output)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">send</span>(completion: Subscribers.Completion&lt;<span style="color:#66d9ef">Self</span>.Failure&gt;)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">send</span>(subscription: Subscription)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>一方面你可以将数据传给 Subject，另一方面由于 Subject 遵从了 Publisher协议，它也可以被监听来获取数据。</p>
+<p>在Combine里，订阅者 <code>receive</code> 而 Subject <code>send</code> 事件。尽管如此，在每个subject里，每当value 遵从 <code>Subscriber</code>协议时，你都必须创建一个 <code>AnySubscriber</code>。</p>
+<p>综上所述，RxSwift和Combine 大部分功能都是一样的，但在接口方面有一些很小的区别。 那么哪个更适合我们呢？</p>
+<h2 id="切换到combine是好的选择吗">切换到Combine是好的选择吗</h2>
+<p>最大的争议点在于，Combine是apple的第一方框架，使用它你就不用做一些多余的framework 依赖配置工作，app也体积也会小一些。</p>
+<p>当然，RxSwift也没有明确表明是否会有错误发生。一般情况下，直接就用 Observable 然后等着数据过来就行了。 但在Combine里，就明确表明了Publisher 可能会失败，而且失败后产生的错误是啥。</p>
+<p>但这些可失败和不会失败的publisher的交互可能会非常复杂，你得在每个使用处都加上  <a href="https://developer.apple.com/documentation/combine/publisher/erasetoanypublisher()">eraseToAnyPublisher()</a>，但帮助也不大。</p>
+<p>在  <strong>backpressure support</strong> 的帮助下，Combine 能考虑得更加周到。订阅者可以随时获取数据，而不用等待Publisher 来发送数据。这更符合我们的直觉，特别是在一些很耗时的操作发生时，大量的数据同时在publisher 进出。</p>
+<p>简单来说，Combine 更适应整个swift的环境。很多扩展方法已经在常用的类型里实现了(比如 <code>Timer.publisher</code>, <code>(0...3).publisher</code>, <code>Optional&lt;String&gt;.none.publisher</code>)，这些方法让Combine的功能更加的全面。</p>
+<h3 id="不过combine不像rxswift那样全面和强大是么">不过Combine不像RxSwift那样全面和强大，是么？</h3>
+<p>RxSwift 没有像Combine 那么多的编译问题。RxSwift不用管 失败的错误类型，而且单个泛型类型的检查比两个要简单得多。</p>
+<p>RxSwift支持iOS9以及以上版本，但Combine只能用在iOS13 以及以上版本。它俩在所有的apple 平台上都能work，但Combine对于linux的支持还是有缺失。<a href="https://github.com/OpenCombine/OpenCombine">OpenCombine</a> 可以帮助解决这个问题，它用的是跟Combine一样的接口，且能支持更多平台。</p>
+<p>Combine的命名规则更契合iOS平台，而RxSwift 更契合跨平台模式的规则。</p>
+<p>RxSwift的技术社区已经存在很长一段时间了，在维护和扩展框架方面已经做了很多改进了。社区成员们为RxSwift 扩展了很多关于特定场景的功能，包括很多自定义的操作符和类型等。而Combine是一个封闭的框架，而且只推出了三年而已，只在少部分的项目里被使用到，如果你需要自己写一些字定义的操作符，还不如直接使用现有的知识点来实现。</p>
+<p>现在你要写一个字定义的<code>Publisher</code>比自定义的<code>Observable </code>要麻烦许多。在RxSwift里，你只要用 <code>Observable.create</code> 来发送数据，发送错误，以及完成事件即可。在Combine里却没有对应的操作，你可以用Future (基本上就是一个带completion回调的Publisher，且completion只会调用一次) 或是写一个自定义的Publisher 来模拟 <code>Observable.create</code> 的行为（我们接下来就会讲到这点）</p>
+<h3 id="总结一下">总结一下</h3>
+<p>回到我们之前的 该用RxSwift还是Combine的问题，这个要看情况的。
+如果你想要干掉之前那些“多余的”依赖关系，而且你的app支持iOS13 以及以上版本，且不用支持iOS 以外的平台，那Combine就是比较好的选择了。</p>
+<h2 id="怎么更简单地从rxswift切换到combine">怎么更简单地从RxSwift切换到Combine</h2>
+<p>我们搜集了下面的切换引导信息，你可以直接搜索RxSwift的方法，操作符来找到Combine里的对应替换方案。</p>
+<h3 id="一些简单的说明">一些简单的说明</h3>
+<p>一般来说，Combine在处理错误时，相关接口看上去比较复杂。给个小提示， <a href="https://developer.apple.com/documentation/combine/publisher/setfailuretype(to:)">setFailureType(to: Failure.self)</a> 更容易理解，而不是当作  <a href="https://developer.apple.com/documentation/combine/publisher/maperror(_:)">mapError { _ -&gt; Failure in  }</a> 来看待。</p>
+<p>下面的这些链接在我们从RxSwift切换到Combine时提供了很大的帮助。</p>
 <ul>
-<li>创建 weatherForecaster 的 mock实例</li>
+<li><a href="https://github.com/CombineCommunity/CombineExt">CombineExt</a> 里是Combine技术社区提供的一些 当前系统Combine里没有支持的操作符。</li>
+<li><a href="https://github.com/CombineCommunity/rxswift-to-combine-cheatsheet">cheat sheet</a> 也提供了不少帮助。</li>
 </ul>
-<pre tabindex="0"><code>id weatherForecasterMock **=** [WeatherForecaster **mock**];
+<h2 id="类型">类型</h2>
+<h3 id="disposable">Disposable</h3>
+<table>
+<thead>
+<tr>
+<th>RxSwift</th>
+<th>Combine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disposable</td>
+<td><a href="https://developer.apple.com/documentation/combine/cancellable">Cancellable</a> Use  <a href="https://developer.apple.com/documentation/combine/anycancellable">AnyCancellable</a>  to create them like RxSwift’s Disposables.create</td>
+</tr>
+<tr>
+<td>DisposeBag</td>
+<td><a href="https://developer.apple.com/documentation/combine/anycancellable">Set<!-- raw HTML omitted --></a> any RandomAccessCollection of  <a href="https://developer.apple.com/documentation/combine/anycancellable">AnyCancellable</a> of course, you can also create references one by one</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>ℹ️  注意，subscriptions 会在 <a href="https://developer.apple.com/documentation/combine/cancellable">Cancellable</a> 析构后直接cancel掉。</p>
+</blockquote>
+<h3 id="publishers">Publishers</h3>
+<table>
+<thead>
+<tr>
+<th>RxSwift</th>
+<th>Combine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Observable<!-- raw HTML omitted --></td>
+<td><a href="https://developer.apple.com/documentation/combine/anypublisher">AnyPublisher&lt;Element, Error&gt;</a>或者 其他的 <a href="https://quickbirdstudios.com/blog/wp-admin/%5B%3Ccode%3EAnyPublisher%3CElement,%20Error%3E%3C/code%3E%5D(https://developer.apple.com/documentation/combine/publisher)">Publisher</a> 类型<!-- raw HTML omitted -->同样根据抛出的错误类型，Combine也能创建对应的Failure类型</td>
+</tr>
+<tr>
+<td>Single<!-- raw HTML omitted --></td>
+<td><a href="https://developer.apple.com/documentation/combine/anypublisher">AnyPublisher&lt;Element, Error&gt;</a><!-- raw HTML omitted --> <a href="https://quickbirdstudios.com/blog/wp-admin/%5B%3Ccode%3EAnyPublisher%3CElement,%20Error%3E%3C/code%3E%5D(https://developer.apple.com/documentation/combine/future)">Future&lt;Element, Error&gt;</a> <!-- raw HTML omitted -->可惜不能保证只抛出一个值，除非使用Future publisher</td>
+</tr>
+<tr>
+<td>ConnectableObservable<!-- raw HTML omitted --></td>
+<td><a href="https://developer.apple.com/documentation/combine/connectablepublisher">ConnectablePublisher</a></td>
+</tr>
+<tr>
+<td>Infallible<!-- raw HTML omitted --></td>
+<td><a href="https://developer.apple.com/documentation/combine/anypublisher">AnyPublisher&lt;Element, Never&gt;</a> <!-- raw HTML omitted -->注意：Failure在这里的类型是 Never</td>
+</tr>
+<tr>
+<td>Maybe<!-- raw HTML omitted --></td>
+<td>在Combine里没有对应的东东</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subjects">Subjects</h3>
+<table>
+<thead>
+<tr>
+<th>RxSwift</th>
+<th>Combine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://reactivex.io/documentation/subject.html">BehaviorSubject</a></td>
+<td><a href="https://developer.apple.com/documentation/combine/currentvaluesubject">CurrentValueSubject</a></td>
+</tr>
+<tr>
+<td><a href="http://reactivex.io/documentation/subject.html">PublishSubject</a></td>
+<td><a href="https://developer.apple.com/documentation/combine/passthroughsubject">PassthroughSubject</a></td>
+</tr>
+<tr>
+<td><a href="http://reactivex.io/documentation/subject.html">ReplaySubject</a></td>
+<td>Combine里没有<!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">CombineExt里的替代方案</a></td>
+</tr>
+<tr>
+<td><a href="http://reactivex.io/documentation/subject.html">AsyncSubject</a></td>
+<td>Combine 里没有</td>
+</tr>
+</tbody>
+</table>
+<h3 id="relays">Relays</h3>
+<p>Relay是Subject的一个变种，他跟Subject的不同之处在于 无法发送/接收 完成事件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Relay</span>&lt;SubjectType: Subject&gt;: Publisher,
+</span></span><span style="display:flex;"><span>    CustomCombineIdentifierConvertible <span style="color:#66d9ef">where</span> SubjectType.Failure == Never {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">typealias</span> Output = SubjectType.Output
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">typealias</span> Failure = SubjectType.Failure
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> subject: SubjectType
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(subject: SubjectType) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.subject = subject
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">send</span>(<span style="color:#66d9ef">_</span> value: Output) {
+</span></span><span style="display:flex;"><span>        subject
+</span></span><span style="display:flex;"><span>            .send(value)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">receive</span>&lt;S: Subscriber&gt;(subscriber: S) 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">where</span> Failure == S.Failure, Output == S.Input {
+</span></span><span style="display:flex;"><span>        subject
+</span></span><span style="display:flex;"><span>            .subscribe(on: DispatchQueue.main)
+</span></span><span style="display:flex;"><span>            .receive(subscriber: subscriber)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> CurrentValueRelay&lt;Output&gt; = Relay&lt;CurrentValueSubject&lt;Output, Never&gt;<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typealias</span> PassthroughRelay&lt;Output&gt; = Relay&lt;PassthroughSubject&lt;Output, Never&gt;<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Relay</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">convenience</span> <span style="color:#66d9ef">init</span>&lt;O&gt;(<span style="color:#66d9ef">_</span> value: O) 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">where</span> SubjectType == CurrentValueSubject&lt;O, Never&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.<span style="color:#66d9ef">init</span>(subject: CurrentValueSubject(value))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">convenience</span> <span style="color:#66d9ef">init</span>&lt;O&gt;() 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">where</span> SubjectType == PassthroughSubject&lt;O, Never&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.<span style="color:#66d9ef">init</span>(subject: PassthroughSubject())
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="observer-operators">Observer Operators</h3>
+<table>
+<thead>
+<tr>
+<th>RxSwift</th>
+<th>Combine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>asObserver()</td>
+<td><a href="https://developer.apple.com/documentation/combine/anysubscriber">AnySubscriber</a></td>
+</tr>
+<tr>
+<td>on(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/subscriber">Subscriber</a><!-- raw HTML omitted --> ↳  <a href="https://developer.apple.com/documentation/combine/subscriber/receive(_:)">receive(_:)</a><!-- raw HTML omitted -->↳ <a href="https://developer.apple.com/documentation/combine/subscriber/receive(completion:)">receive(completion:)</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/subject">Subject</a><!-- raw HTML omitted -->↳ <a href="https://developer.apple.com/documentation/combine/subject/send(_:)">send(_:)</a><!-- raw HTML omitted -->↳  <a href="https://developer.apple.com/documentation/combine/subject/send(completion:)">send(completion:)</a></td>
+</tr>
+<tr>
+<td>onNext(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/subscriber">Subscriber</a><!-- raw HTML omitted -->↳ <a href="https://developer.apple.com/documentation/combine/subscriber/receive(_:)">receive(_:)</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/subject">Subject</a><!-- raw HTML omitted -->↳ <a href="https://developer.apple.com/documentation/combine/subject/send(_:)">send(_:)</a></td>
+</tr>
+<tr>
+<td>onError(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/subscriber">Subscriber</a><!-- raw HTML omitted --> ↳<a href="https://developer.apple.com/documentation/combine/subscriber/receive(completion:)">receive(completion: .failure(<!-- raw HTML omitted -->))</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/subject">Subject</a><!-- raw HTML omitted -->↳ <a href="https://developer.apple.com/documentation/combine/subject/send(completion:)">send(completion: .failure(<!-- raw HTML omitted -->))</a></td>
+</tr>
+<tr>
+<td>onCompleted()</td>
+<td><a href="https://developer.apple.com/documentation/combine/subscriber">Subscriber</a><!-- raw HTML omitted --> ↳ <a href="https://developer.apple.com/documentation/combine/subscriber/receive(completion:)">receive(completion: .finished)</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/subject">Subject</a><!-- raw HTML omitted --> ↳ <a href="https://developer.apple.com/documentation/combine/subject/send(completion:)">send(completion: .finished)</a></td>
+</tr>
+<tr>
+<td>mapObserver(_:)</td>
+<td>Combine里没有对应的，不过实现起来很简单<!-- raw HTML omitted -->👉<a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+</tbody>
+</table>
+<p>如果要修改subscriber的 <code>Input </code>或 <code>Failure</code> 类型，可以使用下面这个扩展方式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Subscriber</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">map</span>&lt;Input&gt;(
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">_</span> map: @escaping (Input) -&gt; <span style="color:#66d9ef">Self</span>.Input
+</span></span><span style="display:flex;"><span>    ) -&gt; AnySubscriber&lt;Input, Failure&gt; {
+</span></span><span style="display:flex;"><span>        .<span style="color:#66d9ef">init</span>(
+</span></span><span style="display:flex;"><span>            receiveSubscription: receive,
+</span></span><span style="display:flex;"><span>            receiveValue: { <span style="color:#66d9ef">self</span>.receive(map($0)) },
+</span></span><span style="display:flex;"><span>            receiveCompletion: receive
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mapError</span>&lt;Failure&gt;(
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">_</span> map: @escaping (Failure) -&gt; <span style="color:#66d9ef">Self</span>.Failure
+</span></span><span style="display:flex;"><span>    ) -&gt; AnySubscriber&lt;Input, Failure&gt; {
+</span></span><span style="display:flex;"><span>        .<span style="color:#66d9ef">init</span>(
+</span></span><span style="display:flex;"><span>            receiveSubscription: receive,
+</span></span><span style="display:flex;"><span>            receiveValue: receive,
+</span></span><span style="display:flex;"><span>            receiveCompletion: { completion <span style="color:#66d9ef">in</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">switch</span> completion {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">let</span> .failure(error):
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">self</span>.receive(completion: .failure(map(error)))
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">case</span> .finished:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">self</span>.receive(completion: .finished)
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="scheduling">Scheduling</h3>
+<p>RxSwift 有很多不同的Scheduler 类型，比如：<code>MainScheduler</code>，<code>ConcurrentDispatchQueueScheduler</code>, <code>SerialDispatchQueueScheduler</code>, <code>CurrentThreadScheduler</code>, <code>HistoricalScheduler</code>, <code>OperationQueueScheduler</code>，以及其他更多类型。</p>
+<p>而在Combine里，这个就很简单了。可以直接使用GCD(Grand Central Dispatc)的相关类型就可以了。比如 <code>DispatchQueue</code>, <code>OperationQueue</code> 以及 <code>RunLoop</code>。
+Combine里唯一的Scheduler类型只有 ImmediateScheduler，它能让任务直接同步执行（跟<code>CurrentThreadScheduler</code> 差不多）。</p>
+<p>在<a href="https://www.vadimbulavin.com/understanding-schedulers-in-swift-combine-framework/">这篇文章</a>里可以获取更多关于Combine里的scheduling 的信息。</p>
+<h3 id="factory-functions">Factory Functions</h3>
+<table>
+<thead>
+<tr>
+<th>RxSwift</th>
+<th>Combine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>amb(&hellip;)</td>
+<td>Combine里没有<!-- raw HTML omitted --> 👉<a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>catch(sequence:)</td>
+<td>Combine里没有</td>
+</tr>
+<tr>
+<td>combineLatest(&hellip;)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publishers/combinelatest">Publishers.CombineLatest</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/combinelatest3">Publishers.CombineLatest3</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/combinelatest4">Publishers.CombineLatest4</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/combinelatest(_:)">Publisher.combineLatest(_:)</a><!-- raw HTML omitted -->注意：你可以把它们串起来使用，然后用map转成特殊的数据类型来使用</td>
+</tr>
+<tr>
+<td>concat(&hellip;)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publishers/concatenate">Publishers.Concatenate</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/append(_:)-5yh02">Publisher.append</a><!-- raw HTML omitted -->不支持多于两个值，可以用reduce 来达到目的</td>
+</tr>
+<tr>
+<td>create(_:)</td>
+<td>单个值的Publisher可以用  <a href="https://developer.apple.com/documentation/combine/future">Future</a><!-- raw HTML omitted -->多个值的Publisher可以参考 <a href="https://github.com/CombineCommunity/CombineExt/blob/main/Sources/Operators/Create.swift">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>deferred(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/deferred">Deferred</a></td>
+</tr>
+<tr>
+<td>empty()</td>
+<td><a href="https://developer.apple.com/documentation/combine/empty">Empty</a></td>
+</tr>
+<tr>
+<td>error(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/fail">Fail</a></td>
+</tr>
+<tr>
+<td>from(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publishers/sequence">Collection.publisher</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/sequence">Optional.publisher</a></td>
+</tr>
+<tr>
+<td>generate(<!-- raw HTML omitted -->  initialState:<!-- raw HTML omitted -->  condition:<!-- raw HTML omitted -->  iterate:<!-- raw HTML omitted -->)</td>
+<td>Combine里没有</td>
+</tr>
+<tr>
+<td>just(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/just">Just</a></td>
+</tr>
+<tr>
+<td>merge(&hellip;)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publishers/merge">Publishers.Merge</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/merge3">Publishers.Merge3</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/merge4">Publishers.Merge4</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/merge5">Publishers.Merge5</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/merge6">Publishers.Merge6</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/merge7">Publishers.Merge7</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/merge8">Publishers.Merge8</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/mergemany">Publishers.MergeMany</a></td>
+</tr>
+<tr>
+<td>never()</td>
+<td><a href="https://developer.apple.com/documentation/combine/empty">Empty(completeImmediately: false)</a></td>
+</tr>
+<tr>
+<td>of(&hellip;)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publishers/sequence">Collection.publisher</a></td>
+</tr>
+<tr>
+<td>range()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publishers/sequence">Collection.publisher</a>可以用Range或ClosedRange <!-- raw HTML omitted -->用 stride</td>
+</tr>
+<tr>
+<td>repeatElement(_:)</td>
+<td>Combine里没有</td>
+</tr>
+<tr>
+<td>timer(_:period:scheduler:)</td>
+<td><a href="https://developer.apple.com/documentation/foundation/timer/3329589-publish">Timer.publish</a><!-- raw HTML omitted -->+  <a href="https://developer.apple.com/documentation/combine/publisher/delay(for:scheduler:options:)">delay</a><!-- raw HTML omitted -->+  <a href="https://developer.apple.com/documentation/combine/publisher/autoconnect()">autoconnect</a></td>
+</tr>
+<tr>
+<td>using(_:observableFactory:)</td>
+<td>Combine里没有</td>
+</tr>
+<tr>
+<td>zip(&hellip;)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publishers/zip">Publishers.Zip</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/zip3">Publishers.Zip3</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/zip4">Publishers.Zip4</a><!-- raw HTML omitted --> 👉<a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="publisher--observable-operators">Publisher / Observable Operators</h3>
+<table>
+<thead>
+<tr>
+<th>RxSwift</th>
+<th>Combine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>amb(_:)</td>
+<td>Combine里没有<!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>asCompletable()</td>
+<td>Combine里没有</td>
+</tr>
+<tr>
+<td>asObservable()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/erasetoanypublisher()">eraseToAnyPublisher()</a></td>
+</tr>
+<tr>
+<td>buffer(<!-- raw HTML omitted -->  timeSpan:<!-- raw HTML omitted -->  count:<!-- raw HTML omitted -->  scheduler:<!-- raw HTML omitted -->)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/collect(_:options:)">collect( <!-- raw HTML omitted -->.byTimeOrCount(<em>:</em>:_:),<!-- raw HTML omitted --> options: )</a></td>
+</tr>
+<tr>
+<td>catch(<em>:)<!-- raw HTML omitted -->catchError(</em>:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/catch(_:)">catch(_:)</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/trycatch(_:)">tryCatch(_:)</a></td>
+</tr>
+<tr>
+<td>catchAndReturn(<em>:)<!-- raw HTML omitted -->catchErrorJustReturn(</em>:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/replaceerror(with:)">replaceError(with:)</a></td>
+</tr>
+<tr>
+<td>compactMap(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/compactmap(_:)">compactMap(_:)</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/trycompactmap(_:)">tryCompactMap(_:)</a></td>
+</tr>
+<tr>
+<td>concat(&hellip;)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/append(_:)">append</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publishers/concatenate">Publishers.Concatenate</a></td>
+</tr>
+<tr>
+<td>concatMap(_:)</td>
+<td>Combine里没有<!-- raw HTML omitted -->可以用  <a href="https://developer.apple.com/documentation/combine/publisher/reduce(_:_:)">reduce(<em>:</em>:)</a>和  <a href="https://developer.apple.com/documentation/combine/publisher/append(_:)">append(_:)</a>来实现</td>
+</tr>
+<tr>
+<td>debounce(_:scheduler:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/debounce(for:scheduler:options:)">debounce(<!-- raw HTML omitted -->  for:<!-- raw HTML omitted --> scheduler:<!-- raw HTML omitted --> options: )</a></td>
+</tr>
+<tr>
+<td>debug(<!-- raw HTML omitted -->  _:<!-- raw HTML omitted -->  trimOutput:<!-- raw HTML omitted -->  file:<!-- raw HTML omitted -->  line:<!-- raw HTML omitted -->  function:<!-- raw HTML omitted -->)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/print(_:to:)">print(_:to:)</a></td>
+</tr>
+<tr>
+<td>delay(_:scheduler:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/delay(for:tolerance:scheduler:options:)">delay(<!-- raw HTML omitted -->  for:<!-- raw HTML omitted --> tolerance:<!-- raw HTML omitted --> scheduler:<!-- raw HTML omitted --> options:<!-- raw HTML omitted --> )</a></td>
+</tr>
+<tr>
+<td>delaySubscription(<!-- raw HTML omitted -->  _:<!-- raw HTML omitted -->  scheduler:<!-- raw HTML omitted -->)</td>
+<td>Combine里没有<!-- raw HTML omitted -->可以用  <a href="https://developer.apple.com/documentation/combine/deferred">Deferred</a>和  <a href="https://developer.apple.com/documentation/combine/publisher/delay(for:scheduler:options:)">delay(for:scheduler:options:)</a>的组合来替代</td>
+</tr>
+<tr>
+<td>dematerialize()</td>
+<td>Combine里没有<!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>distinctUntilChanged(&hellip;)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/removeDuplicates()">removeDuplicates()</a><!-- raw HTML omitted -->当Output是Equatable时用<!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/removeduplicates(by:)">removeDuplicates(by:)</a><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/tryremoveduplicates(by:)">tryRemoveDuplicates(by:)</a></td>
+</tr>
+<tr>
+<td>do(<!-- raw HTML omitted -->  onNext:<!-- raw HTML omitted -->  afterNext:<!-- raw HTML omitted -->  onError:<!-- raw HTML omitted -->  afterError:<!-- raw HTML omitted -->  onCompleted:<!-- raw HTML omitted -->  afterCompleted:<!-- raw HTML omitted -->  onSubscribe:<!-- raw HTML omitted -->  onSubscribed:<!-- raw HTML omitted -->  onDispose:<!-- raw HTML omitted -->)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/handleevents(receivesubscription:receiveoutput:receivecompletion:receivecancel:receiverequest:)">handleEvents(<!-- raw HTML omitted --> receiveSubscription:<!-- raw HTML omitted --> receiveOutput:<!-- raw HTML omitted --> receiveCompletion:<!-- raw HTML omitted --> receiveCancel:<!-- raw HTML omitted --> receiveRequest:<!-- raw HTML omitted --> )</a><!-- raw HTML omitted -->没有onDispose: 在publisher complete时，cancel不会被调用。</td>
+</tr>
+<tr>
+<td>element(at:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/output(at:)">output(at:)</a></td>
+</tr>
+<tr>
+<td>enumerated()</td>
+<td>Combine里没有<!-- raw HTML omitted -->建议可以用 <a href="https://developer.apple.com/documentation/combine/publisher/scan(_:_:)">scan(<em>:</em>:)</a>魔改一下</td>
+</tr>
+<tr>
+<td>filter(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/filter(_:)">filter(_:)</a> <!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/tryfilter(_:)">tryFilter(_:)</a></td>
+</tr>
+<tr>
+<td>first()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/first()">first()</a></td>
+</tr>
+<tr>
+<td>flatMapFirst(_:)</td>
+<td>Combine里没有</td>
+</tr>
+<tr>
+<td>flatMap(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/flatmap(_:)">flatMap(_:)</a> <!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/tryflatmap(_:)">tryFlatMap(_:)</a></td>
+</tr>
+<tr>
+<td>flatMapLatest(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/map(_:)">map(_:)</a>接上  <a href="https://developer.apple.com/documentation/combine/publisher/switchtolatest()">switchToLatest()</a><!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>groupBy(keySelector:)</td>
+<td>没有</td>
+</tr>
+<tr>
+<td>ifEmpty(default:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/replaceempty(with:)">replaceEmpty(with:)</a></td>
+</tr>
+<tr>
+<td>ifEmpty(switchTo:)</td>
+<td>没有</td>
+</tr>
+<tr>
+<td>ignoreElements()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/ignoreoutput()">ignoreOutput()</a></td>
+</tr>
+<tr>
+<td>map(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/map(_:)">map(_:)</a> <!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/trymap(_:)">tryMap(_:)</a></td>
+</tr>
+<tr>
+<td>materialize()</td>
+<td>没有<!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>multicast(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/multicast(subject:)">multicast(subject:)</a></td>
+</tr>
+<tr>
+<td>multicast(makeSubject:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/multicast(_:)">multicast(_:)</a></td>
+</tr>
+<tr>
+<td>observe(on:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/observe(on:)">observe(on:)</a><!-- raw HTML omitted -->Combine用的是不同的scheduler类型！</td>
+</tr>
+<tr>
+<td>publish()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/multicast(_:)">multicast {  PassthroughSubject()  }</a> <!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/makeconnectable()">makeConnectable()</a></td>
+</tr>
+<tr>
+<td>reduce(into:_:)</td>
+<td>没有 <!-- raw HTML omitted -->不过可以用 reduce 来实现</td>
+</tr>
+<tr>
+<td>reduce(<em>:</em>:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/reduce(_:_:)">reduce(<em>:</em>:)</a> <!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/tryreduce(_:_:)">tryReduce(<em>:</em>:)</a></td>
+</tr>
+<tr>
+<td>reduce(<!-- raw HTML omitted -->  _:<!-- raw HTML omitted -->  accumulator:<!-- raw HTML omitted -->  mapResult:<!-- raw HTML omitted -->)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/reduce(_:_:)">reduce(<em>:</em>:)</a>接上  <a href="https://developer.apple.com/documentation/combine/publisher/map(_:)">map(_:)</a>  或 <a href="https://developer.apple.com/documentation/combine/publisher/trymap(_:)">tryMap(_:)</a></td>
+</tr>
+<tr>
+<td>refCount()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/autoconnect()">autoconnect()</a></td>
+</tr>
+<tr>
+<td>replay(_:)</td>
+<td>没有<!-- raw HTML omitted -->可以用  <a href="https://developer.apple.com/documentation/combine/publisher/multicast(_:)">multicast(_:)</a>和 ReplaySubject 来实现</td>
+</tr>
+<tr>
+<td>replayAll()</td>
+<td>没有</td>
+</tr>
+<tr>
+<td>retry()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/retry(_:)">retry(.max)</a><!-- raw HTML omitted -->可能有微小的意义上的差别，但实际使用中一般没区别</td>
+</tr>
+<tr>
+<td>retry(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/retry(_:)">retry(_:)</a></td>
+</tr>
+<tr>
+<td>retry(when:)</td>
+<td>没有</td>
+</tr>
+<tr>
+<td>sample(_:defaultValue:)</td>
+<td>没有</td>
+</tr>
+<tr>
+<td>scan(into:_:)</td>
+<td>没有<!-- raw HTML omitted -->可以用一般的 <a href="https://developer.apple.com/documentation/combine/publisher/scan(_:_:)">scan(<em>:</em>:)</a>来实现</td>
+</tr>
+<tr>
+<td>scan(<em>:</em>:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/scan(_:_:)">scan(<em>:</em>:)</a> <!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/retry(_:)">tryScan(<em>:</em>:)</a></td>
+</tr>
+<tr>
+<td>share(replay:scope:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/share()">share()</a><!-- raw HTML omitted -->或者用  <a href="https://developer.apple.com/documentation/combine/publisher/multicast(_:)">multicast(_:)</a>加上 <a href="https://developer.apple.com/documentation/combine/passthroughsubject">PassthroughSubject</a>和 <a href="https://developer.apple.com/documentation/combine/publisher/autoconnect()">autoconnect()</a><!-- raw HTML omitted -->或者用 <a href="https://developer.apple.com/documentation/combine/publisher/multicast(_:)">multicast(_:)</a>加上 ReplaySubject <!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">extension in CombineExt</a></td>
+</tr>
+<tr>
+<td>single()</td>
+<td>没有<!-- raw HTML omitted -->当有且只有一个值时，用 <a href="https://developer.apple.com/documentation/combine/publisher/first()">first()</a>，否则会报错</td>
+</tr>
+<tr>
+<td>single(_:)</td>
+<td>没有<!-- raw HTML omitted -->可以用 <a href="https://developer.apple.com/documentation/combine/publisher/filter(_:)">filter(_:)</a>接上 single()的替代方案</td>
+</tr>
+<tr>
+<td>skip(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/dropfirst(_:)">dropFirst(_:)</a></td>
+</tr>
+<tr>
+<td>skip(while:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/drop(while:)">drop(while:)</a></td>
+</tr>
+<tr>
+<td>skip(until:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/drop(untiloutputfrom:)">drop(untilOutputFrom:)</a></td>
+</tr>
+<tr>
+<td>startWith(&hellip;)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/prepend(_:)-7wk5l">prepend(&hellip;)</a></td>
+</tr>
+<tr>
+<td>subscribe(_:)</td>
+<td>最类似的接口:<!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/sink(receivecompletion:receivevalue:)">sink(<!-- raw HTML omitted --> receiveValue: <!-- raw HTML omitted --> receiveCompletion:<!-- raw HTML omitted -->  )</a></td>
+</tr>
+<tr>
+<td>subscribe(on:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/subscribe(on:options:)">subscribe(on:options:)</a><!-- raw HTML omitted -->Combine用的是不同的scheduler类型！</td>
+</tr>
+<tr>
+<td>subscribe(<!-- raw HTML omitted -->  onNext:<!-- raw HTML omitted -->  onError:<!-- raw HTML omitted -->  onCompleted:<!-- raw HTML omitted -->  onDisposed:<!-- raw HTML omitted -->)</td>
+<td>最类似的接口:<!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/sink(receivecompletion:receivevalue:)">sink(<!-- raw HTML omitted --> receiveValue: <!-- raw HTML omitted -->receiveCompletion:<!-- raw HTML omitted --> )</a></td>
+</tr>
+<tr>
+<td>subscribe(<!-- raw HTML omitted -->  with:<!-- raw HTML omitted -->  onNext:<!-- raw HTML omitted -->  onError:<!-- raw HTML omitted -->  onCompleted:<!-- raw HTML omitted -->  onDisposed:<!-- raw HTML omitted -->)</td>
+<td>最类似的接口：<!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/sink(receivecompletion:receivevalue:)">sink(<!-- raw HTML omitted --> receiveValue: <!-- raw HTML omitted -->receiveCompletion:<!-- raw HTML omitted --> )</a> 或 <code>[weak object]</code></td>
+</tr>
+<tr>
+<td>switchLatest()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/switchtolatest()">switchToLatest()</a></td>
+</tr>
+<tr>
+<td>take(_:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/prefix(_:)">prefix(_:)</a></td>
+</tr>
+<tr>
+<td>take(for:scheduler:)</td>
+<td>没有<!-- raw HTML omitted -->可以用以下方式解决:<!-- raw HTML omitted -->prefix(untilOutputFrom:<!-- raw HTML omitted -->   Timer.publish(<!-- raw HTML omitted -->     every: <!-- raw HTML omitted -->,<!-- raw HTML omitted -->     on: <!-- raw HTML omitted -->   ) <!-- raw HTML omitted -->  .autoconnect()<!-- raw HTML omitted -->   .prefix(1)<!-- raw HTML omitted --> )<!-- raw HTML omitted --><!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>take(until:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/prefix(untiloutputfrom:)">prefix(untilOutputFrom:)</a></td>
+</tr>
+<tr>
+<td>take(until:behavior:)</td>
+<td>用 <a href="https://developer.apple.com/documentation/combine/publisher/prefix(while:)">prefix(while:)</a>的相反条件来替代，但没有 behavior参数功能了</td>
+</tr>
+<tr>
+<td>take(while:behavior:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/prefix(while:)">prefix(while:)</a>，但没有 behavior参数功能了</td>
+</tr>
+<tr>
+<td>takeLast(_:)</td>
+<td>没有<!-- raw HTML omitted -->最接近的方案：<!-- raw HTML omitted -->reduce([]) { $0 + [$1] }<!-- raw HTML omitted -->  .flatMap { $0.suffix(<!-- raw HTML omitted -->).publisher<!-- raw HTML omitted --> }</td>
+</tr>
+<tr>
+<td>throttle(<!-- raw HTML omitted -->  _:<!-- raw HTML omitted -->  latest:<!-- raw HTML omitted -->  scheduler:<!-- raw HTML omitted -->)</td>
+<td><a href="https://developer.apple.com/documentation/combine/fail/throttle(for:scheduler:latest:)">throttle( <!-- raw HTML omitted --> for: <!-- raw HTML omitted -->scheduler:<!-- raw HTML omitted --> latest:<!-- raw HTML omitted --> )</a></td>
+</tr>
+<tr>
+<td>timeout(<!-- raw HTML omitted -->  _:<!-- raw HTML omitted -->  other:<!-- raw HTML omitted -->  scheduler:<!-- raw HTML omitted -->)</td>
+<td>最接近的方案：<!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/timeout(_:scheduler:options:customError:)">timeout(<!-- raw HTML omitted -->  _:<!-- raw HTML omitted --> scheduler:<!-- raw HTML omitted --> options:<!-- raw HTML omitted --> customError: <!-- raw HTML omitted -->)</a><!-- raw HTML omitted -->然后再  <a href="https://developer.apple.com/documentation/combine/publisher/catch(_:)">catch(_:)</a>, 用map转到其他publisher上</td>
+</tr>
+<tr>
+<td>timeout(_:scheduler:)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/timeout(_:scheduler:options:customError:)">timeout( <!-- raw HTML omitted --> _: <!-- raw HTML omitted -->scheduler:<!-- raw HTML omitted --> options: <!-- raw HTML omitted -->customError:<!-- raw HTML omitted --> )</a></td>
+</tr>
+<tr>
+<td>toArray()</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/collect()">collect()</a></td>
+</tr>
+<tr>
+<td>window(<!-- raw HTML omitted -->  timeSpan:<!-- raw HTML omitted -->  count:<!-- raw HTML omitted -->  scheduler:<!-- raw HTML omitted -->)</td>
+<td><a href="https://developer.apple.com/documentation/combine/publisher/collect(_:)">collect( <!-- raw HTML omitted -->.byTime(<!-- raw HTML omitted -->, <!-- raw HTML omitted -->) <!-- raw HTML omitted --> )</a><!-- raw HTML omitted --><!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/collect(_:)">collect(<!-- raw HTML omitted --> .byTimeOrCount(<!-- raw HTML omitted -->  <!-- raw HTML omitted -->,<!-- raw HTML omitted --> <!-- raw HTML omitted -->,<!-- raw HTML omitted --> <!-- raw HTML omitted --><!-- raw HTML omitted -->  )<!-- raw HTML omitted -->  )</a></td>
+</tr>
+<tr>
+<td>withLatestFrom(_:)</td>
+<td>没有<!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>withLatestFrom(<!-- raw HTML omitted -->  _:<!-- raw HTML omitted -->  resultSelector:<!-- raw HTML omitted -->)</td>
+<td>没有<!-- raw HTML omitted -->👉 <a href="https://github.com/CombineCommunity/CombineExt">replacement in CombineExt</a></td>
+</tr>
+<tr>
+<td>withUnretained(_:)</td>
+<td>最接近的方案：<!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/compactmap(_:)">compactMap {  [weak object] value in<!-- raw HTML omitted --> object.map  {  ($0, value)  }<!-- raw HTML omitted -->  }</a></td>
+</tr>
+<tr>
+<td>withUnretained(<!-- raw HTML omitted -->  _:<!-- raw HTML omitted -->  resultSelector:<!-- raw HTML omitted -->)</td>
+<td>最接近的方案：<!-- raw HTML omitted --> <a href="https://developer.apple.com/documentation/combine/publisher/compactmap(_:)">compactMap {  [weak object] value in<!-- raw HTML omitted --> object.map  {<!-- raw HTML omitted -->  resultSelector($0, value)  <!-- raw HTML omitted -->} <!-- raw HTML omitted --> }</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="总结一下-1">总结一下</h2>
+<p>对我们来说，总是要调用  <a href="https://developer.apple.com/documentation/combine/publisher/setfailuretype(to:)">setFailureType(to:)</a> 和  <a href="https://developer.apple.com/documentation/combine/publisher/erasetoanypublisher()">eraseToAnyPublisher()</a> 感觉不舒坦，除此之外，我们还是觉得Combine 很棒的。</p>
 
-[[weatherForecasterMock **should**] **receive**:**@selector**(**resultWithTemprature**:humidity**:**) 
-
- andReturn**:**someResult 
-
- withArguments**:**theValue(23),theValue(50)];
-</code></pre><ul>
-<li>然后将WeatherRecorder的 weatherForecaster 属性替换为该mock实例</li>
-</ul>
-<pre tabindex="0"><code>[weatherRecorder stub:@selector(weatherForecaster) andReturn:weatherForecasterMock];
-</code></pre>
 
 <footer class="footline">
 	
@@ -1605,8 +2271,6 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -1620,6 +2284,7 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
             
                 
+                    
                     
                 
                 
@@ -1637,341 +2302,8 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -2159,6 +2491,118 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
                     
             
         
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
                         
             
@@ -2368,28 +2812,10 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
         
                     
-            
-        
-                    
                         
             
             
                 
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
                     
                 
                 
@@ -2407,8 +2833,245 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
@@ -2497,10 +3160,10 @@ id result = [self.weatherForecaster resultWithTemprature:temprature humidity:hum
 	 
 	 
 		
-			<a class="nav nav-prev" href="/xctest/" title="XCTests"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/rxswift/" title="RxSwifts"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/xctest/xctest_mork/" title="XCTest Mork" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/rxswift/rxfeedback/" title="RxFeedback 学习" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

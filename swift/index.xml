@@ -41,6 +41,18 @@ let colleageNameiohfahiefhaohgho : String? = &amp;#34;John&amp;#34; let colleage
     </item>
     
     <item>
+      <title>Swift 5.7 note (Pointer 功能加强)</title>
+      <link>https://leverkusen188.github.io/swift/swift5.7_note_unsafepointer/</link>
+      <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
+      
+      <guid>https://leverkusen188.github.io/swift/swift5.7_note_unsafepointer/</guid>
+      <description>译自 Swift 5.7: Pointer API Usability Improvements
+简介 这篇文章介绍了UnsafePointer 以及它的 Mutable 和 Raw 变种的强大且实用的改进细节。
+新增了一个可以获取 指定alignment（位移）的UnsafePointer 指针的接口。 新增了一个可以获取给定 UnsafePointer&amp;lt;T&amp;gt; 里，T的指定属性指针的接口。 可以compare 两个不同类型的指针了。 起因(To Be Continued) 每次我们实用 UnsafePointer 以及它的扩展变种时，都会碰到很多跟这些类型的不安全性无关的困难和麻烦。在不用隐藏这些不安全性的基础上，我们也可以改进这些类型的工作效率。
+举个例子，如果你想要</description>
+    </item>
+    
+    <item>
       <title>Swift dynamicMemberLookup</title>
       <link>https://leverkusen188.github.io/swift/swift_dynamicmemberlookup/</link>
       <pubDate>Thu, 22 Sep 2022 18:11:53 +0800</pubDate>
