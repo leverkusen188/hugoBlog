@@ -17,10 +17,8 @@
 不逐字翻译了，只翻主要的知识点信息。 简介 Combine 是swift新推出的一种面向 响应式编程的框架。 很多开发者都想从RxSwift 切换到Combine，两者之间有很多的相似之处。 但细节方面还是有很多区别的，如果你想切换过来，这篇文章会列出 RxSwift和Combine之间的 操作符，函数，类型等等的映射。
 响应式编程可以让 数据状态在对象之间，工程之间，甚至app之间互相同步。 在ios开发中，最常见的就是在UI和Model之间进行状态同步。在之前很长一段时间里，RxSwift都是最好的选择。但apple推出了 跟SwiftUI 更契合的Combine 作为响应式编程的框架，基本可以完全替代RxSwift的所有功能了。
 此文章将分为 Combine是怎么工作的 切换到Combine是好的选择吗 怎么更简单地从RxSwift切换到Combine 三个部分。
-Combine是怎么工作的 考虑到本文章是介绍如何从RxSwift迁移到Combine， 假设读者已经对RxSwift有一定的了解了。 如果需要了解RxSwift，可以参考 RxSwift repository on GitHub.
-Combine在很多方面跟RxSwift都有相似之处以及对等的映射概念映射，比如 方法，类型声明等。 如果要找出两者之间更深层次的差异，需要对Combine进行更深地挖掘，看看它的底层机制。
-Publisher 跟RxSwift的Observable 相对应的是Combine里的Publisher。 在RxSwift里是一个类，而在Combine里是一个协议。
-protocol Publisher { associatedtype Output associatedtype Failure: Error func receive&amp;lt;S: Subscriber&amp;gt;(subscriber: S) where Self.Failure == S.Failure, Self.Output == S.Input } Combine 不会指定 Wrapper types来描述它的唯一特征，比如RxSwift里的Infallible, Maybe or Single。 但每个Publisher也有自己的自定义类型，借由该类型，Publisher的特征也能被推导出来。</description>
+RxSwift 和 Combine的主要区别 RxSwift Combine 支持的iOS版本 iOS 8.0+ iOS 13.0+ 支持的平台 iOS, macOS, tvOS, watchOS, Linux iOS, macOS, tvOS, watchOS, UIKit for Mac 框架所属 第三方 Apple第一方，SDK内置 谁来维护? 开源社区 Apple技术团队 协作的UI框架 RxCocoa SwiftUI Combine是怎么工作的 考虑到本文章是介绍如何从RxSwift迁移到Combine， 假设读者已经对RxSwift有一定的了解了。 如果需要了解RxSwift，可以参考 RxSwift repository on GitHub.
+Combine在很多方面跟RxSwift都有相似之处以及对等的映射概念映射，比如 方法，类型声明等。 如果要找出两者之间更深层次的差异，需要对Combine进行更深地挖掘，看看它的底层机制。</description>
     </item>
     
     <item>
