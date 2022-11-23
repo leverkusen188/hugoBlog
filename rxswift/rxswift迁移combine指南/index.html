@@ -13,20 +13,20 @@
     <title>RxSwift迁移Combine指南 :: My New Hugo Site</title>
 
     
-    <link href="/css/nucleus.css?1669179928" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1669179928" rel="stylesheet">
-    <link href="/css/hybrid.css?1669179928" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1669179928" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1669179928" rel="stylesheet">
-    <link href="/css/auto-complete.css?1669179928" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1669179928" rel="stylesheet">
-    <link href="/css/theme.css?1669179928" rel="stylesheet">
-    <link href="/css/tabs.css?1669179928" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1669179928" rel="stylesheet">
+    <link href="/css/nucleus.css?1669180223" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1669180223" rel="stylesheet">
+    <link href="/css/hybrid.css?1669180223" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1669180223" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1669180223" rel="stylesheet">
+    <link href="/css/auto-complete.css?1669180223" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1669180223" rel="stylesheet">
+    <link href="/css/theme.css?1669180223" rel="stylesheet">
+    <link href="/css/tabs.css?1669180223" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1669180223" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1669179928"></script>
+    <script src="/js/jquery-3.3.1.min.js?1669180223"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -136,19 +136,19 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1669179928"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1669179928"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1669180223"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1669180223"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/leverkusen188.github.io\/";
     
 </script>
 
-<script type="text/javascript" src="/js/search.js?1669179928"></script>
+<script type="text/javascript" src="/js/search.js?1669180223"></script>
 
 
-<script src="/js/fuse.min.js?1669179928"></script> 
-<script src="/js/fastsearch.js?1669179928"></script>
+<script src="/js/fuse.min.js?1669180223"></script> 
+<script src="/js/fastsearch.js?1669180223"></script>
 
 
     
@@ -1627,7 +1627,7 @@
 <p>Combine的Publisher 可以是 值类型（比如struct）或是 引用类型（比如类）。大多数的Publisher都是值类型的。</p>
 <p>在RxSwift里，操作符一般就是简单地返回一个Observable 类型，而Combine里返回的是一个混合类型，比较复杂；比如<code>Timer.TimerPublisher </code>， <code>CombineLatest&lt;Just&lt;Int&gt;, Just&lt;Int&gt;&gt;</code>. 鉴于自己定义一个混合类型比较麻烦，我们可以就用 <code>AnyPublisher </code> 来简化Publisher的使用。
 举个例子：<code>AnyPublisher&lt;Int, Never&gt;</code>，可以作为一个 不会失败的抛出Int值的Publisher。
-<img src="https://upload-images.jianshu.io/upload_images/3865814-4092dc61f2b917c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Image"></p>
+<img src="/image/CoapletionFaflures.jpg" alt="Image"></p>
 <h3 id="subscriber">Subscriber</h3>
 <p>Subscriber （RxSwift: Observer）可以接收订阅信息(subscriptions), 输入数据(inputs)，以及结束回调(completions). 这点跟RxSwift不同，没有声明包含了数据回调以及 结束回调的event的枚举，但提供了单独的方法来分别处理对应的事件。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">protocol</span> <span style="color:#a6e22e">Subscriber</span>: CustomCombineIdentifierConvertible {
@@ -3211,19 +3211,19 @@ Combine里唯一的Scheduler类型只有 ImmediateScheduler，它能让任务直
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1669179928"></script>
-    <script src="/js/perfect-scrollbar.min.js?1669179928"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1669179928"></script>
-    <script src="/js/jquery.sticky.js?1669179928"></script>
-    <script src="/js/featherlight.min.js?1669179928"></script>
-    <script src="/js/highlight.pack.js?1669179928"></script>
+    <script src="/js/clipboard.min.js?1669180223"></script>
+    <script src="/js/perfect-scrollbar.min.js?1669180223"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1669180223"></script>
+    <script src="/js/jquery.sticky.js?1669180223"></script>
+    <script src="/js/featherlight.min.js?1669180223"></script>
+    <script src="/js/highlight.pack.js?1669180223"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1669179928"></script>
-    <script src="/js/learn.js?1669179928"></script>
-    <script src="/js/hugo-learn.js?1669179928"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1669180223"></script>
+    <script src="/js/learn.js?1669180223"></script>
+    <script src="/js/hugo-learn.js?1669180223"></script>
     
         
-            <script src="/mermaid/mermaid.js?1669179928"></script>
+            <script src="/mermaid/mermaid.js?1669180223"></script>
         
         <script>
             mermaid.initialize({ startOnLoad: true });
